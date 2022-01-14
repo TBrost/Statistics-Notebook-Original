@@ -1,0 +1,335 @@
+---
+title: "Car Prices"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+<br>
+
+## Background
+
+This data set of car prices contains many variables the we can use to help draw conclusion about other variables of the same car and those similar to it. Assuming that mileage is one of the most strongly correlated keys to this relationship I am curious how accurately a cars price can be predicted with only variables other than mileage. I have settled on using engine capacity in liters, and whether or not a car has a leather interior or not. Additionally I have broken this down into five levels based on the type of car being tested.  
+
+```{r, include=FALSE}
+# Be sure to download the CarPrices.csv file and save it
+# into your Data folder prior to knitting this file.
+library(car)
+library(tidyverse)
+library(mosaic)
+library(DT)
+library(pander)
+library(ggplot2)
+library(readr)
+CarPrices <- read.csv("../../Data/CarPrices.csv", header=TRUE)
+
+# Remember, to get the CarPrices data into your Console you have
+# to use the "Import Dataset" option in the "Environment" window.
+```
+
+```{r}
+CP2 <- CarPrices
+CP2$Type <- as.factor(CarPrices$Type)
+CP2$Leather <- as.factor(CarPrices$Leather)
+CP2$Liter <- as.factor(CarPrices$Liter)
+
+CP0 <- CarPrices
+CP0$Type <- as.factor(CarPrices$Type)
+```
+
+```{r}
+#lm.2linesCP <-lm(Price ~ Type + Leather+ Liter, data=CP2)
+#summary(lm.2linesCP)
+```
+
+
+### Hypothesis
+
+The bare bones HD linear equation for this model is roughly,
+$$
+Y_i = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2} + ... + \beta_7 X_{i6}X_{i7}... +\epsilon_i
+$$
+My hypothesis is as stated below, that each case of beta will have some significance (ie. not equal 0).
+
+Overall the goal of this analysis is to determine first, is there a significant relationship between the size of an engine (in liters) and the price of a car, secondly, does the type of a car (sedan vs hatchback, etc.) have any affect on the relationship of liters and price, lastly, based on the interior of a car (leather/non-leather) is there a significant change in price.
+Given that this test will result in 11 beta values (described in greater detail in the regression section), The hypotheses for this test are most concisely written as for each j in {1,..., 10}:
+$$
+\begin{array}{ll}
+H_0: \beta_j = 0 \quad j \in \{1,\ldots, 10\}\\
+H_a:\beta_j\neq 0 \ 
+\end{array}
+$$
+
+
+$$
+\alpha = 0.05
+$$
+
+## {.tabset .tabset-pills .tabset-fade}
+
+
+### Regression Test
+Results of my linear regression test.
+
+```{r}
+lm.2linesCP0 <-lm(Price ~ Type + Leather+ Liter + Type:Liter, data=CP0)
+summary(lm.2linesCP0) %>%
+pander()
+```
+
+$$
+\begin{array}{ll}
+\beta_0: \text{The Y-intercept of convertibles} \\
+\beta_1: \text{The change in Y-intercept for coupes} \\
+\beta_2: \text{The change in Y-intercept for hatchbacks} \\
+\beta_3: \text{The change in Y-intercept for sedans} \\
+\beta_4: \text{The change in Y-intercept for wagons} \\
+\beta_5: \text{The change in Y-intercept for a leather interior} \\
+\beta_6: \text{The slope for convertibles} \\
+\beta_7: \text{The change in slope for coupes} \\
+\beta_8: \text{The change in slope for hatchbacks} \\
+\beta_9: \text{The change in slope for sedans} \\
+\beta_{10}: \text{The change in slope for wagons} \\
+\end{array}
+$$
+Or as an equation:
+
+
+$$
+\underbrace{Y_i}_\text{mpg} \underbrace{=}_{\sim} \overbrace{\beta_0}^{\stackrel{\text{y-int}}{\text{baseline}}} +  
+\overbrace{\beta_1}^{\stackrel{\text{change in}}{\text{y-int}}}  \underbrace{X_{1i}}_\text{Coupe} + 
+\overbrace{\beta_2}^{\stackrel{\text{change in}}{\text{y-int}}}  \underbrace{X_{2i}}_\text{Hatchback} +
+\overbrace{\beta_3}^{\stackrel{\text{change in}}{\text{y-int}}}  \underbrace{X_{3i}}_\text{Sedan} +
+\overbrace{\beta_4}^{\stackrel{\text{change in}}{\text{y-int}}}  \underbrace{X_{4i}}_\text{Wagon} +
+\overbrace{\beta_5}^{\stackrel{\text{change in}}{\text{y-int}}}  \underbrace{X_{5i}}_\text{Leather} +
+\overbrace{\beta_6}^{\stackrel{\text{slope}}{\text{baseline}}} \underbrace{X_{6i}}_\text{Liters} +
+\overbrace{\beta_7}^{\stackrel{\text{change in}}{\text{slope}}} \underbrace{X_{6i}X_{7i}}_\text{Liter:Coupe} +
+\overbrace{\beta_8}^{\stackrel{\text{change in}}{\text{slope}}} \underbrace{X_{6i}X_{8i}}_\text{Liter:Hatchback} +
+\overbrace{\beta_9}^{\stackrel{\text{change in}}{\text{slope}}} \underbrace{X_{6i}X_{9i}}_\text{Liter:Sedan}
+\overbrace{\beta_{10}}^{\stackrel{\text{change in}}{\text{slope}}} \underbrace{X_{6i}X_{10i}}_\text{Liter:Wagon}
+$$
+
+
+
+
+### Regression Model
+Here is the regression model provided by this test, all the p-values where significant except for hatchbacks:liters. 
+
+$$
+\underbrace{Y_i}_\text{Price} = \overbrace{25765}^\text{Y-int} \text{ } + 
+\underbrace{-26518}_\text{y-int change} \underbrace{X_1}_\text{ Coupe}+ 
+\overbrace{-21868}^\text{y-int change} \overbrace{X_2}^\text{ Hatchback} +
+\underbrace{-23061}_\text{y-int change} \underbrace{X_3}_\text{ Sedan} +
+\overbrace{-49520}^\text{y-int change} \overbrace{X_4}^\text{ Wagon} +
+\underbrace{2541}_\text{y-int change} \underbrace{X_5}_\text{ Leather} + 
+\underbrace{\overbrace{3972}^\text{Slope} \overbrace{X_6}^\text{ Liters}}_\text{Base Slope} 
++  
+\underbrace{\overbrace{1261}^\text{ change} \overbrace{X_6}^\text{ Liters} \overbrace{X_7}^\text{ coupe}}_\text{Liters-Coupe}+ 
+\underbrace{\overbrace{-806.28}^\text{ change} \overbrace{X_6}^\text{ Liters} \overbrace{X_8}^\text{ hatchback}}_\text{Liters-Hatchback}+
+\underbrace{\overbrace{1285}^\text{ change} \overbrace{X_6}^\text{ Liters} \overbrace{X_9}^\text{ sedan}}_\text{Liters-Sedan}+ 
+\underbrace{\overbrace{17580}^\text{ change} \overbrace{X_6}^\text{ Liters} \overbrace{X_{10}}^\text{ wagon}}_\text{Liters-Wagon}
+$$
+Here is a super Messy plot with all the lines
+```{r}
+b <- coef(lm.2linesCP0)
+ggplot(CP0, aes(y=Price, x=Liter, color=factor(Leather))) +
+  geom_point(pch=21, bg="gray98") +
+  stat_function(fun = function(x) b[1] + b[7]*x, color="lightblue4") + #Type== convertible 
+  stat_function(fun = function(x) (b[1]+b[6]) + b[7]*x, color="Brown4") + #Type== convertible w/L 
+  stat_function(fun = function(x) (b[1]+b[2]) + (b[7]+b[8])*x,color="mediumslateblue") + #Type==Coupe
+  stat_function(fun = function(x) (b[1]+b[2]+b[6]) + (b[7]+b[8])*x, color="orange1") + #Type== coupe w/L
+
+  stat_function(fun = function(x) (b[1]+b[3]) + (b[7]+b[9])*x,color="mediumseagreen")+ #Type==Hatchback
+  stat_function(fun = function(x) (b[1]+b[3]+b[6]) + (b[7]+b[9])*x, color="orangered2") + #Type== hatchback w/L
+
+  stat_function(fun = function(x) (b[1]+b[4]) + (b[7]+b[10])*x, color="mediumvioletred")+ #Type==Sedan
+  stat_function(fun = function(x) (b[1]+b[4]+b[6]) + (b[7]+b[10])*x, color="saddlebrown") + #Type== sedan w/L
+
+  stat_function(fun = function(x) (b[1]+b[5]) + (b[7]+b[11])*x,color="midnightblue")+ #Type==Wagon
+  stat_function(fun = function(x) (b[1]+b[5]+b[6]) + (b[7]+b[11])*x, color="peru") + #Type== wagon w/L
+
+  scale_color_manual(name="Leather", values=c("turquoise","Brown3")) +
+  labs(title="Two-lines Model for Everything")
+
+```
+
+
+### Basic plots
+Here are some basic plots of the various factors I used.
+
+```{r message=FALSE}
+library(gridExtra)
+require(gridExtra)
+plot1 <- ggplot(CP0, aes(x =Liter, y =Price, color=factor(Leather)))+
+  geom_point()+
+  labs(title="All Types by Leather")
+```
+
+```{r}
+plot2 <- ggplot(CP0, aes(x =Liter, y =Price, color=factor(Type),))+
+  geom_point()+
+  labs(title="All Types by Type")
+
+grid.arrange(plot1, plot2,ncol=2)
+```
+
+
+Below is an interactive plot allowing quick exploration of groupings, it is evident within the types to quickly find clusters by make/model. This is especially interesting in the sedan type. I am not sure if an issue such as this could be resolved solely by increasing sample size, I believe it would require and extensive increase in sample size for all types, specifically sedans or would require a new survey with additional parameters that may help with seperation of these "high-end" to "low-end" brand names.
+```{r message=FALSE}
+b <- coef(lm.2linesCP0)
+library(plotly)
+Ip <- ggplot(CP0, aes(x =Liter, y =Price, color=factor(Leather),tooltip = Make))+
+  geom_point()+
+  facet_wrap(CP0$Type)
+
+
+ggplotly(Ip)
+```
+
+
+
+```{r}
+CP0.1 = filter(CP0, Type=="Convertible")
+CP0.2 = filter(CP0, Type=="Coupe")
+CP0.3 = filter(CP0, Type=="Hatchback")
+CP0.4 = filter(CP0, Type=="Sedan")
+CP0.5 = filter(CP0, Type=="Wagon")
+```
+
+
+
+```{r}
+#pairs(cbind(Res = mylm$residuals, YourDataSet), panel=panel.smooth, col = as.factor(YourDataSet$Xvar))
+```
+
+
+
+```{r}
+#(Intercept)    22220.1     1136.1  19.558  < 2e-16 ***
+#TypeCoupe     -22380.7     1007.7 -22.209  < 2e-16 ***
+#TypeHatchback -23160.9     1183.3 -19.573  < 2e-16 ***
+#TypeSedan     -18827.5      908.1 -20.733  < 2e-16 ***
+#TypeWagon     -11710.3     1181.1  -9.915  < 2e-16 ***
+#Leather         2737.8      488.4   5.605 2.87e-08 ***
+#Liter           4995.7      205.4  24.322  < 2e-16 ***
+
+#stat_function(fun = function(x) b[1] + b[7]*x, color="lightblue4") + #Type== convertible 
+#stat_function(fun = function(x) (b[1]+b[6]) + b[7]*x, color="Brown3") + #Type== convertible w/L 
+  #stat_function(fun = function(x) (b[1]+b[2]) + (b[7])*x,color="lightblue4") + #Type==Coupe
+#stat_function(fun = function(x) (b[1]+b[2]+b[6]) + b[7]*x, color="Brown3") + #Type== coupe w/L
+
+  #stat_function(fun = function(x) (b[1]+b[3]) + (b[7])*x,color="lightblue4")+ #Type==Hatchback
+#stat_function(fun = function(x) (b[1]+b[3]+b[6]) + b[7]*x, color="Brown3") + #Type== hatchback w/L
+
+  #stat_function(fun = function(x) (b[1]+b[4]) + b[7]*x, color="lightblue4")+ #Type==Sedan
+#stat_function(fun = function(x) (b[1]+b[4]+b[6]) + b[7]*x, color="Brown3") + #Type== sedan w/L
+
+  #stat_function(fun = function(x) (b[1]+b[5]) + (b[7])*x,color="lightblue4")+ #Type==Wagon
+#stat_function(fun = function(x) (b[1]+b[5]+b[6]) + b[7]*x, color="Brown3") + #Type== wagon w/L
+
+
+
+#b
+
+```
+
+
+
+### Clean plots
+
+Here are the individual plot with each car types specific regression lines for non-leather and leather interiors. The Coupe, Hatchback, and Wagon types all show a relatively simple positive relationship between price and engine liter capacity, additionally all 5 types show a pattern of increased base cost (higher Y-int) for a leather interior. The two plots that even without viewing residual plots show some evidence for concern are the Convertible and sedan type cars. The issues presented within these types will be further analyzed in the "Assumptions" Section. 
+
+```{r message=FALSE}
+require(gridExtra)
+library(cowplot)
+plot1 <- ggplot(CP0.1, aes(y=Price, x=Liter, color=factor(Leather))) +
+  geom_point(pch=21, bg="gray83") +
+  stat_function(fun = function(x) b[1] + b[7]*x, color="lightblue4") + #Type== convertible 
+  stat_function(fun = function(x) (b[1]+b[6]) + b[7]*x, color="Brown3") + #Type==convertible w/l
+  scale_color_manual(name="Leather", values=c("lightblue4","Brown3")) +
+  labs(title="Two-lines Model for Convertibles") +
+coord_cartesian(xlim = c(1.5, 6.5),ylim = c(0,75000)) 
+
+```
+
+```{r}
+plot2 <- ggplot(CP0.2, aes(y=Price, x=Liter, color=factor(Leather))) +
+  geom_point(pch=21, bg="gray83") +
+  stat_function(fun = function(x) (b[1]+b[2]) + (b[7]+b[8])*x,color="mediumslateblue") + #Type==Coupe
+  stat_function(fun = function(x) (b[1]+b[2]+b[6]) + (b[7]+b[8])*x, color="orange1") + #Type== coupe w/L
+  scale_color_manual(name="Leather", values=c("lightblue4","Brown3")) +
+  labs(title="Two-lines Model for Coupe")+
+coord_cartesian(xlim = c(1.5, 6.5),ylim = c(0,75000))
+```
+
+```{r}
+plot3 <- ggplot(CP0.3, aes(y=Price, x=Liter, color=factor(Leather))) +
+  geom_point(pch=21, bg="gray83") +
+  stat_function(fun = function(x) (b[1]+b[3]) + (b[7]+b[9])*x,color="mediumseagreen")+ #Type==Hatchback
+  stat_function(fun = function(x) (b[1]+b[3]+b[6]) + (b[7]+b[9])*x, color="orangered3") + #Type== hatchback w/L
+  scale_color_manual(name="Leather", values=c("lightblue4","Brown3")) +
+  labs(title="Two-lines Model for Hatchbacks") +
+coord_cartesian(xlim = c(1.5, 6.5),ylim = c(0,75000)) 
+```
+
+```{r}
+plot4 <- ggplot(CP0.4, aes(y=Price, x=Liter, color=factor(Leather))) +
+  geom_point(pch=21, bg="gray83") +
+  stat_function(fun = function(x) (b[1]+b[4]) + (b[7]+b[10])*x, color="mediumvioletred")+ #Type==Sedan
+  stat_function(fun = function(x) (b[1]+b[4]+b[6]) + (b[7]+b[10])*x, color="saddlebrown") + #Type== sedan w/L
+  scale_color_manual(name="Leather", values=c("lightblue4","Brown3")) +
+  labs(title="Two-lines Model for Sedans") +
+coord_cartesian(xlim = c(1.5, 6.5),ylim = c(0,75000))
+```
+
+```{r}
+plot5 <- ggplot(CP0.5, aes(y=Price, x=Liter, color=factor(Leather))) +
+  geom_point(pch=21, bg="gray83") +
+  stat_function(fun = function(x) (b[1]+b[5]) + (b[7]+b[11])*x,color="midnightblue")+ #Type==Wagon
+  stat_function(fun = function(x) (b[1]+b[5]+b[6]) + (b[7]+b[11])*x, color="peru") + #Type== wagon w/L
+  scale_color_manual(name="Leather", values=c("lightblue4","Brown3")) +
+  labs(title="Two-lines Model for Wagons")+ 
+coord_cartesian(xlim = c(1.5, 6.5),ylim = c(0,75000))
+```
+
+```{r}
+#grid.arrange(plot1, plot2, plot3, plot4, plot5, ncol=3)
+plot_grid(plot1, plot2, plot3, plot4, plot5, align = "hv", nrow = 3, ncol=2, scale=1)
+
+```
+
+### Assumptions
+The Convertible type upon closer inspection seems to only contain 3 total makes/models, this leads to an interesting result in that even with many individual points within the group, these points are all clustered by make, essentially resulting in 3 distinct groupings and making a quadratic model the best fit for this specific data, given that with all the other types such a regression would make little to no sense I will extrapolate and assume that a similar linear pattern would be more evident if a larger group of convertible makes/models was obtained.
+
+The Sedan type appears to have a fairly strong distinction of two separate groups but given the factors in this data set I'm not able to identify a numerical basis for the separation in these groups. I assume that these are "High-end" and "low-end" brands and thus each targets a specific market.
+
+In the residual plots below the fitted values seem to be relatively normal. Though we can see that In the Normal Q-Q plot there is a fairly large deviance in higher quantile ranges. I feel that given total sample size these are somewhat less concerning and this pattern may be related to the patterns in the ordered residuals plot. In this plot there appears to be a large number of vertical jumps, almost like a scratch mark from a cat or something. I believe that these are a result of the grouping from car models within the make column.
+```{r}
+par(mfrow=c(1,3))
+plot(lm.2linesCP0,which=1:2)
+plot(lm.2linesCP0$residuals)
+```
+
+
+### Conclusion
+
+As all P values are incredibly significant I will not be doing confidence intervals for any of the lines. The results show that using car type, engine liters and whether or not the car has a leather interior provide a significant estimate of car price. The only value of concern was that of the interaction between liters and hatchbacks, with a p value of ~ 0.39 it is not different enough from the base (convertible) to warrent a change in our calcuation of slope for hatchbacks based on our current data.
+
+The final resulting R^2 value was 0.6366
+
+
+### Plots/code I ran trying to identify the two groupings of sedans
+```{r}
+lm.2linesCP0.4 <-lm(Price ~ Liter + Leather + Sound , data=CP0.4)
+summary(lm.2linesCP0.4) %>%
+pander()
+
+
+Ip <- ggplot(CP0.4, aes(x =Liter, y =Price, color=factor(Leather),tooltip = Make))+
+  geom_point()+
+  facet_wrap(CP0.4$Sound)
+
+
+ggplotly(Ip)
+```

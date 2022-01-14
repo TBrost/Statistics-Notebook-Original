@@ -1,0 +1,224 @@
+---
+title: "High School Seniors 2"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+
+```{r, warning=FALSE, message=FALSE}
+library(mosaic)
+library(DT)
+library(pander)
+library(car)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(readr)
+library(ggplot2)
+library(plotly)
+
+# Read in the data
+HighSchoolSeniors <- read.csv("../../Data/HighSchoolSeniors.csv", header=TRUE) 
+
+HSS <- HighSchoolSeniors
+HSS <-HSS %>% drop_na()
+
+
+```
+
+----
+
+
+
+<!-- Instructions:
+
+Use the HighSchoolSeniors data set to perform an interesting two-way ANOVA analysis. You'll need to study the data set to decide which variables are most interesting to you. You might look at what you did for the t-Test analysis, and dive more deeply into the questions you researched on that analysis.
+
+Here is a link to the survey given to the students that participated in the study:
+https://ww2.amstat.org/censusatschool/pdfs/C@SQuestionnaire.pdf
+(Use the link to learn about what each column of data in the data set represents.)
+
+Remember you need a Quantitative Y variable and two Qualitative explanatory variables (factors) to perform a two-way ANOVA.
+
+While you should use the warpbreaks and DayCare example analyses as your guide on how to properly complete this analysis, you should also be creative in your final delivery of this analysis. If you copy the format and approach of the example analyses, be sure to give credit in your document to these example analyses. You could write something like, "This work is modeled after the [warpbreaks](https://byuistats.github.io/Statistics-Notebook/Analyses/ANOVA/Examples/warpbreaksTwoWayANOVA.html) analysis." Whatever you do, DO NOT use any of the written statements from the example analyses in your analysis unless you quote them directly and give credit. Using someone else's writing as your own without giving credit to the original author is plagiarism and is an Honor Code Violation. So do your own work. Plus, the more you try to write things in your own words, the more you will learn. Also, note that there aren't really any "rules" about exactly how your document should be organized. So be creative and do something that makes sense to you.
+
+-->
+```{r}
+
+#find Q1, Q3, and interquartile range for values in column family
+Q1 <- quantile(HSS$Doing_Things_With_Family_Hours, .25, na.rm = TRUE)
+Q3 <- quantile(HSS$Doing_Things_With_Family_Hours, .75, na.rm = TRUE)
+IQR <- IQR(HSS$Doing_Things_With_Family_Hours, na.rm = TRUE)
+
+#find Q1, Q3, and interquartile range for values in column Friends
+Q1.2 <- quantile(HSS$Hanging_Out_With_Friends_Hours, .25, na.rm = TRUE)
+Q3.2 <- quantile(HSS$Hanging_Out_With_Friends_Hours, .75, na.rm = TRUE)
+IQR.2 <- IQR(HSS$Hanging_Out_With_Friends_Hours, na.rm = TRUE)
+
+#only keep rows in dataframe that have values within 1.5*IQR of Q1 and Q3
+HSS_C <- subset(HSS, HSS$Doing_Things_With_Family_Hours> (Q1 - 1.5*IQR) & HSS$Doing_Things_With_Family_Hours< (Q3 + 1.5*IQR))
+HSS_C_ <- subset(HSS_C, HSS_C$Hanging_Out_With_Friends_Hours> (Q1 - 1.5*IQR.2) & HSS_C$Hanging_Out_With_Friends_Hours< (Q3 + 1.5*IQR.2))
+```
+
+```{r}
+HSS_C_$Home_Occupants_F <- case_when(HSS_C_$Home_Occupants <= 3 ~ "Small", HSS_C_$Home_Occupants > 3 & HSS_C_$Home_Occupants <= 4 ~ "Average", HSS_C_$Home_Occupants > 4 ~ "Large" )
+
+HSS_C_$Home_Occupants_F <- as.factor(HSS_C_$Home_Occupants_F)
+HSS_C_$Favorite_Season <- as.factor(HSS_C_$Favorite_Season)
+
+```
+## Backround 
+ Before conducting any visualization or analysis the data was cleaned be removing all significant outliers in both columns being tested. As well as the removal of all N/A responses within this columns. These actions reduced the orginal sample size from 500 observations down to 259 observations. The data was then split into three groups explained below.
+
+
+
+## Question: Does having more/less siblings affect the amount of time spent with Family vs. Friends, and does a persons favorite season of the year have any relation to these values?
+
+## Hypothesis: 
+ I originally thought large families would spend more time with family and only children would spend more time with friends, my original analysis with t-tests showed no significant value to these relations, I am now curious if personal preferences on season of the year has any relations to these numbers and groups. 
+ 
+For testing purposes the results will be broken into three groups, Small families (82 observations), average families (94 observations), and large families (5+ members in the household, 83 observations). A two way anova will be conducted to analyze the effects of each individual variable, and the affects of each variable on the other.
+
+Does having more/less siblings affect the amount of time spent with Family vs. Friends?
+$$
+  H_0: \mu_{Large-Family} = \mu_{Only-Child} = \mu_{Sibling-Pair} = \mu
+$$
+
+$$
+  H_a: \mu_i  \neq \mu \text{ for at least one } \epsilon \{1=LF ,2=OC ,3=SP\}
+$$
+
+Does Season have an effect on the amount of time spent with Family vs. Friends:
+$$
+  H_0: \mu_{Wi} = \mu_{Sp} = \mu_{Su} = \mu_{Fa} = \mu
+$$
+$$
+  H_a: \mu_i  \neq \mu \text{ for at least one } \epsilon \{1=Wi ,2=Sp ,3=Su, 4=Fa\}
+$$
+Does Family Size interact with Favorite Season?
+$$
+H_0: \text{The effect of Favorite Season is the same for all Family sizes.}
+$$
+$$
+H_a: \text{The effect of Favorite Season is not the same for all Family Sizes.}
+$$
+
+Significance level will be α=0.05.
+
+
+
+----
+
+
+## Analysis
+
+Below is the two way anova analysis of the data. Below are the Values for our test, as shown we can see that none of the p-values are significant with a level of α=0.05. So there is not a significant effect on the number of hours spent with family based on Favorite Season, or Home Size. We can also see that there is no significant relationship between favorite season and home size.
+```{r}
+
+Fam2.aov <- aov(Doing_Things_With_Family_Hours ~ Favorite_Season + Home_Occupants_F + Favorite_Season:Home_Occupants_F, data=HSS_C_)
+summary(Fam2.aov) %>% pander()
+```
+
+From the qq plot we can see that the data seems a bit strange towards the higher levels of quantiles. Although the N value is quite high. Additionally the Residuals seem relatively normal. We should be safe to use our results.
+```{r}
+par(mfrow=c(1,2))
+plot(Fam2.aov, which=1:2, pch=16)
+
+```
+
+
+
+----
+
+```{r}
+library(dplyr)
+
+ggplot(HSS_C_, aes(x=Favorite_Season, y=Doing_Things_With_Family_Hours, group=1)) +
+  geom_point(color="gray") +
+  stat_summary(fun="mean", geom="line") +
+  labs(title="Fav Season Vs. time spent w/ Fam", x="Favorite Season", y="Hours") +
+  theme_bw()
+
+HSS_C_ %>%
+  group_by(Favorite_Season) %>%
+  summarise(`Mean Hours`=mean(Doing_Things_With_Family_Hours, na.rm = TRUE)) %>%
+  pander(caption="Mean Hours by Season")
+
+```
+
+There is not any significant variance of time spent with family due to favorite season.
+
+----
+
+```{r}
+ggplot(HSS_C_, aes(x=Home_Occupants_F, y=Doing_Things_With_Family_Hours, group=1)) +
+  geom_point(color="gray") +
+  stat_summary(fun="mean", geom="line") +
+  labs(title="Family Size Vs. time spent w/ family", x="Fam Size", y="Hours") +
+  theme_bw()
+
+HSS_C_ %>%
+  group_by(Home_Occupants_F) %>%
+  summarise(`Mean Fam Hours`=mean(Doing_Things_With_Family_Hours, na.rm = TRUE)) %>%
+  pander(caption="Mean Hours by Fam size")
+```
+
+There is not any significant variance of time spent with family due to family size.
+
+----
+
+### AOV Results
+
+```{r}
+
+ggplot(HSS_C_, aes(x=Favorite_Season, y=Doing_Things_With_Family_Hours, group=Home_Occupants_F, color=Home_Occupants_F)) +
+  geom_point() +
+  stat_summary(fun="mean", geom="line") +
+  labs(title="Affects of Favorite season/Family Size on Time with Family", x="Week ", y="Hours/Week") +
+  theme_bw()
+```
+
+Below are the Values for our test, as shown we can see that none of the p-values are significant with a level of 0.05. So there is not a significant effect on the number of hours spent with family based on Favorite Season, or Home Size. We can also see that there is no significant relationship between favorite season and home size.
+
+```{r}
+Fam2.aov <- aov(Doing_Things_With_Family_Hours ~ Favorite_Season + Home_Occupants_F + Favorite_Season:Home_Occupants_F, data=HSS_C_)
+summary(Fam2.aov) %>% pander(caption ="Anova Results")
+```
+
+## Conclusion
+To conclude we can see that neither of these variables or time spent with family appear to have any significant relationship. Favorite season does not affect time spent with family nor does the size of your family. Additionally favorite season does not seem to have any connection with family size. I think these values are relatively non-significant due to the fact that at least in my opinion I don't see a reason that Favorite season would determine/be determined by Family Size. And I was not surprised by the lack of relationship between family sizes and time spent with family due to these being the same results as my previous analyses.
+
+
+
+
+----
+
+## Additional anova for other half of first HSS analysis.
+
+My original Highschool analysis also included a test on the same variables but for time spent with friends rather than time spend with family. The anova results and resulting plot are shown below.
+
+```{r}
+Fre2.aov <- aov(Hanging_Out_With_Friends_Hours ~ Favorite_Season + Home_Occupants_F + Favorite_Season:Home_Occupants_F, data=HSS_C_)
+summary(Fre2.aov) %>% pander()
+
+par(mfrow=c(1,2))
+plot(Fre2.aov, which=1:2, pch=16)
+
+
+```
+
+These results are similar to those from the above test, none of the variables are significant nor have a significant effect one on another.
+
+
+```{r}
+ggplot(HSS_C_, aes(x=Favorite_Season, y=Hanging_Out_With_Friends_Hours, group=Home_Occupants_F, color=Home_Occupants_F)) +
+  geom_point() +
+  stat_summary(fun="mean", geom="line") +
+  labs(title="Affects of Favorite season/Family Size on Time with Friends", x="Week ", y="Hours") +
+  theme_bw()
+```
+
+
+

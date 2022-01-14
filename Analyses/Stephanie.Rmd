@@ -1,0 +1,143 @@
+---
+title: "Stephanie's Housing Request"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+**Week 2 Analysis**
+
+```{r message=FALSE, warning=FALSE}
+library(mosaic)
+library(tidyverse)
+library(pander)
+library(DT) # If you get an error stating: 
+            # Error in library(DT): there is no package called 'DT'
+            # You will need to run: install.packages("DT") 
+            # in your Console, then try "Knit HTML" again.
+library(leaflet)
+Rent <- read_csv("../Data/Rent.csv")
+```
+
+<br />
+
+## Background
+
+Stephanie[^1] is a student that will be starting school at BYU-Idaho next semester. Suppose she sent you the following email.
+
+----
+
+"Hi. My name is Stephanie. I would like to learn about what housing options I have for living at BYU-Idaho next semester. It will be my first semester there, so I would like to find something that is close to campus and around $300 a month in rent. I'm not too picky on roommates, but I would like somewhere that has a lot of people around so I can get to know as many people as possible. Thanks in advance!"
+
+----
+
+## Response
+
+Dear Stephanie,
+
+  I have compiled the list below to include what I feel are all the apartment complexes best suited for your interests in Rexburg. They each have a total student capacity of at least 100, are a 7 minute walk or shorter to campus and cost $325 a month or less.
+  
+  The first item is a table that contains all the relevant information for each apartment; Name, Price (per semester), walking distance from campus in minutes, total capacity, address, Phone number, website, number of parking stalls and lastly the price for a private room.
+  
+  Second is a simple graph that organizes the complexes by into 3 groups based on total capacity and displays the mean price (shared room) for apartments in that capacity range.
+
+
+<!-- Hint, you should probably subset the Rent dataset to only show the "Approved Women's Housing" since Stephanie won't be interested in Male Housing options. Notice how this text in green doesn't show up in the HTML output because we used the HTML comment tags around this text. --> 
+
+----
+
+## Table
+
+```{r}
+# Code to get you started, be sure to use a subset of Rent instead of Rent in this code though.
+#create womens only DF
+ womensrent <- filter(Rent, Gender == "F")
+
+```
+
+```{r}
+#create a DF with only apartments relevant to Stephanie's criteria
+stephanieCritia <- womensrent %>%
+filter(womensrent$Price <= 1300 & womensrent$WalkingMinutes <= 7 & womensrent$Capacity >= 100) %>%
+select(Apartment, Price, WalkingMinutes, Capacity, Address, Phone, Website, ParkingStalls, PrivateRoomPrice, Longitude, Latitude)
+
+stephanieCritiaFilt <- stephanieCritia %>%
+select(Apartment, Price, WalkingMinutes, Capacity, Address, Phone, Website, ParkingStalls, PrivateRoomPrice)
+```
+
+
+
+This table contains the basic info for all 13 results. You can look through and see some more information about each complex. As well as click on any column to sort the table by that item.
+```{r}
+datatable(stephanieCritiaFilt, options=list(lengthMenu = c(3,5,10)), extensions="Responsive")
+
+Stephsplit <- split(stephanieCritiaFilt$Price,cut(stephanieCritiaFilt$Capacity, 3))
+```
+----
+
+## Chart
+
+This histogram as stated earlier breaks the apartments into 3 groups based on capacity and averages their prices. As you can see on average a large complex (460 students or more) has the highest price but mid-ranged complexes (285-460 students) actually have the lowest prices on average for these 13 complexes.
+```{r}
+#sapply(Stephsplit, mean, na.rm =TRUE)
+
+stephdf <- data.frame(Capacity = c("(107-284]", "(284-460]", "(460-637]"), meanPrice = c(1074.2,987.5,1267.5))
+ggplot(stephdf, aes(Capacity, meanPrice, fill=Capacity )) +
+geom_col( ) +
+ggtitle("Average Price by Total capacity groups") +
+labs(y="Price", x = "Capacity")
+
+
+```
+
+This Chart shows the average price for a shared room within three total capacity ranges constructed from the results of the filters applied previously. 
+
+Below is a map of Rexburg with the included apartments locations. The colors are coordinated with the capacities from above, ie a red marker is a complex with a capacity of 284 or less. By hovering over any point you can see the complex name and by clicking you can view the exact address.
+
+----
+
+## Conclusion
+
+Based on these ideas, my personal recommendations would be [Royal Crest](https://www.royalcrestapartments.com/) and [Birch Plaza](https://rexburghousing.com/birch-plaza/) . They have low prices, lots of students and are close to campus! Feel free to look into the other complexes and various other options as well though!
+
+```{r}
+#ignore this code it is for next weeks submission and unfinished
+samps <- stephanieCritia %>%
+select(Apartment, Price, WalkingMinutes, Capacity, Address, Phone, Website, ParkingStalls, PrivateRoomPrice, Longitude, Latitude)
+
+getColor <- function(samps) {
+  sapply(samps$Capacity, function(Capacity) {
+  if(Capacity <= 284) {
+    "red"
+  } else if(Capacity <= 460 & Capacity >284) {
+    "green"
+  } else {
+    "blue"
+  } })
+}
+
+icons <- awesomeIcons(
+  icon = 'ios-close',
+  iconColor = 'black',
+  library = 'ion',
+  markerColor = getColor(samps)
+)
+
+
+
+m <- leaflet(data = samps) %>% setView(lng = -111.785, lat = 43.82, zoom = 14.2) %>% 
+  addTiles() %>%
+  addAwesomeMarkers(~Longitude, ~Latitude, icon=icons, popup = ~as.character(Address), label=~as.character(Apartment))
+
+m
+```
+
+
+
+
+
+
+[^1]: Note that Stephanie is a fictional character who is based on real experiences of many faculty and staff here at BYU-Idaho.

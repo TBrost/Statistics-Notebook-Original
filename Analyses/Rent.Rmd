@@ -1,0 +1,100 @@
+---
+title: "Rent"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+<!-- Welcome to the first Analysis for Math 325! 
+The goal of this first assignment is to have you produce a graphical summary and a numerical summary of the "Rent" data set. The fun part is that you get to decide what type of graph and what type of numerical summary to create! You will need to read through the "green text" instructions of this document to find the places where you are supposed to enter R-code in order to complete the assignment. -->
+
+
+**Week 1 Analysis**
+
+__Tyson Brost__
+
+```{r, message=FALSE, warning=FALSE}
+# This gray area is called an "R-chunk". 
+# These library commands install some powerful functions for your use later on.
+library(mosaic)
+library(pander)
+library(tidyverse)
+library(DT) 
+
+# This read_csv command reads in the "Rent" data set into an object called "Rent"
+Rent <- read_csv("../Data/Rent.csv")
+
+# To load this data set into your R-Console do the following:
+#  1. From your top file menu select "Session -> Set Working Directory -> To Source File Location"
+#  2. Press the green "play button" in the top right corner of this gray box (which is called an "R-chunk").
+#  3. Then in your "Console" window of 
+```
+
+<br />
+
+## Background
+
+Here is a data table showing the available approved housing apartment options at BYU-Idaho for single students. There are 122 entries comprising 57 female and 65 male apartment options.
+
+```{r, warning=FALSE}
+# Code to get you started. 
+# View(...) works great in the Console, but datatable(...) must be
+# used instead within an R-chunk.
+datatable(Rent, options=list(lengthMenu = c(3,10,30)), extensions="Responsive")
+
+
+```
+
+
+## Graphic
+
+<!-- Present an interesting graphic using the Rent data set. Do not create the same graphics that are shown in the [Good Example Analysis](./Analyses/StudentHousing.html), but you can certainly use those graphics as a guide to inspire you on what to do yourself. -->
+
+
+```{r}
+# Use this R-chunk to...
+# ...Create an interesting graphic using the Rent data set.
+plot(Rent$Price, Rent$Capacity, main="Price for shared room by Total Capacity", xlab="Price for Shared Room", ylab="Student Capacity", col="blue", pch=20)
+mylm <- lm(Capacity ~ Price, data = Rent)
+abline(mylm)
+
+plot(Rent$PrivateRoomPrice, Rent$Capacity, main="Price for Private room by Total Capacity", xlab="Price", ylab="Student Capacity", col="aquamarine3", pch=20)
+mylm1 <- lm(Capacity ~ PrivateRoomPrice, data = Rent)
+abline(mylm1)
+```
+
+
+<!-- Write a few statements here that explain your graphic and what it shows. -->
+These two scatterplots show price for shared rooms and private rooms against total complex capacity.
+
+
+
+
+##Table
+
+Sorry for the formatting here (or lack of) I was able to split the data but not sure really how to access and format the out but effectively.
+```{r}
+# Use this R-chunk to...
+# ...compute and display a meaningful table of numerical summaries supporting your above graphic.
+RentCopy <- Rent
+rentsplit <- split(RentCopy$Price,cut(RentCopy$Capacity, 10))
+rentsplit
+
+
+```
+
+<!-- Write a few statements here that introduce your table of numerical summaries and what they show. -->
+
+Here I split the data and cut it into 10 groups based on total capacity. I was hoping to be able to then display just the mean of each capacity range but couldn't get that far with R this week.
+Regardless we can view each relative group of prices grouped by total student capacity and get a general idea of price (for a shared room) by using this output.
+
+
+## Conclusion
+
+
+Many of the larger apartment complexes appear to offer private room options at the same price of the shared rooms, I would be curious to verify but my hunch is that these are conditional on no other students signing up, in other words if the complex isn't booked out then students can get a "shared room" but not be charged extra if no other students take the other spot. Towards the lower total capacities though some more variation is visible between shared and private rooms. Overall a general positive relationship of increasing price as total student capacity grows.
+
+

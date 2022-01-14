@@ -1,0 +1,163 @@
+---
+title: "Chi Squared Test"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+
+<!-- Directions
+
+Come up with a chi squared test analysis of your own creation. 
+
+* Write the Background and clearly state your question. Then collect data and perform the chi-squared test analysis in order to answer your question. Use the proper order of first, ask the question, then second, figure out the answer.
+
+* You can use data from 
+    - An R data set
+    - the internet (like weather data, Facebook data, or sports data) 
+    - your own experiment 
+    - your own observational study
+* However,     
+    - Do not violate the "Human Subjects Rules" of the university: http://www.byui.edu/executive-strategy-and-planning/institutional-research/research-and-assessments/research-and-surveys
+
+* You need a sample size large enough to meet the requirements of the chi squared test. Unfortunately, the sample size is completely dependent on the situation you select. A good rule of thumb is 10 observations per "combination-group" in your data.
+
+-->
+
+```{r message=FALSE, warning=FALSE}
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(pander)
+```
+
+```{r message=FALSE, warning=FALSE}
+GSS2012 <- read_delim("C:/Users/user/OneDrive/Desktop/Stats stuff/325 book/Statistics-Notebook-master/Data/GSS2012.csv", 
+                      "\t", escape_double = FALSE, trim_ws = TRUE)
+
+GSS2012.1 <- GSS2012
+
+#If you were asked to use one of four names for your social 
+#class, which would you say you belong in: the lower class(1), the 
+#working class(2), the middle class(3), or the upper class (4)?
+GSS2012.1 <- filter(GSS2012.1, class >=1 & class < 5)
+
+#Were you born in this country? 1= Y 2= N
+GSS2012.1 <- filter(GSS2012.1, born >=1 & born < 3)
+```
+## Background
+
+This project is based around the GSS 1972-2012, a study that has cumulatively worked to study the national US populous over time. I spent quite a while looking through the available response factors (in total there are over 800), I looked at general health, propensity to volunteer, income levels, children, social class, and birth country. Eventually I settled on attempting to test if self assigned social class and whether or not someone was born in the country are related. I feel like there is often a stigma that first generation immigrants are proportionally more lower and working class than the general populous of the nation and I am curious to see if this surveys results give weight to or take weight away from that argument.
+
+The Question used for social class was:
+"If you were asked to use one of four names for your social 
+class, which would you say you belong in: the lower class(1), the 
+working class(2), the middle class(3), or the upper class (4)? "
+1: Lower Class
+2: Working Class
+3: Middle Class
+4: Upper Class
+
+The Question used for Birth country was:
+"Were you born in this country?" 
+1:Yes
+2:No
+
+
+*The Format of this rmd file was based off of Brother Saunders "Movies" example
+
+## {.tabset .tabset-pills .tabset-fade}
+
+### Hypothesis
+Question: Are first generation immigrants more likely to classify themselves as working class or lower class than those born in the country? 
+$$
+H_0: \text{Being born in the US and Self assigned social Class are independent of one another.}
+$$
+$$
+H_a: \text{Being born in the US and Self assigned social Class are associated.}
+$$
+$$
+\text{level of significance: } a = .05
+$$
+
+### Table
+
+#### The Question used for social class was:
+"If you were asked to use one of four names for your social 
+class, which would you say you belong in: the lower class(1), the 
+working class(2), the middle class(3), or the upper class (4)? "
+1: Lower Class
+2: Working Class
+3: Middle Class
+4: Upper Class
+
+#### The Question used for Birth country was:
+"Were you born in this country?" 
+1:Yes
+2:No
+
+```{r message=FALSE, warning=FALSE}
+Sclass <- GSS2012.1
+# Sclass$class <- case_when(
+#       class == 1 ~ 'Lower Class',
+#       class == 2 ~ 'Working Class',
+#       class == 3 ~ 'Middle Class',
+#       class == 4 ~ 'Upper Class')
+# Sclass$class <- as.factor(class) 
+# 
+# Sclass$born <- case_when(
+#       Year == 1 ~ 'Born in US',
+#       Year == 2 ~ 'Born Outside of US')
+# Sclass$born <- as.factor(born)
+Sclass <- table(Sclass$born , Sclass$class)
+pander(Sclass, caption= "Social Class and Born/Out of USA")
+```
+
+### Plots
+As we can see in the plot below, there does appear to be a fairly substantial difference between the number of "Working class" relative to total responses for those born in the US and those born outside the US.
+```{r message=FALSE, warning=FALSE}
+labels <- c("Born In Country","Not Born in Country")
+names(labels) <- c("1", "2")
+ggplot(GSS2012.1, aes(x = class, fill=factor(`class`))
+)+ 
+  geom_bar()+
+  scale_fill_discrete(name = "Social Class", labels = c("Lower", "Working", "Middle", "Upper"))+
+  facet_grid(~born, labeller = labeller(born= labels))+
+  ggtitle("Self assumed social class by birth location")
+```
+
+
+### Chi-Square Test
+To test if the observed differences are statistically significant I conducted a Chi-Square test and calculated these results:
+```{r message=FALSE, warning=FALSE}
+x <- table(GSS2012.1$born, GSS2012.1$class)
+results <- chisq.test(x)
+pander(results)
+```
+
+As shown our P-Value of 0.002238 is significant at our Level of alpha (0.05). It seems that the differences are severe enough for us to reasonably conclude that this pattern is likely reflected in the population as a whole.
+
+
+### Validation
+For further assurance of my conclusions I have also checked the expected values for each of the groups to ensure a sufficiently large enough sample was used to assume an approximately normal distribution. As shown below these requirements are satisfied as all expected values are > 5.
+```{r message=FALSE, warning=FALSE}
+pander(results$expected, caption= "Expected Counts")
+```
+
+Here are observed counts for reference:
+```{r message=FALSE, warning=FALSE}
+pander(results, caption= "Observed Counts")
+```
+
+
+
+
+So where exactly is are variance in proportions occuring? Below is a table of the residuals for each group. as we can see for those born in the country there is a much smaller than expected count in the working class category, and for those born outside of the country there are much larger than expected working class counts, and much smaller than expected counts in all the remaining sections, Lower, middle, and upper class.
+
+```{r message=FALSE, warning=FALSE}
+pander(results$residuals, caption= "Residuals")
+```
+
+
+

@@ -1,0 +1,177 @@
+---
+title: "Recalling Words"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+
+```{r, include=FALSE}
+library(mosaic)
+library(car)
+library(pander)
+library(DT) #You may need to run: install.packages("DT") 
+library(tidyverse)
+library(readr)
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(tidyr)
+```
+
+```{r, eval=FALSE}
+# Play the chunk above and this one to get the data into your Console
+View(Friendly)
+?Friendly
+```
+
+
+<br />
+
+#### Background
+
+Many teachers and other educators are interested in understanding how to best deliver new content to students. In general, they have two choices of how to do this.
+
+1. The Meshed Approach
+    * Deliver new content while simultaneously reviewing previously understood content.
+
+2. The Before Approach
+    * Deliver new content after fully reviewing previously understood content.
+3. Standard Free Recall
+    * Randomly mixing new and previously understood content, this was the control method of the experiment
+
+A study was performed to determine whether the *Meshed* or *Before* approaches to delivering content had any positive benefits on memory recall. 
+
+<div style="padding-left:15px;">
+
+##### <a href="javascript:showhide('uniquename')">The Experiment <span style="font-size:8pt;">(click to view)</span></a>
+
+
+<div id="uniquename" style="display:none;">
+
+Individuals were seated at a computer and shown a list of words. Words appeared on the screen one at a time, for two seconds each, until all words had been shown (40 total). After all words were shown, they were required to perform a few two-digit mathematical additions (like 15 + 25) for 15 seconds to avoid immediate memory recall of the words. They were then asked to write down as many of the 40 words as they could remember. They were given a maximum of 5.3 minutes to recall words.
+
+The process of showing words and recalling words was repeated four times with the same list of words each time (four chances to get it right). The presentation of the first trial was the same for all treatment conditions. However, trials 2, 3, and 4 were slightly different for each treatment condition.
+
+<div style="padding-left:15px;">
+
+The `SFR` group (the control group) stands for Standard Free Recall. In all four trials the same list of 40 words was presented, in a random order each time.
+
+The `Before` group also used the same 40 words during each trial. However, any words that were correctly recalled in a previous trial were presented first, or *before* the words that were not recalled in the last trial. After all the correct words were presented in random order, the non-recalled words were presented in a random order.
+
+The `Meshed` group also used the same 40 words during each trial. However, words that were correctly recalled in a previous trial were alternated with a missed word during the next presentation order. 
+
+</div>
+
+The data records the number of correctly recalled words (out of the 40 possible) from the fourth trial. Results were obtained for 30 students, 10 in each of the three treatment groups: `SFR`, `Before`, and `Meshed`. 
+
+</div>
+
+##### <a href="javascript:showhide('uniquename2')">The Data <span style="font-size:8pt;">(click to view)</span></a>
+
+<div id="uniquename2" style="display:none;">
+
+The results from the study can be found in the `Friendly` data set in R after loading `library(car)`. 
+
+Click the "Code" button to see the data.
+
+
+```{r}
+datatable(Friendly, options=list(lengthMenu = c(3,10,30)))
+```
+
+
+</div>
+</div>
+
+<br />
+
+
+<!-- Begin writing your analysis below here. -->
+
+<!-- Note that your goal is to use the Friendly data to show whether or not the Meshed or Before methods have any positive benefit on memory recall. -->
+----
+
+### Hypothesis 
+
+I want to test if there is any difference between results when taking the time to split the recalled and non-recalled words exactly one after another (Meshed) or just randomly repeating all words back(Standard Free Recall, SFR). Thus I will be comparing the SFR and Meshed Data. Because of the small trial (sample) sizes I will be using a Wilcoxon Rank Sum (Mann-Whitney) Test.
+
+In my test the Null and alternative are as shown below, reasoning for these hypotheses is provided in more detail below:
+$$
+  H_0: \text{the distributions are stochastically equal}
+$$
+
+$$
+  H_a: \text{one distribution is stochastically greater than the other}
+$$
+We will use a significance level of 0.05.
+
+```{r}
+Friendly2 <- Friendly %>% 
+  filter(Friendly$condition== "Meshed" | Friendly$condition=="SFR")
+F3 <- Friendly2[-c(11,12,13,14,15,16,17,18,19,20)]
+rownames(F3) <- 1:20
+F4 <- F3 %>% drop_na()
+
+
+
+```
+----
+
+### Visualization 
+
+```{r}
+p2 <- ggplot(F4, aes(x=condition, y=correct,fill = condition))+
+  geom_boxplot(outlier.shape = NA)+
+  labs(title="Does randomization affect recall?  (Interactive)", x="Condition", y="Number of words recalled")+
+  stat_summary(fun=mean, geom="point", shape=4, size=4, color="red", fill="red") +
+  coord_cartesian(ylim = c(20, 45))+
+  theme(plot.title = element_text(hjust = 0.5))
+ggplotly(p2)
+
+```
+This boxplot helps the illustrate the reasoning for the above hypotheses. The spreads appear relatively similar but to visualize each groups results from another perspective I decided to use a dot plot as well.
+
+```{r message=FALSE, warning=FALSE}
+ggplot(F4, aes(x=factor(condition), y=correct, fill = factor(condition)))+ 
+    coord_cartesian(ylim = c(0, 45))+
+  coord_flip( ) + 
+    geom_dotplot(binaxis = "y", stackdir = "up", position = "dodge", dotsize = 0.75, binwidth = 0.5)+
+  labs(title="Does randomization affect recall?", x="Condition", y="Correct", legend="Legend") 
+
+```
+Within this dot plot we can see that the shape of these two conditions are very similar except that the Standard Free Recall method seems to have been pulled, or stretched out over a wider area.
+
+
+The values below are the same data as those shown above in the box plot, just in tabular form.
+```{r}
+F4 %>%
+  group_by(condition) %>%
+  summarise(min = min(correct), median = median(correct), mean = mean(correct), max = max(correct), sd = sd(correct), `Number of Observations` = n()) %>%
+pander(caption="Summary of Standard Free Recall vs Meshed")
+```
+
+----
+
+As a result of the small samples Wilcoxon rank Sum test was the preferred method to test the hypotheses. The Box plots allow us to primarily visualize the greater standard deviation within the SFR group, whereas the dot plot allows for a better idea of each samples true distribution. Given the small sample sizes it is difficult to determine how accurately these plots reflect each population as whole. It is for these reasons the current Hypotheses where used as they do not require that the distributions be identically distributed.
+
+### Wilcoxon Test
+```{r warning=FALSE}
+wilcox.test(F4$correct[F4$condition == "Meshed"],
+            F4$correct[F4$condition == "SFR"], mu = 0, alternative = "two.sided", conf.level = 0.95, conf.int = TRUE) %>%
+  pander(caption="Wilcoxon test for Meshed vs. SFR")
+```
+  
+----
+## Interpretation:
+
+  Although our data reports a few ties in the analysis they are not so prevalent that they require us to negate the test results. Given these results we would conclude with an alpha of 0.05 that we fail to reject the null, the two methods are stochastically equal.Our current test shows that within our samples the Meshed condition observations remembered roughly 8 more words than the SFR condition observations. I feel given the closeness of the results additional testing on this subject would be warranted. Although current results show their may be reasonable evidence of a possible difference, showing that 50/50 split of old and new concepts is more effective than random access to the information, with these samples we do not have sufficient evidence at the 95% confidence level to reject the null hypothesis that the two populations are stochastically equal.
+
+

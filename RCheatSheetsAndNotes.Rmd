@@ -1,0 +1,149 @@
+---
+title: "R Cheat Sheets & Notes"
+---
+
+## Cheat Sheets
+
+* [R Colors](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf)
+
+* [R Base Graphics Cheat Sheet](http://www.joyce-robbins.com/wp-content/uploads/2016/04/BaseGraphicsCheatsheet.pdf)
+
+* [R Base Commands Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2016/10/r-cheat-sheet-3.pdf)
+
+* [R Markdown Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+
+* [Keyboard Shortcuts](https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts)
+
+* [GGplot Cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf "Vis with GGplot")
+## Notes
+
+Add your own notes here...
+
+```{r}
+# Add R commands you want to remember here...
+library(mosaic)
+library(tidyverse)
+library(pander)
+library(DT)
+library(ggplot2)
+library(car)
+
+```
+
+#```{r, message=FALSE, warning=FALSE}
+library(mosaic)
+library(tidyverse)
+library(pander)
+library(DT)
+#```
+
+```{r}
+# Or create other R chunks to put them in like this...
+
+```
+
+```{r, eval=FALSE}
+# Using ```{r, eval=FALSE} turns off the chunk, but still shows it.
+# Useful when you want to remember code, but not run it in this file.
+```
+
+
+
+
+```{r, eval=FALSE}
+
+```
+
+T-test
+```{r}
+
+mycars <- filter(mtcars, mtcars$cyl == 4 | mtcars$cyl == 8)
+test <- t.test(wt ~ cyl, data=mycars, mu = 0, alternative = "two.sided", conf.level = 0.95)
+observedTestStat <- test$statistic
+```
+
+Permutation
+```{r}
+N <- 2000      
+permutedTestStats <- rep(NA, N)
+for (i in  1:N){
+  permutedData <- sample(mycars$cyl)
+  permutedTest <- t.test(wt ~ permutedData, data=mycars, mu = 0, alternative = "two.sided", conf.level = 0.95)
+  permutedTestStats[i] <- permutedTest$statistic
+}
+hist(permutedTestStats)
+abline(v=observedTestStat)
+
+#Greater-Than p-value: Not the correct one in this case
+sum(permutedTestStats >= observedTestStat)/N
+
+# Less-Than p-value: This is the corret one
+sum(permutedTestStats <= observedTestStat)/N
+
+# Two-Sided p-value
+2*sum(permutedTestStats <= observedTestStat)/N
+```
+
+Anova
+```{r}
+#View(diamonds)
+myTest <- aov(price ~ clarity, data= diamonds)
+observedTestStat <- summary(myTest)[[1]]$`F value`[1]
+observedTestStat
+
+```
+
+
+Permutation
+
+```{r}
+N <- 100      
+permutedTestStats <- rep(NA, N)
+for (i in  1:N){
+  permutedData <- sample(diamonds$price)
+  permutedTest <- aov(permutedData ~ clarity, data= diamonds)
+  permutedTestStats[i] <- summary(permutedTest)[[1]]$`F value`[1]
+}
+hist(permutedTestStats)
+abline(v=observedTestStat)
+
+#Step 3
+sum(permutedTestStats >= observedTestStat)/N
+sum(permutedTestStats <= observedTestStat)/N
+```
+
+
+Logistic test
+```{r}
+#Step 1
+View(SAT)
+SAT$great <- case_when(SAT$sat <= 1000 ~ 0, SAT$sat >1000 ~ 1)
+myTest <- YourGlmName <- glm(great ~ expend, data = SAT,
+ family=binomial)
+summary(YourGlmName)
+observedTestStat <- summary(myTest)[[12]][2,3]
+```
+
+Permutation
+
+```{r}
+#Step 2
+N <- 100      
+permutedTestStats <- rep(NA, N)
+for (i in  1:N){
+  permutedData <- sample(SAT$great) 
+  permutedTest <- myTest <- glm(permutedData ~ expend, data = SAT,
+ family=binomial)
+  permutedTestStats[i] <- summary(myTest)[[12]][2,3]
+}
+hist(permutedTestStats)
+abline(v=observedTestStat)
+
+#Step 3
+sum(permutedTestStats >= observedTestStat)/N
+sum(permutedTestStats <= observedTestStat)/N
+
+```
+
+
+

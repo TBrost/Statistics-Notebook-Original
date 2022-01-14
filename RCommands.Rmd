@@ -1,0 +1,2147 @@
+---
+title: "R Commands"
+output: 
+  html_document: 
+    toc: true
+    toc_float: true
+---
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+
+
+
+----
+
+*“For the things we have to learn before we can do them, we learn by doing them.”*
+
+― Aristotle, The Nicomachean Ethics
+
+
+<br>
+
+----
+
+## Getting Started
+
+<div style="padding-left:15px;">
+
+<span class="tooltipr">
+<a href="javascript:showhide('hovertobegin')">Hover your mouse here to begin.</a>
+  <span class="tooltipRtext">Good work! <br/> This book requires that you interact with it to learn. Hovering is the first step. <br/> Now "click" to get started. </span>
+</span>
+<div id="hovertobegin" style="display:none;padding-left:20px;">
+
+<br/>
+
+Student: "How do I learn R?"
+
+Teacher: "By using it."
+
+Student: "But I don't know how to use it."
+
+Teacher: "Just try it anyway. Suddenly you'll understand."
+
+Most people that are new to using the "R Software" ask the question, "How do I learn R?" The answer is simple: "start using it." Really. Seriously. Just start using it, even when you have no idea what you are doing, and suddenly you will start to learn R. So, here we go. The more you use it, the more you will know.
+
+
+This page follows a simple learning model: Hover. Click. Try.
+
+![](./Images/HoverClickTry.png)
+
+<br/>
+
+Hover over <span class="tooltipr">`code`<span class="tooltipRtext">Yes, just like that. By hovering over "Codes" you will get instructions on what that code does.</span></span> to read about it. Click on a <span class="tooltipr"><a href="javascript:showhide('smileyface')">`line of code`</a><span class="tooltipRtext">Hovering is a good start, try clicking on this one.</span></span> to see what it does. Try typing the code into RStudio yourself to actually start learning R.
+
+<div id="smileyface" style="display:none;padding-left:20px;">
+<img src="./Images/smileyfacecongratulations.jpg">
+</div>
+
+**Examples** 
+
+For each of the following examples: (1) hover, (2) click, and (3) try.
+
+Before you begin, ensure you have RStudio open. It should look like this:
+
+
+
+<a href="javascript:showhide('CarsOutput')">
+<div class="hoverchunk">
+<span class="tooltipr">
+View(
+  <span class="tooltipRtext">The "View" R function (with a CAPTIAL 'V' in View) allows us to view a data set. When run, this function will open up a new tab in RStudio showing the data set.  </span>
+</span><span class="tooltipr">
+cars
+  <span class="tooltipRtext">`cars` is a data set that is in R. R has datasets that are available for anyone to use. You can see them using the `data()` command. It would be good to explore `View()` for a few different datasets. </span>
+</span><span class="tooltipr">
+)
+  <span class="tooltipRtext">Always be sure to end your function with closing parantheses. </span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Tutorial&nbsp; 
+  <span class="tooltiprtext">Click to see a full tutorial on the "View()" command.</span>
+</span>
+</div>
+</a>
+<div id="CarsOutput" style="display:none;padding-left:20px;">
+
+R allows you to work with data. So, the first step to understanding R is to open a dataset and begin exploring some data. 
+
+If you type the `data()` command into your Console of RStudio you will see a list of "built in" data sets that come with R.
+
+![](./Images/DataOutput.png)
+
+<br/>
+
+The `cars` data set is one of the options that is available. This is a fun "historic" data set from the 1920's. It shows the `speed` and stopping `dist`ance of cars from the 1920's.
+
+To see the `cars` data set in RStudio, use the `View` command as follows.
+
+**Step 1.** Open RStudio.
+
+**Step 2.** Type the command `View(cars)` into your **Console**.
+
+**Step 3.** Press `Enter` or `Return` and the following output should appear within RStudio.
+
+![](./Images/ViewCars.png)
+
+<br/>
+
+Be sure to **TRY IT** yourself, if you haven't already. Good work if you did. It's the only way to learn R. 
+
+Ask someone for help if you aren't sure how to get started.
+
+<br/>
+<br/>
+
+</div>
+
+
+
+
+
+
+<a href="javascript:showhide('meancarsdist')">
+<div class="hoverchunk">
+<span class="tooltipr">
+mean(
+  <span class="tooltipRtext">An R function "mean()" that will compute the mean of a quantitative column of data from a data set.</span>
+</span><span class="tooltipr">
+cars
+  <span class="tooltipRtext">`cars` is the name of a data set in R. Any data set can be used instead by simply typing the name of that data set instead of `cars`.</span>
+</span><span class="tooltipr">
+$
+  <span class="tooltipRtext">The `$` sign is a powerful operator in R. The `$` sign allows you to access, or "purchase," any column from a data set. Try typing `cars$` into R and notice how a selection menu appears with options `dist` and `speed`.</span>
+</span><span class="tooltipr">
+dist
+  <span class="tooltipRtext">`dist` is one of the two columns from the `cars` data set. By typing `cars$dist` we are essentially pulling that column of data out of the data set, and then computing the mean of that column with `mean(cars$dist)`.</span>
+</span><span class="tooltipr">
+)
+  <span class="tooltipRtext">Closing parenthesis for the `mean()` function.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to see output.</span>
+</span>
+</div>
+</a>
+<div id="meancarsdist" style="display:none;padding-left:20px;">
+
+![](./Images/meancarsdist.png)
+
+
+You may also be interested in trying any of the following:
+
+* `sd(cars$dist)`
+* `var(cars$dist)`
+* `median(cars$dist)`
+* `min(cars$dist)`
+* `max(cars$dist)`
+* `length(cars$dist)`
+* `sum(cars$dist)`
+
+<br/>
+<br/>
+
+</div>
+
+
+
+
+
+
+
+<a href="javascript:showhide('plotcarsdist')">
+<div class="hoverchunk">
+<span class="tooltipr">
+plot(
+  <span class="tooltipRtext">The `plot(...)` function allows us to create a plot (usually a scatterplot) in R.</span>
+</span><span class="tooltipr">
+dist
+  <span class="tooltipRtext"> `dist` is the name of a column. This is going to be the Y-variable of the plot. The Y-variable always comes first in the plot(Y ~ X) command.</span>
+</span><span class="tooltipr">
+&nbsp;~&nbsp;
+  <span class="tooltipRtext"> `~` is found on the upper-left key of your keyboard. It is called the "tilde" or "tilda" symbol. It is used to state a relationship between Y and X: `Y ~ X`.</span>
+</span><span class="tooltipr">
+speed,&nbsp;
+  <span class="tooltipRtext"> `speed` is the name of a column. This is going to be the X-variable of the plot. The X-variable always comes after the `~` in the `plot(Y ~ X)` command.</span>
+</span><span class="tooltipr">
+data=cars
+  <span class="tooltipRtext"> The `data=` statement is used to tell R which data set the columns of "dist" and "speed" come from. In this case, the `cars` data set.</span>
+</span><span class="tooltipr">
+)
+  <span class="tooltipRtext">Closing parenthesis for the plot(...) function.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="plotcarsdist" style="display:none;padding-left:20px;">
+
+![](./Images/plotcarsblue.png)
+
+Try changing the `col="skyblue"` statement to `col="firebrick"` instead. What do you notice?
+
+Try changing the `pch=16` statement to `pch=4` or any other number from 1 to 25. What do you notice?
+
+Hint: pressing the "up" arrow on your keyboard brings up the last command you typed into the Console. 
+
+<br/>
+
+
+<div style="background-color:skyblue;padding:10px;">
+**Completion Code:** abc123R
+</div>
+
+
+</div>
+
+
+
+<br/>
+
+<span style="color:orange;">This is "the end" of the *Getting Started* tutorial.</span> <span style="color:gray;">To find the "completion code" you will need to study, and "click open" each of the example codes above.</span>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<br />
+<hr />
+
+
+## `?` The Help Command
+
+<div style="padding-left:15px;">
+
+Getting help in R is easy.
+
+**Usage**
+
+`?something`
+
+* This command pulls up the help file for whatever you write in the place of `something`.
+
+**Examples**
+
+Click to view. Hover to learn.
+
+<a href="javascript:showhide('HelpOutput')">
+<div class="hoverchunk">
+<span class="tooltipr">
+?
+  <span class="tooltipRtext">The quick way to access the help function in R.</span>
+</span><span class="tooltipr">
+cars
+  <span class="tooltipRtext">The name of a dataset can be typed to open the help file for that dataset.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="HelpOutput" style="display:none;padding-left:20px;">
+![](./Images/HelpOutputCars.png)
+
+
+</div>
+
+
+<a href="javascript:showhide('HelpOutput2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+?
+  <span class="tooltipRtext">The quick way to access the help function in R.</span>
+</span><span class="tooltipr">
+data
+  <span class="tooltipRtext">The name of an R function, like `data` can also be used to open the help file for that function.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="HelpOutput2" style="display:none;padding-left:20px;">
+![](./Images/HelpOutputData.png)
+
+</div>
+
+<a href="javascript:showhide('HelpOutput3')">
+<div class="hoverchunk">
+<span class="tooltipr">
+?
+  <span class="tooltipRtext">The quick way to access the help function in R.</span>
+</span><span class="tooltipr">
+mean
+  <span class="tooltipRtext">The `mean` function computes the mean of a column of quantitative data. Typing the name of an R function, like `mean` can also be used to open the help file for that function.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+
+<div id="HelpOutput3" style="display:none;padding-left:20px;">
+
+![](./Images/helpmean.png)
+
+</div>
+
+
+
+</div>
+<br />
+<hr />
+
+
+
+
+## `$` The Selection Operator {#dollar}
+
+<div style="padding-left:15px;">
+
+Once you have a dataset, you need to be able to access columns from it.
+
+**Usage**
+
+`DataSetName$ColumnName`
+
+* The `$` operator allows you to access the individual columns of a dataset. 
+
+<span style="font-size:.8em;">Tip: think of the data set as a "store" from which you "purchase" a column using "money": `$`.</span>
+
+**Example Code**
+
+
+<a href="javascript:showhide('airqualityDollar')">
+<div class="hoverchunk">
+<span class="tooltipr">
+airquality
+  <span class="tooltipRtext">The `airqaulity` dataset. This could be the name of any dataset instead of `airquality`.</span>
+  </span><span class="tooltipr">
+$
+  <span class="tooltipRtext"> Grabs the column, or variable, from the dataset to be used. This is typically used when computing say the mean (or other statistic) of a single column of the data. </span>
+  </span><span class="tooltipr">
+Wind
+  <span class="tooltipRtext"> The name of any column of the dataset can be entered after the dollar sign. In the airquality dataset, this includes: `Ozone`, `Solar.R`, `Wind`, `Temp`, `Month`, or `Day` as shown by `View(airquality)`. </span>
+  </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+  </span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+
+<div id="airqualityDollar" style="display:none;padding-left:20px;">
+![](./Images/airqualityDollar.png)
+
+</div>
+
+This allows you to compute things about that column, like the mean or standard deviation.
+
+<a href="javascript:showhide('airqualityDollarCompute')">
+<div class="hoverchunk">
+<span class="tooltipr">
+mean(
+  <span class="tooltipRtext">The `mean` function computes the mean of a column of quantitative data.</span>
+</span><span class="tooltipr">
+airquality
+  <span class="tooltipRtext">The `airquality` dataset. This could be the name of any dataset instead of `airquality`.</span>
+</span><span class="tooltipr">
+$
+  <span class="tooltipRtext"> Grabs the column, or variable, from the dataset to be used. This is typically used when computing say the mean (or other statistic) of a single column of the data. </span>
+  </span><span class="tooltipr">
+Wind
+  <span class="tooltipRtext"> The name of any column of the dataset can be entered after the dollar sign. In the airquality dataset, this includes: `Ozone`, `Solar.R`, `Wind`, `Temp`, `Month`, or `Day` as shown by `View(airquality)`. </span>
+  </span><span class="tooltipr">
+)
+  <span class="tooltipRtext">Closing parenthesis to the mean() function.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+  </span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+
+<div id="airqualityDollarCompute" style="display:none;padding-left:20px;">
+```{r, echo=FALSE}
+library(pander)
+pander(mean(airquality$Wind))
+```
+</div>
+
+
+<a href="javascript:showhide('airqualityDollarComputeSD')">
+<div class="hoverchunk">
+<span class="tooltipr">
+sd(
+  <span class="tooltipRtext">The `sd` function computes the standard deviation of a column of quantitative data.</span>
+</span><span class="tooltipr">
+airquality
+  <span class="tooltipRtext">The `airqaulity` dataset. This could be the name of any dataset instead of `airquality`.</span>
+</span><span class="tooltipr">
+$
+  <span class="tooltipRtext"> Grabs the column, or variable, from the dataset to be used. This is typically used when computing say the mean (or other statistic) of a single column of the data. </span>
+  </span><span class="tooltipr">
+Wind
+  <span class="tooltipRtext"> The name of any column of the dataset can be entered after the dollar sign. In the airquality dataset, this includes: `Ozone`, `Solar.R`, `Wind`, `Temp`, `Month`, or `Day` as shown by `View(airquality)`. </span>
+  </span><span class="tooltipr">
+)
+  <span class="tooltipRtext">Closing parenthesis to the sd() function.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+  </span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+
+<div id="airqualityDollarComputeSD" style="display:none;padding-left:20px;">
+```{r, echo=FALSE}
+pander(sd(airquality$Wind))
+```
+</div>
+
+See [Numerical Summaries](NumericalSummaries.html) for more stats functions like `mean()` and `sd()`.
+
+</div>
+
+<br />
+<hr />
+
+
+
+## `<-` The Assignment Operator {#assignment}
+
+<div style="padding-left:15px;">
+Being able to save your work is important!
+
+**Usage** &nbsp;&nbsp; Keyboard Shortcut: `Alt` `-`
+
+`NameYouCreate <- some R commands`
+
+* `<-` (Less than symbol `<` with a hyphen `-`) is called the assignment operator and lets you store the results of the `some R commands` into an object called `NameYouCreate`.
+* `NameYouCreate` is any name that *begins with a letter*, but can use numbers, periods, and underscores thereafter. To use spaces in the name, you must use \``your Name`\` encased in back-ticks, but this is not recommended.
+
+**Example Code**
+
+<a href="javascript:showhide('NamingCars1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+cars2
+  <span class="tooltipRtext">First we name the object we are creating. In this case, we are making a copy of the cars dataset, so it is logical to call it `cars2`, but it could be `bob`, `c2` or any name you wanted to use. Just be careful to not use names that are already in use! </span>
+ </span><span class="tooltipr">
+&nbsp; <- &nbsp;
+  <span class="tooltipRtext"> The `<-` assignment operator will take whatever is on the right hand side and save it into the name written on the left hand side. </span>
+  </span><span class="tooltipr">
+cars
+  <span class="tooltipRtext">In this case the `cars` dataset is being copied to `cars2` so that we can change `cars2` without changing the original `cars` dataset.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+  
+</span><span class="tooltipr">
+cars2
+  <span class="tooltipRtext">The new copy of the `cars` dataset that we just created</span>
+</span><span class="tooltipr">
+\$ftpersec
+  <span class="tooltipRtext">The `$` selection operator can be used to create a new column in a dataset when used with the `<-` assignment operator. </span>
+</span><span class="tooltipr">
+&nbsp;<-&nbsp;
+  <span class="tooltipRtext">The `<-` assignment operator will take the results of the right-hand-side and save them into the name on the left-hand-side. </span>
+</span><span class="tooltipr">
+cars2$speed \* 5280 / 3600
+  <span class="tooltipRtext">This calculation converts the miles per hour of the `cars2` `speed` column into feet per seconds because there are 5280 feet in a mile and 60 minutes in an hour and 60 seconds in a minute.</span>
+</span>
+
+</span><span class="tooltipr">
+View(cars2)
+  <span class="tooltipRtext">The `cars2` dataset now contains a 3rd column called `feetpersec`. Compare this to the original `cars` dataset to see how it changed.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>  
+
+<div id="NamingCars1" style="display:none;padding-left:20px;">
+![](./Images/carsNewColumn.png)
+</div>
+
+
+</div>
+
+
+<br />
+<hr />
+
+
+
+
+
+## c( ) The Combine Function {#cvector}
+
+<div style="padding-left:15px;">
+Think of this function as the "back-pack" function, just like putting different books into one back-pack.
+
+**Usage** 
+
+`c(value 1, value 2, value 3, ... )`
+
+* The `c( )` function combines `values` into a single object called a "vector". 
+* `values 1, 2, 3, ...` can be numbers or characters, i.e., words, but must be all of one type or the other.
+
+**Example Code**
+
+
+<a href="javascript:showhide('cVector')">
+<div class="hoverchunk">
+<span class="tooltipr">
+Classlist <- 
+  <span class="tooltipRtext">`Classlist` is a new object being created using the assignment operator `<-` that will contain the four names listed above.</span>
+ </span><span class="tooltipr">
+&nbsp;c(
+  <span class="tooltipRtext">The combine function `c( )` is being used in this case to group character values representing names of students into a single object named "Classlist".  </span>
+  </span><span class="tooltipr">
+"Jackson", "Jared", "Jill", "Jane")
+  <span class="tooltipRtext"> These are the values we are grouping into the object named `Classlist`.  </span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span>
+
+<span class="tooltipr">
+Ages <- &nbsp;
+  <span class="tooltipRtext">The assignment operator `<-` is being used to create the object called `Ages` that will contain the ages of each student on the `Classlist`. </span>
+ </span><span class="tooltipr">
+c(
+  <span class="tooltipRtext">The R function "c()" allows us to group together values in order to save them into an object. </span>
+ </span><span class="tooltipr">
+8, 9, 7, 8
+  <span class="tooltipRtext"> The values, separated by comma's, that are being grouped together. In this case, numbers are being grouped together. </span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+
+<span class="tooltipr">
+Colors <- &nbsp;
+  <span class="tooltipRtext">The assignment operator `<-` is being used to create the object called `Colors` that will have one color for each student on the `Classlist`. </span>
+ </span><span class="tooltipr">
+c(
+  <span class="tooltipRtext">The R function "c()" allows us to group together values in order to save them into an object. </span>
+ </span><span class="tooltipr">
+"red", "blue", "green", "yellow"
+  <span class="tooltipRtext"> The values, separated by comma's, that are being grouped together. In this case, characters are being grouped together. </span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>  
+</div>
+</a> 
+
+<div id="cVector" style="display:none;padding-left:20px;">
+![](./Images/cVector.png)
+</div>
+
+  
+  
+
+</div>
+<br />
+<hr />
+
+
+
+
+## table( ) {#table}
+
+<div style="padding-left:15px;">
+This is a way to quickly count how many times each value occurs in a column or columns.
+
+**Usage** 
+
+`table(NameOfDataset$columnName)`
+
+`table(NameOfDataset$columnName1, NameOfDataset$columnName2)`
+
+* The `table( )` function counts how many times each `value` in a column of data occurs. 
+* `NameOfDataset` is the ane of a data set, like `cars` or `airquality` or `KidsFeet`.
+* `columnName` is the name of a column from the data set.
+* `columnName1` and `columnName2` are two different names of columns from the data set.
+
+**Example Code**
+
+
+<a href="javascript:showhide('table1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+speedCounts <-  
+  <span class="tooltipRtext">`speedCounts` is a new object being created using the assignment operator `<-` that will contain the counts of how many times each "speed" occurs in the `cars` data set speed column.</span>
+ </span><span class="tooltipr">
+&nbsp;table(
+  <span class="tooltipRtext">The table function `table( )` is being used in this case to count how many times each speed occurs in the cars data set speed column.  </span>
+  </span><span class="tooltipr">
+cars
+  <span class="tooltipRtext"> This is the name of the data set.  </span>
+ </span><span class="tooltipr">
+$
+  <span class="tooltipRtext">The $ is used to access a given column from the data set.</span>
+ </span><span class="tooltipr">
+speed
+  <span class="tooltipRtext">This is the name of the column we are interested in from the cars data set.</span>
+ </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><br/><span class="tooltipr">
+speedCounts
+  <span class="tooltipRtext">Typing the name of an object will print the results to the screen.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>  
+</div>
+</a> 
+
+<div id="table1" style="display:none;padding-left:20px;">
+```{r, echo=FALSE}
+speedCounts <- table(cars$speed)
+speedCounts
+```
+Notice how the speed of "4" occurs 2 times, same for the speed of 7, but the speed of 8 only occurs 1 time and so on with the other speeds. The first row of the output is the value from the speed column. The number on the second line shows how many times that value occurred in the speed column.
+</div>
+
+  
+
+<a href="javascript:showhide('table2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+library(mosaic)
+  <span class="tooltipRtext" style="font-size:.8em;">`library(mosaic)` is needed to access the KidsFeet data set that is used in this example. If you don't have the mosaic library, you will need to run `install.packages("mosaic")` to install it first. From then on, you can open mosaic to use it with the command library(mosaic). You need only install packages once. You must library them each time you wish to use them.</span>
+ </span><br/><span class="tooltipr">
+birthdays <-  
+  <span class="tooltipRtext">`birthdays` is a new object being created using the assignment operator `<-` that will contain the counts of how many birthdays occur in each month for each gender in the KidsFeet dataset.</span>
+ </span><span class="tooltipr">
+&nbsp;table(
+  <span class="tooltipRtext">The table function `table( )` is being used in this case to count how many birthdays occur in each month for children of each gender.</span>
+  </span><span class="tooltipr">
+KidsFeet
+  <span class="tooltipRtext"> This is the name of the data set.</span>
+ </span><span class="tooltipr">
+$
+  <span class="tooltipRtext">The $ is used to access a given column from the data set.</span>
+ </span><span class="tooltipr">
+sex
+  <span class="tooltipRtext">This is the name of the column we are interested in becoming the rows of our final table.</span>
+ </span><span class="tooltipr">
+,&nbsp;
+  <span class="tooltipRtext">Comma separating the two columns of the data set you want to table.</span>
+ </span><span class="tooltipr">
+KidsFeet
+  <span class="tooltipRtext"> This is the name of the data set.</span>
+ </span><span class="tooltipr">
+$
+  <span class="tooltipRtext">The $ is used to access a given column from the data set.</span>
+ </span><span class="tooltipr">
+birthmonth
+  <span class="tooltipRtext">This is the name of the column we are interested in becoming the columns of our final table.</span>
+ </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><br/><span class="tooltipr">
+birthdays
+  <span class="tooltipRtext">Typing the name of an object will print the results to the screen.</span>
+</span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>  
+</div>
+</a> 
+
+<div id="table2" style="display:none;padding-left:20px;">
+```{r, echo=FALSE}
+birthdays <- table(mosaicData::KidsFeet$sex, mosaicData::KidsFeet$birthmonth)
+birthdays
+```
+The left column contains the "sex" values of "B" and "G" (Boy and Girl). 
+
+The top row contains the birthmonths (1 through 12).
+
+The numbers within the row of the table next to the "B" show how many Boys had birthdays in each month of the year.
+
+The numbers within the row of the table next to the "G" show how many Girls had birthdays in each month of the year.
+</div>
+  
+
+</div>
+<br />
+<hr />
+
+
+
+
+## filter( ) 
+
+<div style="padding-left:15px;">
+
+Used to reduce a dataset to a smaller set of rows than the original dataset contained.
+
+**Usage** 
+
+`filter(NameOfDataset, columnName filteringRules)`
+
+* `filter()` is the function that filters out certain rows of the dataset.
+* `NameOfDataset` is the name of a dataset, like `cars` or `airquality` or `KidsFeet`.
+* `columnName` is the name of one of the columns from the dataset. You can use `colnames(NameOfDataset)` or `View(NameOfDataset)` to see the names.
+* `filteringRules` consists of some **Logical Expression** (see table below) that selects only the rows from the original dataset that meet the criterion.
+
+
+<div style="padding-left:30px;">
+
+| **Filtering Rule** | **Logical Expression** | 
+|--------------------------------------------|------------|
+| Equals one "thing" | `columnName` `==` `something` |
+| Equals Any Of Several "things" | `columnName` `%in%` `c(something1,something2,...)` |
+| Not Equal (one thing)| `columnName` `!=` `something` |
+| Not Equals Any of (several things) | `!columnName` `%in%` `c(something1,something2,...)` |
+| Less Than | `columnName` `<` `value` |
+| Less Then or Equal to | `columnName` `<=` `value` |
+| Greater Than | `columnName` `>` `value` |
+| Greater Than or Equal to | `columnName` `>=` `value` |
+| AND | `expression1` `&` `expression2` | 
+| OR | `expression1` `|` `expression2` |
+| Equals `NA` | `is.na(columnName)` | 
+| Not `NA` | `!is.na(columnName)` | 
+
+
+</div>
+
+
+
+**Example Code**
+
+<a href="">
+<div class="hoverchunk">
+<span class="tooltipr">
+library(tidyverse)
+  <span class="tooltipRtext">The tidyverse library is needed to access the filter function used in the following example codes.</span>
+</span><br/><span class="tooltipr">
+library(mosaic)
+  <span class="tooltipRtext">The mosaic library is needed to access the KidsFeet data set used in the following example codes.</span>
+</span>
+</div>
+</a>
+
+<br/>
+
+*Equals one "thing"*...
+
+<a href="javascript:showhide('filterEqual')">
+<div class="hoverchunk">
+<span class="tooltipr">
+Kids87 <-&nbsp;
+  <span class="tooltipRtext">Kids87 is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `filter(...)` function into this name.</span>
+</span><span class="tooltipr">
+filter(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"filter" is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span>
+</span><span class="tooltipr">
+birthyear
+  <span class="tooltipRtext">A quantitative column of the KidsFeet dataset that we want to use to reduce the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;== 87
+  <span class="tooltipRtext">This "filtering rule" filters the data down to just those children who had a birthyear equal to 87.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="filterEqual" style="display:none;padding-left:20px;">
+![](./Images/Kids87.png)
+</div>
+
+<a href="javascript:showhide('filterEqualCategorical')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsBoys <-&nbsp;
+  <span class="tooltipRtext">KidsBoys is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `filter(...)` function into this name.</span>
+</span><span class="tooltipr">
+filter(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"filter" is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span>
+</span><span class="tooltipr">
+sex
+  <span class="tooltipRtext">A categorical column of the KidsFeet dataset that we want to use to reduce the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;== "B"
+  <span class="tooltipRtext">This "filtering rule" filters the data down to just those children who are boys. Words must be quoted "B" but values are just typed directly.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="filterEqualCategorical" style="display:none;padding-left:20px;">
+![](./Images/KidsBoys.png)
+</div>
+
+
+<br/>
+
+*Equals Any of Several "things"*...
+
+<a href="javascript:showhide('filterIN')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsSummer <-&nbsp;
+  <span class="tooltipRtext">KidsSummer is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `filter(...)` function into this name.</span>
+</span><span class="tooltipr">
+filter(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"filter" is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span>
+</span><span class="tooltipr">
+birthmonth
+  <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;%in% c(6,7,8)
+  <span class="tooltipRtext">This is the "filtering rule". It will filter the data down to just those children who were born during the summer, i.e., birthmonth equal to either 6, 7, or 8. Notice how the c( ) function is being used to combine the values of 6, 7, and 8 together into a single list of numbers.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="filterIN" style="display:none;padding-left:20px;">
+![](./Images/KidsSummer.png)
+</div>
+
+
+<br/>
+
+*Does not equal one thing*...
+
+<a href="javascript:showhide('filterNotEqual')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsNotJosh <-&nbsp;
+  <span class="tooltipRtext">KidsNotJosh is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `filter(...)` function into this name.</span>
+</span><span class="tooltipr">
+filter(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"filter" is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span>
+</span><span class="tooltipr">
+name
+  <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;!= "Josh"
+  <span class="tooltipRtext">This is the "filtering rule". It will filter the data down to just those children who are NOT named "Josh". In this case, it removed just two students who were named "Josh".</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="filterNotEqual" style="display:none;padding-left:20px;">
+![](./Images/KidsNotJosh.png)
+</div>
+
+
+<br/>
+
+*Less than*...
+
+<a href="javascript:showhide('LessThan')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsLength24 <-&nbsp;
+  <span class="tooltipRtext">KidsLength24 is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `filter(...)` function into this name.</span>
+</span><span class="tooltipr">
+filter(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"filter" is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span>
+</span><span class="tooltipr">
+length
+  <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;< 24
+  <span class="tooltipRtext">This is the "filtering rule". It will filter the data down to just those children who have a foot length less than 24 cm.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+
+<div id="LessThan" style="display:none;padding-left:20px;">
+![](./Images/KidsLength24.png)
+</div>
+
+<br/>
+
+*Less than or equal to*...
+
+<a href="javascript:showhide('LessThanorEqualTo')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsLessEq24 <-&nbsp;
+  <span class="tooltipRtext">KidsLessEq24 is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `filter(...)` function into this name.</span>
+</span><span class="tooltipr">
+filter(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"filter" is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span>
+</span><span class="tooltipr">
+length
+  <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;<= 24
+  <span class="tooltipRtext">This is the "filtering rule". It will filter the data down to just those children who have a foot length less than or equal to 24 cm.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+
+<div id="LessThanorEqualTo" style="display:none;padding-left:20px;">
+![](./Images/KidsLessEq24.png)
+</div>
+
+
+<br/>
+
+*Greater than*...
+
+<a href="javascript:showhide('GreaterThan')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsWider9 <-&nbsp;
+  <span class="tooltipRtext">KidsNotJosh is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `filter(...)` function into this name.</span>
+</span><span class="tooltipr">
+filter(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"filter" is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span>
+</span><span class="tooltipr">
+width
+  <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;> 9
+  <span class="tooltipRtext">This is the "filtering rule". It will filter the data down to just those children who have a foot width greater than 9 cm.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+
+<div id="GreaterThan" style="display:none;padding-left:20px;">
+![](./Images/KidsWider9.png)
+</div>
+
+
+<br/>
+
+*Greater than or equal to*...
+
+<a href="javascript:showhide('GreaterThanorEqualTo')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsWiderEq9 <-&nbsp;
+  <span class="tooltipRtext">KidsWiderEq9 is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `filter(...)` function into this name.</span>
+</span><span class="tooltipr">
+filter(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"filter" is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span>
+</span><span class="tooltipr">
+width
+  <span class="tooltipRtext">The column of the KidsFeet dataset that we want to use to reduce the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;>= 9
+  <span class="tooltipRtext">This is the "filtering rule". It will filter the data down to just those children who have a foot width greater than or equal to 9 cm.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+
+<div id="GreaterThanorEqualTo" style="display:none;padding-left:20px;">
+![](./Images/KidsWiderEq9.png)
+</div>
+
+<br/>
+
+*The "and" statement*...
+
+<a href="javascript:showhide('And')">
+<div class="hoverchunk">
+<span class="tooltipr">
+GirlsWide9 <-&nbsp;
+  <span class="tooltipRtext">GirlsWide9 is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `filter(...)` function into this name.</span>
+</span><span class="tooltipr">
+filter(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"filter" is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span>
+</span><span class="tooltipr">
+sex
+  <span class="tooltipRtext">The first column of the KidsFeet dataset that we want to use to reduce the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;== "G"
+  <span class="tooltipRtext">This is the first "filtering rule". It will filter the data down to just those children who are girls.</span>
+  </span><span class="tooltipr">
+&nbsp;&&nbsp;
+  <span class="tooltipRtext">The & is the AND statement. It joins to filtering criteria together into a single criteria where both conditions must be met. In this case, it ensures we get only girls with foot widths greater than 9 cm.</span>
+</span><span class="tooltipr">
+width
+  <span class="tooltipRtext">The second column of the KidsFeet dataset that we want to use to reduce the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;> 9
+  <span class="tooltipRtext">This is the second "filtering rule". It will filter the data down to just those children who have a foot width greater than 9 cm.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+
+<div id="And" style="display:none;padding-left:20px;">
+![](./Images/GirlsWide9.png)
+</div>
+
+<br/>
+
+*The "or" statement*...
+
+
+<a href="javascript:showhide('Or')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsWinter <-&nbsp;
+  <span class="tooltipRtext">KidsWinter is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `filter(...)` function into this name.</span>
+</span><span class="tooltipr">
+filter(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"filter" is a function from library(tidyverse) that reduces the number of rows in the KidsFeet dataset by filtering according to certain criteria. Click on this code to see the original and filtered datasets.</span>
+</span><span class="tooltipr">
+birthmonth
+  <span class="tooltipRtext">The first column of the KidsFeet dataset that we want to use to reduce the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;<= 2
+  <span class="tooltipRtext">This is the first "filtering rule". It will filter the data down to just those children who are born in January or February.</span>
+  </span><span class="tooltipr">
+&nbsp;|&nbsp;
+  <span class="tooltipRtext">The | is the OR statement. It joins to filtering criteria together into a single criteria where either condition gives us what we want. In this case, it keeps any child born in January, February, November, or December.</span>
+</span><span class="tooltipr">
+birthmonth
+  <span class="tooltipRtext">The second column of the KidsFeet dataset that we want to use to reduce the dataset. In this case, it is the same as the first column.</span>
+</span><span class="tooltipr">
+&nbsp;>= 11
+  <span class="tooltipRtext">This is the second "filtering rule". It will filter the data down to just those children who are born in November or December.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+
+<div id="Or" style="display:none;padding-left:20px;">
+![](./Images/KidsWinter.png)
+
+</div>
+
+
+
+
+</div>
+<br />
+<hr />
+
+
+
+
+
+
+## select( )
+
+<div style="padding-left:15px;">
+Used to select out certain columns from a dataset.
+
+**Usage**
+
+`select(NameOfDataset, listOfColumnNames)`
+
+* `select( )` is the function that selects out certain columns of the dataset.
+* `NameOfDataset` is the name of a dataset, like `cars` or `airquality` or `KidsFeet`.
+* `listOfColumnNames` is a vector of names of columns from the dataset, usually supplied inside a combine `c(...)` statement.
+
+**Example Code**
+
+<a href="javascript:showhide('select1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsNameBirth <-&nbsp;
+  <span class="tooltipRtext">KidsNameBirth is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `select(...)` function into this name.</span>
+</span><span class="tooltipr">
+select(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"select" is a function from library(tidyverse) that selects out specified columns from the original dataset in the order specified.</span>
+</span><span class="tooltipr">
+c(name, birthyear, birthmonth)
+  <span class="tooltipRtext">The columns of the KidsFeet dataset that we want to select out of the original dataset. Notice how the concatenation function `c(...)` is used to list out the columns we want.</span>
+</span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+  
+<div id="select1" style="display:none;padding-left:20px;">
+![](./Images/KidsNameBirth.png)
+  
+</div>
+
+
+
+<a href="javascript:showhide('select2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsBigLength <-&nbsp;
+  <span class="tooltipRtext">KidsBigLength is a name we made up. The assignment operator `<-` will save the reduced version of the `KidsFeet` dataset created by the `select(...)` function into this name.</span>
+</span><span class="tooltipr">
+select(KidsFeet, &nbsp;
+  <span class="tooltipRtext">"select" is a function from library(tidyverse) that selects out specified columns from the original dataset in the order specified.</span>
+</span><span class="tooltipr">
+c(biggerfoot, length)
+  <span class="tooltipRtext">The columns of the KidsFeet dataset that we want to select out of the original dataset. The order in which columns are selected is the order in which they are placed in the new data set.</span>
+</span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+  
+<div id="select2" style="display:none;padding-left:20px;">
+![](./Images/KidsBigLength.png)
+  
+</div>
+
+
+</div>
+<br />
+<hr />
+
+
+
+
+
+
+## %>% The Pipe Operator
+
+<div style="padding-left:15px;">
+Just like the pipes in your kitchen sink, the pipe operator takes "water from the sink" and "sends it down to somewhere else."
+
+**Usage** &nbsp;&nbsp; Keyboard Shortcut: `Ctrl` `Shift` `M`
+
+`NameOfDataset %>% `
+
+&nbsp;&nbsp;`some R commands that follow on the next line`
+
+* `%>%`, the pipe operator, is created by typing percent symbols `%` on both sides of a greater than symbol `>`. It lets you take whatever is on the *left* of the symbol and "pipe it down into" `some R commands` that follow on the next line.
+* `NameOfDataset` is the name of a dataset, like `cars` or `airquality` or `KidsFeet`.
+
+**Note**: you should load `library(tidyverse)` before using the `%>%` operator.
+<!-- cntrl shift   -->
+
+**Example Code**
+
+
+<a href="javascript:showhide('filterselect')">
+<div class="hoverchunk">
+<span class="tooltipr">
+Kids2 <-&nbsp;
+  <span class="tooltipRtext">This provides a name for the new reduced version of the `KidsFeet` dataset that is going to be created by the combined use of `filter(...)` and `select(...)`.</span>
+</span><span class="tooltipr">
+KidsFeet
+  <span class="tooltipRtext">`KidsFeet` is a dataset found in  `library(mosaic)`. Click on this code to View the dataset and the resulting Kids2 dataset.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; filter(
+  <span class="tooltipRtext">"filter" is a function from library(tidyverse) that allows us to reduce the number of rows in the KidsFeet dataset by filtering according to certain criteria.</span>
+</span><span class="tooltipr">
+birthyear
+  <span class="tooltipRtext"> Represents the column of data that we want to use to reduce the rows of the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;== 87
+  <span class="tooltipRtext">This is the "filtering rule". It will filter the data down to just those children who had a birthyear equal to 87.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the filtered version of the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; select(
+  <span class="tooltipRtext">"select" is a function from library(tidyverse) that selects out specified columns from the current dataset in the order specified.</span>
+</span><span class="tooltipr">
+c(name, birthyear, length)
+  <span class="tooltipRtext">The columns of the filtered KidsFeet dataset that we want to select. Notice how the concatenation function `c(...)` is used to list out the columns we want.</span>
+</span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a>
+<div id="filterselect" style="display:none;padding-left:20px;">
+![](./Images/Kids2.png)
+</div>
+
+
+</div>
+<br />
+<hr />
+
+
+
+## summarise( ) and group_by( )
+
+<div style="padding-left:15px;">
+
+Compute numerical summaries on data or on groupings within the data.
+
+**Usage** 
+
+`NameofDataset %>%`
+
+&nbsp;&nbsp; `summarise(nameYouLike = some_stats_function(columnName))`
+
+OR
+
+`NameofDataset %>%`
+
+&nbsp;&nbsp; `group_by(columnGroupsName) %>%`
+
+&nbsp;&nbsp; `summarise(nameYouLike = some_stats_function(columnName))`
+
+
+* `NameOfDataset` is the name of a dataset, like `cars` or `airquality` or `KidsFeet`.
+* `%>%` is the pipe operator that "pipes data" down into R commands on the next line.
+* `group_by(...)` is an R function from `library(tidyverse)` that groups data according to a specified column (or columns).
+* `summarise(...)` is an R function from `library(tidyverse)` that computes numerical summaries on data or groups of data.
+* `columnGroupsName` is the name of a column that represents qualitative (categorical) data. This column is used to separate the dataset into little datasets, one "little dataset" for each group or category in the `columnGroupsName` column.
+* `nameYouLike` is just that. Some name you come up with.
+* `some_stats_function(...)` is a stats function like `mean(...)`, `sd(...)`, `n(...)` or so on.
+* `columnName` is the name of a column from the dataset that you want to compute numerical summaries on.
+
+
+**Example Code**
+
+<a href="javascript:showhide('summarisegroupby1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsFeet
+  <span class="tooltipRtext">`KidsFeet` is a dataset found in  `library(mosaic)`.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; summarise(
+  <span class="tooltipRtext">"summarise" is a function from library(tidyverse) that allows us to compute numerical summaries on data.</span>
+</span><span class="tooltipr">
+aveLength
+  <span class="tooltipRtext">A name we came up with that will store the results of the numerical summary.</span>
+</span><span class="tooltipr">
+&nbsp;= mean(length)
+  <span class="tooltipRtext">This computes the `mean(...)` of the `length` column from the KidsFeet dataset.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a> 
+  
+<div id="summarisegroupby1" style="display:none;padding-left:20px;">
+```{r, echo=FALSE, warning=FALSE, message=FALSE, comment=NA}
+library(tidyverse)
+library(mosaic)
+library(pander)
+KidsFeet %>%
+  summarise(aveLength = mean(length)) %>%
+  pander( ) 
+```
+</div>
+
+
+<a href="javascript:showhide('summarisegroupby2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsFeet
+  <span class="tooltipRtext">`KidsFeet` is a dataset found in  `library(mosaic)`.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; summarise(
+  <span class="tooltipRtext">"summarise" is a function from library(tidyverse) that allows us to compute numerical summaries on data.</span>
+</span><span class="tooltipr">
+aveLength
+  <span class="tooltipRtext">A name we came up with that will store the results of the numerical summary.</span>
+</span><span class="tooltipr">
+&nbsp;= mean(length),&nbsp;
+  <span class="tooltipRtext">This computes the `mean(...)` of the `length` column from the KidsFeet dataset.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sdLength
+  <span class="tooltipRtext">A name we came up with that will store the results of the numerical summary.</span>
+</span><span class="tooltipr">
+&nbsp;= sd(length),&nbsp;
+  <span class="tooltipRtext">This computes the `sd(...)` of the `length` column from the KidsFeet dataset.</span>
+  </span><br/><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sampleSize
+  <span class="tooltipRtext">A name we came up with that will store the results of the numerical summary.</span>
+</span><span class="tooltipr">
+&nbsp;= n( )
+  <span class="tooltipRtext">This computes the `n(...)`, or sample size, of the `length` column from the KidsFeet dataset.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a> 
+  
+<div id="summarisegroupby2" style="display:none;padding-left:20px;">
+```{r, echo=FALSE, warning=FALSE, message=FALSE, comment=NA}
+KidsFeet %>%
+  summarise(aveLength = mean(length), sdLength = sd(length), sampleSize = n()) %>%
+  pander( )
+```
+</div>
+
+
+
+
+<a href="javascript:showhide('summarisegroupby3')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsFeet
+  <span class="tooltipRtext">`KidsFeet` is a dataset found in  `library(mosaic)`.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; group_by(
+  <span class="tooltipRtext">"group_by" is a function from library(tidyverse) that allows us to split the dataset up into "little groups" according to the column specified.</span>
+</span><span class="tooltipr">
+sex
+  <span class="tooltipRtext">"sex" is a column from the KidsFeet dataset that records the gender of each child.</span>
+</span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the grouped according to gender version of the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; summarise(
+  <span class="tooltipRtext">"summarise" is a function from library(tidyverse) that allows us to compute numerical summaries on data.</span>
+</span><span class="tooltipr">
+aveLength
+  <span class="tooltipRtext">A name we came up with that will store the results of the numerical summary.</span>
+</span><span class="tooltipr">
+&nbsp;= mean(length),&nbsp;
+  <span class="tooltipRtext">This computes the `mean(...)` of the `length` column from the KidsFeet dataset.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sdLength
+  <span class="tooltipRtext">A name we came up with that will store the results of the numerical summary.</span>
+</span><span class="tooltipr">
+&nbsp;= sd(length),&nbsp;
+  <span class="tooltipRtext">This computes the `sd(...)` of the `length` column from the KidsFeet dataset.</span>
+  </span><br/><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sampleSize
+  <span class="tooltipRtext">A name we came up with that will store the results of the numerical summary.</span>
+</span><span class="tooltipr">
+&nbsp;= n( )
+  <span class="tooltipRtext">This computes the `n(...)`, or sample size, of the `length` column from the KidsFeet dataset.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a> 
+  
+<div id="summarisegroupby3" style="display:none;padding-left:20px;">
+```{r, echo=FALSE, warning=FALSE, message=FALSE, comment=NA}
+KidsFeet %>%
+  group_by(sex) %>%
+  summarise(aveLength = mean(length), sdLength = sd(length), sampleSize = n()) %>%
+  pander( )
+```
+</div>
+
+For more uses of `summarise(...)` and `group_by(...)` see the Example codes on the various "R Instructions" of the [Numerical Summaries](NumericalSummaries.html) page.
+
+</div>
+<br />
+<hr />
+
+
+
+
+
+
+
+
+
+
+## mutate( )
+
+<div style="padding-left:15px;">
+
+Transform a column or add a new column of data to a data set.
+
+**Usage** 
+
+`NameofDataset %>%`
+
+&nbsp;&nbsp; `mutate(nameYouLike = some_transformation)`
+
+* `NameOfDataset` is the name of a dataset, like `cars` or `airquality` or `KidsFeet`.
+* `%>%` is the pipe operator that "pipes data" down into R commands on the next line.
+* `nameYouLike` is just that. Some name you come up with that will be the name of a new column in the dataset.
+* `some_transformation` is just that. See the example codes for ideas.
+
+**Example Code**
+
+<a href="javascript:showhide('mutate1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+mtcars2 <-&nbsp;
+  <span class="tooltipRtext">`mtcars2` is a new dataset we are creating that will contain all of `mtcars` data set along with a couple new columns we are creating.</span>
+</span><span class="tooltipr">
+mtcars
+  <span class="tooltipRtext">`mtcars` is a dataset found in base R. Typing `View(mtcars)` and `?mtcars` in the console will help you learn more about the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `mtcars` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; mutate(
+  <span class="tooltipRtext">"mutate" is a function from library(tidyverse) that allows us to transform columns of data.</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cyl_factor = as.factor(cyl), 
+  <span class="tooltipRtext">"cyl_factor" is a name we came up with that will store the results of the transformation of the "cyl" column. Here we are simply converting the "cyl" column from type numeric to a factor. Treating the "cyl" column as a factor could be useful in certain situations.</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weight = wt * 1000
+  <span class="tooltipRtext">"weight" is a name we came up with that will store the results of the transformation of the "wt" column. Taking a closer look with `?mtcars` shows us that wt is in 1000 lbs. Here we are just multiplying each row in the column by 1000.</span>
+ </span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;) 
+  <span class="tooltipRtext">Closing parenthesis for the mutate(...) function.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a> 
+
+<div id="mutate1" style="display:none;padding-left:20px;">
+
+Notice the last two columns of `cyl_factor` and `weight` are what we added to the data set `mtcars2`. As seen by `View(mtcars)`, the original `mtcars` data set did not have these two columns. We used the `mutate` function to create them and saved our work in a new data set called `mtcars2`.
+
+```{r, echo=FALSE}
+mtcars2 <- mtcars %>% 
+  mutate(
+    cyl_factor = as.factor(cyl),
+    weight = wt * 1000
+  )
+pander(mtcars2, split.table=Inf)
+```
+
+
+
+</div>
+
+
+<a href="javascript:showhide('mutate2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+Kids3 <-&nbsp;
+  <span class="tooltipRtext">`Kids3` is a new dataset we are creating that will contain all of `KidsFeet` data set along with a couple new columns we are creating.</span>
+</span><span class="tooltipr">
+KidsFeet
+  <span class="tooltipRtext">`KidsFeet` is a dataset found in  `library(mosaic)`.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; mutate(
+  <span class="tooltipRtext">"mutate" is a function from library(tidyverse) that allows us to transform columns of data.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;season = case_when(
+  <span class="tooltipRtext">"season" is a name we came up with that will store the results of the transformation of the "birthmonth" column. The case_when(...) function from library(tidyverse) allows us to perform more complicated transformations with columns.</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;birthmonth %in% c(12,1,2) ~ "Winter",
+  <span class="tooltipRtext">The body of case_when(...) is of the form `logical expression ~ "newValueName"`. This statement says that we want the values in the column "birthmonth" that are equal to 12, 1, and 2 to be assigned to the value "Winter" in the new "season" column.</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;birthmonth %in% c(3,4,5) ~ "Spring",
+  <span class="tooltipRtext">The body of case_when(...) is of the form `logical expression ~ "newValueName"`. This statement says that we want the values in the column "birthmonth" that are equal to 3, 4, and 5 to be assigned to the value "Spring" in the new "season" column.</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;birthmonth %in% c(6,7,8) ~ "Summer",
+  <span class="tooltipRtext">The body of case_when(...) is of the form `logical expression ~ "newValueName"`. This statement says that we want the values in the column "birthmonth" that are equal to 6, 7, and 8 to be assigned to the value "Summer" in the new "season" column.</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;birthmonth %in% c(9,10,11) ~ "Fall"
+  <span class="tooltipRtext">The body of case_when(...) is of the form `logical expression ~ "newValueName"`. This statement says that we want the values in the column "birthmonth" that are equal to 9, 10, and 11 to be assigned to the value "Fall" in the new "season" column.</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+  <span class="tooltipRtext">Closing parenthesis of the case_when(...) function.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) 
+  <span class="tooltipRtext">Closing parenthesis for the mutate(...) function.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a> 
+  
+<div id="mutate2" style="display:none;padding-left:20px;">
+
+Here is what the `Kids3` data set looks like. It would be good if you compared this to the original `KidsFeet` data set by running `View(KidsFeet)` to see how things have changed. Notice that on the far right we have added the `season` column.
+
+```{r, echo=FALSE}
+
+Kids3 <- KidsFeet %>% 
+  mutate(
+    season = case_when(
+      birthmonth %in% c(12,1,2) ~ "Winter",
+      birthmonth %in% c(3,4,5) ~ "Spring",
+      birthmonth %in% c(6,7,8) ~ "Summer",
+      birthmonth %in% c(9,10,11) ~ "Fall"
+    )
+  )
+
+pander(Kids3, split.table=Inf)
+
+```
+
+</div>
+
+<a href="javascript:showhide('mutate3')">
+<div class="hoverchunk">
+<span class="tooltipr">
+Kids4 <-&nbsp;
+  <span class="tooltipRtext">`Kids4` is a new dataset we are creating that will contain all of `KidsFeet` data set along with a couple new columns we are creating.</span>
+</span><span class="tooltipr">
+KidsFeet
+  <span class="tooltipRtext">`KidsFeet` is a dataset found in  `library(mosaic)`.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; mutate(
+  <span class="tooltipRtext">"mutate" is a function from library(tidyverse) that allows us to transform columns of data.</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lengthIN = length / 2.54,
+  <span class="tooltipRtext">"lengthIN" is a name we came up with that will store the results of the transformation of the "length" column. This is just converting the length data from cm to inches.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;widthIN = width / 2.54,
+  <span class="tooltipRtext">"widthIN" is a name we came up with that will store the results of the transformation of the "width" column. This is just converting the width data from cm to inches.</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lengthSplit = ifelse(length < median(length),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Under 50th Percentile",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"50th Percentile or Greater"),
+  <span class="tooltipRtext">"lengthSplit" is a name we came up with that will store the results of the ifelse(...) function. The ifelse(...) function in this case is being used to split the length column by the median of that column. The ifelse(...) function is of the form ifelse( Logical Condition , valueIfConditionTrue, valueIfConditionFalse).</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gender = case_when(
+  <span class="tooltipRtext">"gender" is a name we came up with that will store the results of the transformation of the "sex" column. The case_when(...) function from library(tidyverse) allows us to perform more complicated transformations with columns.</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sex == "B" ~ "Boy",
+  <span class="tooltipRtext">The body of case_when(...) is of the form `logical expression ~ "newValueName"`. This part of the case_when(...) function is being used to change the value of "B" to "Boy".</span>
+</span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sex == "G" ~ "Girl"
+  <span class="tooltipRtext">The body of case_when(...) is of the form `logical expression ~ "newValueName"`. This part of the case_when(...) function is being used to change the value of "G" to "Girl".</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) 
+  <span class="tooltipRtext">Closing parenthesis for the case_when(...) function.</span>
+ </span><br><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) 
+  <span class="tooltipRtext">Closing parenthesis for the mutate(...) function.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a> 
+  
+<div id="mutate3" style="display:none;padding-left:20px;">
+
+Notice the addition (on the right) of three new columns: `lengthIN`, `widthIN`, and `gender`.
+
+```{r, echo=FALSE}
+Kids3 <- KidsFeet %>%
+  mutate(lengthIN = length / 2.54,
+         widthIN = width / 2.54,
+         lengthSplit = ifelse(length < median(length), "Under 50th Percentile", "50th Percentile or Greater"),
+         gender = case_when(sex == 'B' ~ "Boy", 
+                            sex == 'G' ~ "Girl"))
+         
+
+pander(Kids3, split.table=Inf)
+```
+
+
+</div>
+
+<a href="javascript:showhide('mutate4')">
+<div class="hoverchunk">
+<span class="tooltipr">
+airquality2 <-&nbsp;
+  <span class="tooltipRtext">`airquality` is a new dataset we are creating that will contain all of the `airquality` data set along with a new column we are creating.</span>
+</span><span class="tooltipr">
+airquality
+  <span class="tooltipRtext">`airquality` is a dataset found in base R. Typing `View(airquality)` and `?airquality` in the console will help you learn more about the dataset.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; mutate(
+  <span class="tooltipRtext">"mutate" is a function from library(tidyverse) that allows us to transform columns of data.</span>
+</span><span class="tooltipr">
+Month_Full = 
+  <span class="tooltipRtext">"Month_Full" is a name we came up with that will store the results of the transformation of the "Month" column.</span>
+</span><span class="tooltipr">
+&nbsp;month(
+  <span class="tooltipRtext">month(...) is from library(lubridate) and changes the "Month" column from type integer to type datetime.</span>
+ </span><span class="tooltipr">
+Month,
+  <span class="tooltipRtext">"Month" is the "Month" column from airquality.</span>
+ </span><span class="tooltipr">
+&nbsp;label = TRUE,
+  <span class="tooltipRtext"> "label = TRUE" tells month(...) to change the month numbers to abbreviated month names.</span>
+ </span><span class="tooltipr">
+&nbsp;abbr = FALSE
+  <span class="tooltipRtext"> "abbr = FALSE" changes the abbreviated month names to the full month names.</span>
+ </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Closing parenthesis for the month(...) function.</span>
+ </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Closing parenthesis for the mutate(...) function.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a> 
+
+<div id="mutate4" style="display:none;padding-left:20px;">
+```{r, echo=FALSE, eval=FALSE}
+
+library(lubridate)
+
+airquality2 <- airquality %>% 
+  mutate(Month_Full = month(Month, label = TRUE, abbr = FALSE))
+```
+
+Insert Image Here
+
+</div>
+
+**Other case_when( ) Uses**
+
+```{}
+case_when(length > 25 & width > 9 ~ "Long and Wide",
+          length < 25 & width > 9 ~ "Short and Wide",
+          length > 25 & width < 9 ~ "Long and Thin",
+          length < 25 & width < 9 ~ "Short and Thin")
+```
+
+
+**replace_na( ) Function**
+
+```{}
+newDataName <- dataName %>%
+  mutate(newColumnName = replace_na(columnName, value))
+```
+
+**as.numeric( ) Function**
+
+```{}
+newDataName <- dataName %>%
+  mutate(newColumnName = as.numeric(columnName))
+```
+
+**as.character( ) Function**
+
+```{}
+newDataName <- dataName %>%
+  mutate(newColumnName = as.character(columnName))
+```
+
+**as.factor( ) Function**
+
+```{}
+newDataName <- dataName %>%
+  mutate(newColumnName = as.factor(columnName))
+```
+
+**Pull Out Numbers Only with parse_number(...)**
+
+```{}
+newDataName <- dataName %>%
+  mutate(newColumnName = parse_number(columnName))
+  
+# So stuff like c("500+", "20", "80 ", "15a") would become
+# just c(500, 20, 80, 15). That's nice!
+```
+
+
+</div>
+<br />
+<hr />
+
+
+
+
+
+## arrange( )
+
+<div style="padding-left:15px;">
+
+Arrange data by a certain column, or columns, i.e. "sort" the data.
+
+**Usage** 
+
+`NameofDataset %>%`
+
+&nbsp;&nbsp; `arrange(columnName1)`
+
+Note: `arrange(columnName1, columnName2, ...)` is also possible.
+
+* `NameOfDataset` is the name of a dataset, like `cars` or `airquality` or `KidsFeet`.
+* `%>%` is the pipe operator that "pipes data" down into R commands on the next line.
+* `arrange(...)` is an R function from `library(tidyverse)` that arranges a data set by order for the column given.
+* `columnName1` is the name of a column from the dataset that you want to compute numerical summaries on. 
+* `columnName2` is the name of a column from the dataset that you want to compute numerical summaries on. 
+* `...` implies that you can arrange by as many columns as you want.
+
+
+**Example Code**
+
+<a href="javascript:showhide('arrange1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsFeet
+  <span class="tooltipRtext">`KidsFeet` is a dataset found in  `library(mosaic)`.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; arrange(
+  <span class="tooltipRtext">"arrange" is an R function from `library(tidyverse)` that arranges a data set by order for the column given.</span>
+</span><span class="tooltipr">
+birthmonth
+  <span class="tooltipRtext">birthmonth is the name of one of the columns of the KidsFeet data set. Specifying this name will cause the data to be sorted by birthmonth from 1 to 12.</span>
+</span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a> 
+  
+<div id="arrange1" style="display:none;padding-left:20px;">
+```{r, echo=FALSE, warning=FALSE, message=FALSE, comment=NA}
+library(tidyverse)
+library(mosaic)
+library(pander)
+KidsFeet %>%
+  arrange(birthmonth) %>%
+  pander( ) 
+```
+</div>
+
+<a href="javascript:showhide('arrange2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsFeet
+  <span class="tooltipRtext">`KidsFeet` is a dataset found in  `library(mosaic)`.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; arrange(
+  <span class="tooltipRtext">"arrange" is an R function from `library(tidyverse)` that arranges a data set by order for the column given.</span>
+</span><span class="tooltipr">
+desc(
+  <span class="tooltipRtext">This causes the arranging to be done in descending order (highest to lowest).</span>
+</span><span class="tooltipr">
+birthmonth
+  <span class="tooltipRtext">birthmonth is the name of one of the columns of the KidsFeet data set. Specifying this name will cause the data to be sorted by birthmonth from 1 to 12.</span>
+</span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a> 
+  
+<div id="arrange2" style="display:none;padding-left:20px;">
+```{r, echo=FALSE, warning=FALSE, message=FALSE, comment=NA}
+library(tidyverse)
+library(mosaic)
+library(pander)
+KidsFeet %>%
+  arrange(desc(birthmonth)) %>%
+  pander( ) 
+```
+</div>
+
+
+
+</div>
+<br />
+<hr />
+
+
+
+
+
+
+## pander( )
+
+<div style="padding-left:15px;">
+
+Makes output of most commands "beautiful".
+
+**Usage** 
+
+`library(pander)` then...
+
+`pander(someCode)`
+
+OR
+
+`someCode %>%`
+
+&nbsp;&nbsp; `pander( )`
+
+Note: `pander(stuff, caption="Some useful caption", ...)` is also possible.
+
+* `someCode` is exactly that, some coding you have done that creates output that you want displayed nicely.
+* `%>%` is the pipe operator that "pipes data" down into R commands on the next line.
+* `pander(...)` is an R function from `library(pander)` that makes most R output look nice.
+* `...` other useful commands like `split.table=Inf`.
+
+**Example Code**
+
+<a href="javascript:showhide('pander1')">
+<div class="hoverchunk">
+<span class="tooltipr">
+pander(
+  <span class="tooltipRtext">`pander` is an R function that makes output look nice.</span>
+</span><span class="tooltipr">
+table(KidsFeet\$sex, KidsFeet\$birthmonth),
+  <span class="tooltipRtext">Code that makes a table of how many boys and girls were born in each month of the year.</span>
+</span><span class="tooltipr">
+&nbsp; caption="Counts of Birthdays by Month" 
+  <span class="tooltipRtext">The caption=" " command is very useful for giving your output a small title.</span>
+ </span><span class="tooltipr">
+)
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a> 
+  
+<div id="pander1" style="display:none;padding-left:20px;">
+```{r, echo=FALSE, warning=FALSE, message=FALSE, comment=NA}
+library(tidyverse)
+library(mosaic)
+library(pander)
+pander(table(KidsFeet$sex, KidsFeet$birthmonth), caption="Counts of Birthdays by Month")
+```
+</div>
+
+
+
+
+<a href="javascript:showhide('pander2')">
+<div class="hoverchunk">
+<span class="tooltipr">
+KidsFeet
+  <span class="tooltipRtext">`KidsFeet` is a dataset found in  `library(mosaic)`.</span>
+</span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; group_by(
+  <span class="tooltipRtext">"group_by" is a function from library(tidyverse) that allows us to split the dataset up into "little groups" according to the column specified.</span>
+</span><span class="tooltipr">
+sex
+  <span class="tooltipRtext">"sex" is a column from the KidsFeet dataset that records the gender of each child.</span>
+</span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the grouped according to gender version of the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; summarise(
+  <span class="tooltipRtext">"summarise" is a function from library(tidyverse) that allows us to compute numerical summaries on data.</span>
+</span><span class="tooltipr">
+aveLength
+  <span class="tooltipRtext">A name we came up with that will store the results of the numerical summary.</span>
+</span><span class="tooltipr">
+&nbsp;= mean(length),&nbsp;
+  <span class="tooltipRtext">This computes the `mean(...)` of the `length` column from the KidsFeet dataset.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sdLength
+  <span class="tooltipRtext">A name we came up with that will store the results of the numerical summary.</span>
+</span><span class="tooltipr">
+&nbsp;= sd(length),&nbsp;
+  <span class="tooltipRtext">This computes the `sd(...)` of the `length` column from the KidsFeet dataset.</span>
+  </span><br/><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sampleSize
+  <span class="tooltipRtext">A name we came up with that will store the results of the numerical summary.</span>
+</span><span class="tooltipr">
+&nbsp;= n( )
+  <span class="tooltipRtext">This computes the `n(...)`, or sample size, of the `length` column from the KidsFeet dataset.</span>
+  </span><span class="tooltipr">
+) 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;%>%&nbsp;
+  <span class="tooltipRtext">The pipe operator that will send the `KidsFeet` dataset down inside of the code on the following line.</span>
+</span><br/><span class="tooltipr">
+&nbsp;&nbsp; pander(
+  <span class="tooltipRtext">The pander function will make the output of the above code look nice.</span>
+ </span><span class="tooltipr">
+caption="Doesn't that look nice?") 
+  <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span>
+ </span><span class="tooltipr">
+&nbsp;&nbsp;&nbsp;&nbsp;  
+  <span class="tooltipRtext">Press Enter to run the code.</span>
+</span><span class="tooltipr" style="float:right;font-size:.8em;">
+&nbsp;Click to Show Output&nbsp; 
+  <span class="tooltiprtext">Click to View Output.</span>
+</span>
+</div>
+</a> 
+  
+<div id="pander2" style="display:none;padding-left:20px;">
+```{r, echo=FALSE, warning=FALSE, message=FALSE, comment=NA}
+library(tidyverse)
+library(mosaic)
+library(pander)
+KidsFeet %>%
+  group_by(sex) %>%
+  summarise(aveLength = mean(length),
+            sdLength = sd(length),
+            sampleSize = n( )) %>%
+  pander(caption="Doesn't that look nice?") 
+
+cat("What it looks like if you don't pander:\n")
+KidsFeet %>%
+  group_by(sex) %>%
+  summarise(aveLength = mean(length),
+            sdLength = sd(length),
+            sampleSize = n( ))
+```
+</div>
+
+
+
+
+
+</div>
+
+</div>
+
+----
+
+<br/>
+ 
+
+<footer></footer>

@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Statistics Notebook</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Statistics Notebook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R Help
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="RCommands.html">R Commands</a>
+    </li>
+    <li>
+      <a href="RMarkdownHints.html">R Markdown Hints</a>
+    </li>
+    <li>
+      <a href="RCheatSheetsAndNotes.html">R Cheatsheets &amp; Notes</a>
+    </li>
+    <li>
+      <a href="DataSources.html">Data Sources</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Describing Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GraphicalSummaries.html">Graphical Summaries</a>
+    </li>
+    <li>
+      <a href="NumericalSummaries.html">Numerical Summaries</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Making Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="MakingInference.html">Making Inference</a>
+    </li>
+    <li>
+      <a href="tTests.html">t Tests</a>
+    </li>
+    <li>
+      <a href="WilcoxonTests.html">Wilcoxon Tests</a>
+    </li>
+    <li>
+      <a href="ANOVA.html">ANOVA</a>
+    </li>
+    <li>
+      <a href="Kruskal.html">Kruskal-Wallis</a>
+    </li>
+    <li>
+      <a href="LinearRegression.html">Linear Regression</a>
+    </li>
+    <li>
+      <a href="LogisticRegression.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="ChiSquaredTests.html">Chi Squared Tests</a>
+    </li>
+    <li>
+      <a href="PermutationTests.html">Randomization Testing</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Analyses/AnalysisRubric.html">Analysis Rubric</a>
+    </li>
+    <li>
+      <a href="./Analyses/StudentHousing.html">Good Example Analysis</a>
+    </li>
+    <li>
+      <a href="./Analyses/StudentHousingPOOR.html">Poor Example Analysis</a>
+    </li>
+    <li>
+      <a href="./Analyses/Rent.html">Rent</a>
+    </li>
+    <li>
+      <a href="./Analyses/Stephanie.html">Stephanie</a>
+    </li>
+    <li>
+      <a href="./Analyses/t Tests/HighSchoolSeniors.html">High School Seniors</a>
+    </li>
+    <li>
+      <a href="./Analyses/Wilcoxon Tests/RecallingWords.html">Recalling Words</a>
+    </li>
+    <li>
+      <a href="./Analyses/ANOVA/HighSchoolSeniors2.html">Anova Highschool</a>
+    </li>
+    <li>
+      <a href="./Analyses/Kruskal-Wallis Test/Food.html">Food</a>
+    </li>
+    <li>
+      <a href="./Analyses/Linear Regression/MySimpleLinearRegression.html">My Simple Linear Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Linear Regression/CarPrices.html">Car Prices</a>
+    </li>
+    <li>
+      <a href="./Analyses/Logistic Regression/MyLogisticRegression.html">My Logistic Regression</a>
+    </li>
+    <li>
+      <a href="./Analyses/Chi Squared Tests/MyChiSquaredTest.html">My Chi-sqaured Test</a>
+    </li>
+    <li>
+      <a href="./Analyses/Consulting/Consulting.html">My Consulting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Making Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Scripts/Adjust demand script.R">Demand script</a>
+    </li>
+    <li>
+      <a href="./Scripts/ChiSquareScript.R">Chisquare</a>
+    </li>
+    <li>
+      <a href="./Scripts/FormatINV.R">Format</a>
+    </li>
+    <li>
+      <a href="./Scripts/Graphs.R">graphs</a>
+    </li>
+    <li>
+      <a href="./Scripts/Group_Update.R">Grouping</a>
+    </li>
+    <li>
+      <a href="./Scripts/Logisticcript.R">Logistic</a>
+    </li>
+    <li>
+      <a href="./Scripts/LogisticScriptlab.R">Logisticlab</a>
+    </li>
+    <li>
+      <a href="./Scripts/Permutations.R">Permutation</a>
+    </li>
+    <li>
+      <a href="./Scripts/regressionscript.R">Regression</a>
+    </li>
+    <li>
+      <a href="./Scripts/Practice exam.R">Practice 1</a>
+    </li>
+    <li>
+      <a href="./Scripts/Practice2.R">Practice 2</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Statistics Notebook</h1>
+
+</div>
+
+
+<!-- You can delete the following copyright statement if you wish: -->
+<div style="color:gray;">
+<!-- Code to change the following paragraphs to gray text -->
+<p>This page, and all pages of this notebook, are meant to be customized to become a useful <em>Guide to Statistical Analysis</em> in R for your <em>current</em> and <em>future</em> self.</p>
+<div style="font-size:.8em;">
+<!-- Code to shrink font-size of following paragraph -->
+<p>To begin customizing, <a href="https://github.com/saundersg/Statistics-Notebook">download</a> your own copy of the book <span style="font-size:.8em;">(if you haven’t already)</span>. Please note the <a href="https://choosealicense.com/licenses/gpl-3.0/">GNU General Public License</a> when downloading. You are free to delete this commentary in your own copy of the notebook.</p>
+</div>
+<!-- Ends smaller font-size section -->
+</div>
+<!-- End gray text section -->
+<!-- End of download and copyright instructions. -->
+<div id="table-of-contents" class="section level2">
+<h2>Table of Contents</h2>
+<!-- This is how to comment text out. You can comment out the above instructions if you wish. Comments allow the text to remain in the Rmd file, but not be displayed in the html file. -->
+</div>
+<div id="section" class="section level2 tabset tabset-fade">
+<h2 class="tabset tabset-fade"></h2>
+<div id="hide" class="section level3">
+<h3>Hide</h3>
+</div>
+<div id="show-notes" class="section level3">
+<h3>Show Notes</h3>
+<!-- This is a great place to add general notes, then "Knit" the file to have your notes show up in your Statistics-Notebook. --------------- -->
+<p>Wow! I typed some words. Some <span style="color:blue;">blue words</span>, some <span style="background-color:yellow;">highlighted words</span>, some <span style="font-size:2em;">big words</span>.</p>
+<p>Make a link to a meaningful page of the Statistics-Notebook: <a href="RMarkdownHints.html">Customization Help</a> &lt;- Read through this page!</p>
+<p>Or to a page on the internet: <a href="http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf">R Colors</a></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(airquality<span class="sc">$</span>Temp)</span></code></pre></div>
+<pre><code>## [1] 77.88235</code></pre>
+<p>My stuff from work and other random commands; <a href="https://docs.google.com/spreadsheets/d/1J-Pibv6gas9DyOgqtxZ3Ldkgu8oONocU40OECGXucdI/edit#gid=1937107222">link</a></p>
+<p><a href="https://shiny.byui.edu/content/1103/">Demos</a></p>
+<!-- End your notes before here. ------------------------------------- -->
+</div>
+</div>
+<div id="section-1" class="section level2">
+<h2></h2>
+<hr />
+<div class="tooltipimage" style="float:left;width:125px;" align="center">
+<p><img src="Images/QuantY.png" width=35px;> <span class="tooltipimagetext">Y is a single quantitative variable of interest. This would be like “heights” of BYU-Idaho students.</span></p>
+</div>
+</div>
+<div id="one-quantitative-response-variable-y" class="section level2 tabset tabset-pills">
+<h2 class="tabset tabset-pills">One Quantitative Response Variable Y</h2>
+<div id="graphics" class="section level3">
+<h3>Graphics</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<ul>
+<li>T-Test</li>
+<li>Paired T-Test</li>
+<li>Signed Rank</li>
+</ul>
+<p><a href="GraphicalSummaries.html#histogram"> <img class="myhover" src="Images/histogram.png" alt="Histogram" title="Histogram"> </a> <a href="GraphicalSummaries.html#dot-plots"> <img class="myhover" src="Images/dotplotsingle.png" alt="Dot Plot" title="Dot Plot"> </a> <a href="GraphicalSummaries.html#boxplots"> <img class="myhover" src="Images/boxplotsingle.png" alt="Boxplot" title="Boxplot"> </a></p>
+<!--- End your notes before here.  ------------------>
+</div>
+</div>
+<div id="tests" class="section level3">
+<h3>Tests</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<p>One sample T-tests, <a href="tTests.html#one-sample-t-test">one sample ttest</a> are usually good to use here when data is normal and sample sizes are large. When dealing with non-parametric distributions or with very small (2-6) sample sizes a wilcoxon test is likely a better fit.</p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+</div>
+<div id="section-2" class="section level1">
+<h1></h1>
+<div style="clear:both;">
+
+</div>
+<hr />
+<div class="tooltipimage" style="float:left;width:125px;" align="center">
+<p><img src="Images/QuantYQualXg2.png" width=59px;> <span class="tooltipimagetext">Y is a single quantitative variable of interest. This would be like “heights” of BYU-Idaho students. X is a qualitative (categorical) variable of interest like “gender” that has just two groups “A” and “B”. So this logo represents situtations where we would want to compare heights of male (group A) and female (group B) students.</span></p>
+</div>
+<div id="quantitative-y-categorical-x-2-groups" class="section level2 tabset tabset-pills">
+<h2 class="tabset tabset-pills">Quantitative Y | Categorical X (2 Groups)</h2>
+<div id="graphics-1" class="section level3">
+<h3>Graphics</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<ul>
+<li>Ind-T</li>
+<li>Rank Sum (Wilcoxon/Kruskal)</li>
+</ul>
+<p><a href="GraphicalSummaries.html#boxplots"> <img class="myhover" src="Images/boxplot.png" alt="Side-by-side Boxplots" title="Side-by-side Boxplots"> </a> <a href="GraphicalSummaries.html#dot-plots"> <img class="myhover" src="Images/dotplotdouble.png" alt="Dot Plot" title="Side-by-side Dot Plots"> </a></p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+<div id="tests-1" class="section level3">
+<h3>Tests</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+</div>
+<div id="section-3" class="section level2">
+<h2></h2>
+<div style="clear:both;">
+
+</div>
+<hr />
+<div class="tooltipimage" style="float:left;width:125px;" align="center">
+<p><img src="Images/QuantYQualXg3plus.png" width=59px;> <span class="tooltipimagetext">Y is a single quantitative variable of interest, like “heights” of BYU-Idaho students. X is a categorical (qualitative) variable like which Math 221 you took, 221A, 221B, or 221C. In other words, X has three or more groups. So “Classrank” could be X, with groups “Freshman”, “Sophomore”, “Junior”, and “Senior”.</span></p>
+</div>
+</div>
+<div id="quantitative-y-categorical-x-3-groups" class="section level2 tabset tabset-pills">
+<h2 class="tabset tabset-pills">Quantitative Y | Categorical X (3+ Groups)</h2>
+<div id="graphics-2" class="section level3">
+<h3>Graphics</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<ul>
+<li>Anova</li>
+<li>Block</li>
+</ul>
+<p><a href="GraphicalSummaries.html#boxplots"> <img class="myhover" src="Images/boxplotthree.png" alt="Side-by-side Boxplots" title="Side-by-side Boxplots 3+ Groups"> </a> <a href="GraphicalSummaries.html#dot-plots"> <img class="myhover" src="Images/dotplottriple.png" alt="Side-by-side Dot Plots" title="Side-by-side Dot Plots 3+ Groups"> </a></p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+<div id="tests-2" class="section level3">
+<h3>Tests</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+</div>
+</div>
+<div id="section-4" class="section level1">
+<h1></h1>
+<div style="clear:both;">
+
+</div>
+<hr />
+<div class="tooltipimage" style="float:left;width:125px;" align="center">
+<p><img src="Images/QuantYMultQualX.png" width=80px;> <span class="tooltipimagetext">Y is a single quantitative variable of interest, like “heights” of BYU-Idaho students. X1 is a categorical (qualitative) variable like gender, with levels “boy” and “girl.” X2 is another categorical (qualitative) variable like “Classrank” with levels “Freshman”, “Sophomore”, and “Junior”. Of course, both X1 and X2 can have as many levels as you want to work with, but must have at least two levels each.</span></p>
+</div>
+<div id="quantitative-y-multiple-categorical-x" class="section level2 tabset tabset-pills">
+<h2 class="tabset tabset-pills">Quantitative Y | Multiple Categorical X</h2>
+<div id="graphics-3" class="section level3">
+<h3>Graphics</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<ul>
+<li>Anova (Two way)</li>
+</ul>
+<p><a href="GraphicalSummaries.html#boxplots"> <img class="myhover" src="Images/boxplotthree.png" alt="Side-by-side Boxplots" title="Side-by-side Boxplots 3+ Groups"> </a> <a href="GraphicalSummaries.html#dot-plots"> <img class="myhover" src="Images/dotplottriple.png" alt="Side-by-side Dot Plots" title="Side-by-side Dot Plots 3+ Groups"> </a></p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+<div id="tests-3" class="section level3">
+<h3>Tests</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+</div>
+</div>
+<div id="section-5" class="section level1">
+<h1></h1>
+<div style="clear:both;">
+
+</div>
+<hr />
+<div class="tooltipimage" style="float:left;width:125px;" align="center">
+<p><img src="Images/QuantYQuantX.png" width=59px;> <span class="tooltipimagetext">Y is a single quantitative variable of interest, like “height”. X is another single quantitative variable of interest, like “shoe-size”. This would imply we are using “shoe-size” (X) to explain “height” (Y).</span></p>
+</div>
+<div id="quantitative-y-quantitative-x" class="section level2 tabset tabset-pills">
+<h2 class="tabset tabset-pills">Quantitative Y | Quantitative X</h2>
+<div id="graphics-4" class="section level3">
+<h3>Graphics</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<ul>
+<li>Simple Linear Regression</li>
+</ul>
+<p><a href="GraphicalSummaries.html#scatterplots"> <img class="myhover" src="Images/scatterplot.png" alt="Scatterplot" title="Scatterplot"> </a></p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+<div id="tests-4" class="section level3">
+<h3>Tests</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+</div>
+</div>
+<div id="section-6" class="section level1">
+<h1></h1>
+<div style="clear:both;">
+
+</div>
+<hr />
+<div class="tooltipimage" style="float:left;width:125px;" align="center">
+<p><img src="Images/QuantYMultX.png" width=100px;> <span class="tooltipimagetext">Y is a single quantitative variable of interest, like height. While we could use an X1 of “shoe-size” to explain height, we might also want to use a second x-variable, X2, like “gender” to help explain height. Further x-variables could also be used.</span></p>
+</div>
+<div id="quantitative-y-multiple-x" class="section level2 tabset tabset-pills">
+<h2 class="tabset tabset-pills">Quantitative Y | Multiple X</h2>
+<div id="graphics-5" class="section level3">
+<h3>Graphics</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<ul>
+<li>Multiple Linear Regression</li>
+</ul>
+<p><a href="GraphicalSummaries.html#scatterplots"> <img class="myhover" src="Images/scatterplotmany.png" alt="Scatterplot" title="Scatterplot with Color and Sizing"> </a></p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+<div id="tests-5" class="section level3">
+<h3>Tests</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+</div>
+</div>
+<div id="section-7" class="section level1">
+<h1></h1>
+<div style="clear:both;">
+
+</div>
+<hr />
+<div class="tooltipimage" style="float:left;width:125px;" align="center">
+<p><img src="Images/BinomYQuantX.png" width=59px;> <span class="tooltipimagetext">Y is a single categorical (qualitative) variable of interest where 1 (success) or 0 (failure) are the only possible values for Y. This would be like “getting an A in Math 325” where 1 means you got an A and 0 means you didn’t. We might use an explanatory variable X of “height” to see if taller students are more likely to get an A in Math 325 than shorter students. (They aren’t, if you were wondering.)</span></p>
+</div>
+<div id="binomial-y-quantitative-x" class="section level2 tabset tabset-pills">
+<h2 class="tabset tabset-pills">Binomial Y | Quantitative X</h2>
+<div id="graphics-6" class="section level3">
+<h3>Graphics</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<ul>
+<li>Simple Logistic</li>
+</ul>
+<p><a href="GraphicalSummaries.html#scatterplots"> <img class="myhover" src="Images/scatterplotbinomY.png" alt="Scatterplot with Binomial Y" title="Scatterplot with Binomial Y"> </a></p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+<div id="tests-6" class="section level3">
+<h3>Tests</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+</div>
+</div>
+<div id="section-8" class="section level1">
+<h1></h1>
+<div style="clear:both;">
+
+</div>
+<hr />
+<div class="tooltipimage" style="float:left;width:125px;" align="center">
+<p><img src="Images/BinomYMultX.png" width=100px;> <span class="tooltipimagetext">Y is a single categorical (qualitative) variable of interest where 1 (success) or 0 (failure) are the only possible values for Y. This would be like “getting an A in Math 325” where 1 means you got an A and 0 means you didn’t. We might use an explanatory variable X1 of “height” and a second explanatory variable X2 of “gender” to try to predict whether or not a student will get an A in Math 325.</span></p>
+</div>
+<div id="binomial-y-multiple-x" class="section level2 tabset tabset-pills">
+<h2 class="tabset tabset-pills">Binomial Y | Multiple X</h2>
+<div id="graphics-7" class="section level3">
+<h3>Graphics</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<ul>
+<li>Multiple Logistic</li>
+</ul>
+<p><a href="GraphicalSummaries.html#scatterplots"> <img class="myhover" src="Images/scatterplotbinomYmult.png" alt="Scatterplot with Binomial Y" title="Scatterplot with Binomial Y, including coloring and shading"> </a></p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+<div id="tests-7" class="section level3">
+<h3>Tests</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+</div>
+</div>
+<div id="section-9" class="section level1">
+<h1></h1>
+<div style="clear:both;">
+
+</div>
+<hr />
+<div class="tooltipimage" style="float:left;width:125px;" align="center">
+<p><img src="Images/QualYQualX.png" width=59px;> <span class="tooltipimagetext">Y is a single categorical variable of interest, like gender. X is another categorical variable of interest, like “hair color”. This type of data would help us understand if men or women are more likely to have certain hair colors than the other gender.</span></p>
+</div>
+<div id="caterogical-y-categorical-x" class="section level2 tabset tabset-pills">
+<h2 class="tabset tabset-pills">Caterogical Y | Categorical X</h2>
+<div id="graphics-8" class="section level3">
+<h3>Graphics</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<ul>
+<li>Chi Square</li>
+</ul>
+<p><a href="GraphicalSummaries.html#bar-charts"> <img class="myhover" src="Images/barplot.png" alt="Bar Chart" title="Bar Chart"> </a></p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+<div id="tests-8" class="section level3">
+<h3>Tests</h3>
+<div style="padding-left:125px;color:lightgray;">
+<!-- Add your customizations in the area below: -->
+<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<!--- End of Add content area.  ------------------>
+</div>
+</div>
+</div>
+</div>
+<div id="section-10" class="section level1">
+<h1></h1>
+<div style="clear:both;">
+
+</div>
+<hr />
+<footer>
+</footer>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

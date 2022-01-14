@@ -1,0 +1,28 @@
+---
+title: "Pander"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r cars}
+library(pander)
+
+library(mosaic)
+pander()
+x <- KidsFeet %>% 
+  group_by(sex) %>% 
+  summarise(aveLength = mean(length), 
+             sdLength = sd(length), 
+             sampleSize = n())
+pander(x)
+
+```
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

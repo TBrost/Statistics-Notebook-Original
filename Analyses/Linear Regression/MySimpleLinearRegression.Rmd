@@ -1,0 +1,173 @@
+---
+title: "Simple Linear Regression"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, message=FALSE, warning=FALSE}
+# Load your libraries
+library(car)
+library(tidyverse)
+library(mosaic)
+library(DT)
+library(pander)
+library(ggplot2)
+library(readr)
+SP <- read_csv("../../SleepPurchasesOCT21.csv")
+
+# Load your data after saving a csv file in your Data folder.
+# You can use either 
+#   someName <- read.csv("../Data/YourDataFileName.csv", header=TRUE)
+# or
+#   library(readr)
+#   someName <- read_csv("../Data/YourDataFileName.csv")
+
+# Don't forget to run "Session -> Set Working Directory -> To Source file location"
+
+```
+
+
+<!-- Directions
+
+Come up with a simple linear regression of your own creation. 
+
+* Write the Background and clearly state your question. Then collect data and perform the linear regression analysis in order to answer your question. Use the proper order of first, ask the question, then second, figure out the answer.
+
+* You should collect both the quantitative response variable and the quantitative explanatory variable yourself. This can be data you collect from 
+    - the internet (like weather data, Facebook data, or sports data) 
+    - your own experiment 
+    - your own observational study
+* However,     
+    - The data should not be a single pre-existing dataset. It must be something that you piece together yourself.
+
+* You need at least $n=3$ $(X,Y)$ pairs to perform the regression. However, your regression will only be useful if you can get around $n=10$ or more observations.
+
+-->
+
+
+## Background
+I collected data from my phone on sleep times from the last 30 days. This was gathered as time to bed and time to waking up. I then calculated from these the total number of minutes slept and then calculated a small rolling average of the current day and the previous. Finally I collected data from my back account on all of my purchases from the previous 30 days, I excluded all expenses that were planned, such as my normal spending on groceries, purchasing of housing, subscriptions, etc. as these are expenses I know are not related to sleep and are independent of my other spending habits.
+
+I wanted to test if any relation at all existed between how much sleep I had gotten and how much money I spent so a basic linear regression seems suffecient for these two variables. The model used and hypotheses used for my test are below.
+
+The true regression model assumed by a regression analysis is given by
+
+$$
+  \underbrace{Y_i}_\text{Non-Planned Spending} = \overbrace{\beta_0}^\text{y-int} + \overbrace{\beta_1}^\text{slope} \underbrace{X_i}_\text{2-day running Avg Sleep} + \epsilon_i \quad \text{where} \ \epsilon_i \sim N(0, \sigma^2)
+$$
+
+Our Hypotheses are as follows:
+$$
+\left.\begin{array}{ll}
+H_0: \beta_1 = 0 \\  
+H_a: \beta_1 \neq 0
+\end{array}
+\right\} \ \text{Slope Hypotheses}
+$$
+
+$$
+\alpha = 0.05
+$$
+
+## {.tabset .tabset-pills .tabset-fade}
+
+
+### Regression Test
+Here are the results of the regression analysis, as shown, our results provided a probability of p=0.4471, and an adjusted r^2 = -0.03517. Note that the sample size is only 12, I was only able to access data on my sleep for the previous 30 days and had only made unplanned purchases on 12 of those days, leaving me with a relatively small sample size. 
+
+```{r}
+SP$SleepTimeHours <- SP$Running_Avg / 60
+
+```
+
+```{r}
+mylm <- lm(`Non-Planned Expenses` ~ SleepTimeHours, data = SP)
+summary(mylm) %>%
+pander(caption = "Simple Regression Model")
+```
+
+### Regression Model
+Here is the regression model provided by this test, despite the non-significant P-Value we will continue to graph and visualize the implications of this in an attempt to better understand the significance of our data.
+
+$$
+\underbrace{Y_i}_\text{Non-Planned Expenses} = \overbrace{82.68}^\text{y-int} \text{ } \overbrace{\text{- 0.1337}}^\text{slope} \underbrace{X_i}_\text{Running 2-Day AVG sleep}
+$$
+
+```{r message=FALSE, warning=FALSE}
+
+#plot(`Non-Planned Expenses`~ Running_Avg, data= SP)
+ggplot(SP, aes(x = SP$Running_Avg /60 , y =SP$`Non-Planned Expenses`)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y~x, se = FALSE, size = 1, color = "blue1",
+  linetype = "solid")+
+  labs(title="Non-Planned Purchases Vs Sleep time", x="Two-Day Running Avg sleep (hours)", y="Dollars spent")+ 
+coord_cartesian(xlim = c(5, 8),ylim = c(0,70))
+```
+
+### Assumptions
+The Residuals vs Fitted values shows a significant curvature suggesting the probability of a non-linear relationship or that our variance in non-constant.
+
+The Q-Q plot seems relatively normal, our values tend to remain close but we can observe a repeating diagonal pattern that may be interesting to look further into.
+
+Lastly the Residuals vs Order is (finally) relatively random, showing that the order of our data does not appear to be of consequence. This is of particular importance for my data set as it is ordered from top to bottom by date, the presence of a pattern here would suggest that time was also a factor in my spending.
+
+```{r}
+par(mfrow=c(1,3))
+plot(mylm,which=1:2)
+plot(mylm$residuals)
+```
+
+### Condfidence Interval
+As a result of the low probability value I felt it would be interesting to compute a confidence interval for my regression model. Shown below is the original scatterplot plus the regression (blue), the 95% confidence interval of the regression model is represented by the shaded area, and some examples of what this means our regression could potentially be based on this are represented by the addition dashed lines (red). 
+
+These help the illustrate that the P-value is so insignificant that we cannot even predict with relative confidence whether the relationship is positive or negative, or even that a relationship exists in the first place.
+
+```{r message=FALSE, warning=FALSE}
+confint(mylm, level = .95) %>%
+pander(caption = "95% Confidence interval")
+```
+
+Note that 0 is contained within the given interval, The significance of this is explained in greater depth in the conclusion tab.
+
+
+```{r message=FALSE, warning=FALSE}
+fun.1 <- function(x) 14.57*x + -66.62
+fun.2 <- function(x) -30.61*x + 232
+ggplot(SP, aes(x = SP$Running_Avg /60 , y =SP$`Non-Planned Expenses`)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y~x, se = TRUE, size = 1, color = "blue1",
+  linetype = "solid")+
+   stat_function(fun = "fun.1", size = 1, color = "red1", xlim= c(5.7,7.6),
+  linetype = "dashed")+
+  stat_function(fun = "fun.2", size = 1, color = "red1", xlim= c(5.7,7.6),
+  linetype = "dashed")+
+  labs(title="Non-Planned Purchases Vs Sleep time", x="Two-Day Running Avg sleep (hours)", y="Dollars spent")+
+  coord_cartesian(xlim = c(5.5, 8),ylim = c(0,70))
+```
+
+### Conclusion
+
+Our model does show that if a relationship did exist, based on our sample it is somewhat more likely to be negative than positive. Regardless given our model's probability is so high, the questionable patterns found in our Q-Q plot, Fitted-Residuals, and the fact that our confidence interval straddles 0, we will fail to reject the null hypothesis, It does not appear that any relationship is present within our data given our sample and results.
+
+As shown by the confidence interval of our regression model, our slope could be potentially at the 95% confidence level either a negative or positive value, which when averaged in a sense leaves us with 0, it is in essence the same as a dead slope, showing us that the presence of a definitive relationship is unlikely.
+
+### Data
+
+```{r}
+datatable(SP)
+```
+
+
+##
+
+
+
+
+
+
+
+
+
+

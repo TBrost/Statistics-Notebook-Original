@@ -1,0 +1,255 @@
+---
+title: "My consulting Project"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+
+```{r, include=FALSE}
+library(mosaic)
+library(ResourceSelection) 
+library(car)
+library(tidyverse)
+library(DT)
+library(pander)
+library(ggplot2)
+library(readr)
+library(stringr)
+```
+
+## R Markdown
+
+```{r cars}
+lab <- read_csv("C:/Users/user/OneDrive/Desktop/Stats stuff/325 book/Statistics-Notebook-master/CenterVisitReport (20).csv")
+labmin <- lab %>%
+  rename(Course = `Course`,
+         Professor = `Professor`,
+         Slot_type = `Slot type`,
+         Students_class = `Student's class`,
+         Student_type = `Student's type`,
+         Visit_duration = `Visit duration (in minutes)`,
+         DateTime = `Date (of the appointment/visit)`,
+         Status = `Status (of the appointment/visit)`)
+
+#labmin <- filter(lab, `Visit_duration` >= 1)
+
+Slist <- c("MATH 221A", "MATH 221B", "MATH 221C", "MATH 325", "MATH 425", "MATH 326")
+Mlist <- c("MATH 100A", "MATH 100B", "MATH 101", "MATH 108X", "MATH 109", "MATH 110X", "MATH 111", "MATH 112X", "MATH 113", "MATH 119", "MATH 191", "MATH 205", "MATH 214","MATH 215", "MATH 275", "MATH 280", "MATH 316", "MATH 330", "MATH 340", "MATH 341", "MATH 350")
+labmin$DateTimeFor <- as.POSIXlt(labmin$DateTime, tz = "MST", format = "%m/%d/%Y %H:%M",
+           tryFormats = c("%Y-%m-%d %H:%M:%OS",
+                          "%Y/%m/%d %H:%M:%OS",
+                          "%Y-%m-%d %H:%M",
+                          "%m/%d/%Y %H:%M",
+                          "%Y-%m-%d",
+                          "%Y/%m/%d"))
+
+
+labmin$Day_of_week <- weekdays(as.Date(labmin$DateTimeFor))
+labmin$Dur_LT_one <- case_when(labmin$Visit_duration < 1 ~ 1, labmin$Visit_duration >= 1 ~ 0)
+filteredstuff <- filter(labmin, (labmin$Course %in% Slist == TRUE),
+                        (labmin$Dur_LT_one == 0))
+MuStats <- mean(filteredstuff$Visit_duration)
+filteredstuff <- filter(labmin, (labmin$Course %in% Mlist == TRUE),
+                        (labmin$Dur_LT_one == 0))
+MuNonStats <- mean(labmin$Visit_duration)
+filteredstuff <- filter(labmin, (labmin$Course %in% Slist == FALSE & labmin$Course %in% Mlist == FALSE),
+                        (labmin$Dur_LT_one == 0))
+MuNonMath <- mean(labmin$Visit_duration)
+#c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", 
+#   "Friday", "Saturday")[as.POSIXlt(df$date)$wday + 1]
+```
+
+
+```{r}
+library(tidyr)
+library(stringr)
+
+#labmindi <- filter(labmin, labmin$`Slot_type`== "DropIn")
+#labmin <-labmin
+#labmin <- drop_na(labmin$Course)
+labmin <- labmin[!is.na(labmin$Course),]
+labmin <- select(labmin, -X9)
+
+labmin$nonmath <- case_when(labmin$`Course` %in% Slist == FALSE & labmin$`Course` %in% Mlist == FALSE ~ 1, labmin$`Course` %in% Slist == TRUE | labmin$`Course` %in% Mlist == TRUE ~ 0)
+labmin$Check_In <- format(as.POSIXct(labmin$DateTimeFor), format = "%H:%M")
+labmin$Date <- format(as.POSIXct(labmin$DateTimeFor), format = "%Y-%m-%d")
+labmin$Day_of_week <- factor(labmin$Day_of_week)
+
+labmin$`Visit_duration` <- case_when(labmin$`Course` %in% Slist == TRUE & (labmin$`Visit_duration` ==60 | labmin$`Visit_duration` < 1) ~ MuStats, 
+                                     labmin$`Course` %in% Mlist == TRUE & (labmin$`Visit_duration` ==60 | labmin$`Visit_duration` < 1) ~ MuNonStats, 
+                                     labmin$`Course` %in% Mlist == FALSE & labmin$`Course` %in% Slist == FALSE & (labmin$`Visit_duration` ==60 | labmin$`Visit_duration` < 1) ~ MuNonMath, 
+                                     labmin$`Visit_duration` !=60 ~ labmin$`Visit_duration` )
+#labmin$Check_In <-substr(labmin$Check_In, start = 1, stop = 2)
+hour <- as.numeric(substr(labmin$Check_In, start = 0, stop = 2))
+min <- (1.6666667 * as.numeric(substr(labmin$Check_In, start = 4, stop = 5)))/100
+labmin$checkinNum <- hour + min
+
+
+labmindp <-labmin
+#find Q1, Q3, and interquartile range for values in column family
+Q1 <- quantile(labmindp$Visit_duration, .25, na.rm = TRUE)
+Q3 <- quantile(labmindp$Visit_duration, .75, na.rm = TRUE)
+IQR <- IQR(labmindp$`Visit_duration`, na.rm = TRUE)
+
+
+#only keep rows in dataframe that have values within 1.5*IQR of Q1 and Q3
+LCD <- subset(labmindp, labmindp$`Visit_duration`> (Q1 - 1.5*IQR) & labmindp$`Visit_duration`< (Q3 + 1.5*IQR))
+
+
+
+#LCD$stats <- case_when(LCD$`Course` %in% Slist == TRUE ~ 1, LCD$`Course` %in% Mlist == TRUE  ~ 0 )
+
+
+
+
+
+LCDAVG <- LCD
+
+
+LCDISD <- filter(LCD, LCD$`Course` %in% Slist == TRUE)
+LCDNSD <- filter(LCD, LCD$`Course` %in% Mlist == TRUE)
+LCDNMath <- filter(LCD, LCD$`Course` %in% Mlist == FALSE & LCD$`Course` %in% Slist == FALSE)
+
+```
+
+***
+date <- LCDAVG$DateTime
+
+#date <- str_replace_all(date, "/", "-")
+#labmin %>% separate(labmin$Check_In, c("Hour", "Min"))
+
+df <- x
+            
+
+#View(date)
+
+start <- as.character(format(as.Date(min(df$date))),"yyyy-mm-dd") # Start 
+end = as.character(format((max(df$date))),"yyyy-mm-dd") # End 
+min = as.character(format(as.Date(min(df()$date))),"yyyy-mm-dd")
+max = as.character(format(as.Date(max(df()$date))),"yyyy-mm-dd")
+    
+date<- as.character(LCDNSD$Date)
+Checkin<- (LCDNSD$Check_In)
+Course <- LCDNSD$Course
+NonStats <- data.frame(date,Checkin,Course,stringsAsFactors = FALSE)
+x <- NonStats
+
+
+
+***
+
+
+## Including Plots
+
+### Overall sample
+
+```{r pressure, echo=FALSE}
+
+
+ggplot(LCDAVG, aes(x =as.numeric(LCDAVG$Check_In)))+
+  geom_histogram()+
+  facet_wrap(LCDAVG$Day_of_week)
+```
+
+
+### in stats
+
+```{r}
+ggplot(LCDISD, aes(x =as.numeric(LCDISD$Check_In)))+
+  geom_histogram()+
+  facet_wrap(LCDISD$Day_of_week)
+```
+
+### not in stats
+
+```{r}
+ggplot(LCDNSD, aes(x =as.numeric(LCDNSD$Check_In)))+
+  geom_histogram()+
+  facet_wrap(LCDNSD$Day_of_week)
+
+#favstats(as.numeric(LCD$Check_In)~ LCD$Day_of_week)
+```
+
+```{r}
+require(ggplot2)
+require(reshape2)
+#LCD
+#set.seed(1)
+
+
+#ggplot(melt(LCD), aes(value, fill = )) + geom_histogram(position = "dodge")
+
+```
+
+
+### Long Data
+
+```{r}
+library(reshape2)
+LCDAVG$index <- 1:nrow(LCDAVG)
+
+LCDLongCourse <- melt(LCDAVG,
+  id.vars=c("index"),
+  measure.vars=c("Course"),
+  variable.name="Factor-Course",value.name="Course")
+#INV_long$Year <- as.numeric(as.character(INV_long$Year))
+
+LCDLongVisit_duration <- melt(LCDAVG,
+  id.vars=c("index"),
+  measure.vars=c("Visit_duration"),
+  variable.name="Factor-Duration",value.name="Minutes")
+
+LCDLongCheck_In <- melt(LCDAVG,
+  id.vars=c("index"),
+  measure.vars=c("Check_In"),
+  variable.name="Factor-CheckIn",value.name="CheckIn")
+
+LCDLongDay_of_week <- melt(LCDAVG,
+  id.vars=c("index"),
+  measure.vars=c("Day_of_week"),
+  variable.name="Factor-Day",value.name="Day")
+
+LCDLongDate <- melt(LCDAVG,
+  id.vars=c("index"),
+  measure.vars=c("Date"),
+  variable.name="Factor-Date",value.name="Date")
+
+LCDLongCourseDuration <- merge(LCDLongCourse,LCDLongVisit_duration,by="index")
+LCDLongCheckInDayofWeek <- merge(LCDLongCheck_In,LCDLongDay_of_week,by="index")
+LCDLongCoDuDa <- merge(LCDLongCourseDuration,LCDLongDate,by="index")
+LCDLongMerge <- merge(LCDLongCoDuDa, LCDLongCheckInDayofWeek, by="index")
+
+barplot(table(LCDLongMerge$Course, LCDLongMerge$Day), beside=TRUE, col=c("firebrick","snow1"), legend.text=TRUE, xlab="Course")
+ggplot(mtcars, aes(x = factor(Day_of_week), fill = factor(Course), )
+       )+ 
+   geom_bar(position = "dodge", 
+color = "black")+ 
+   labs(x="Day_of_week")
+
+
+library(data.table)
+
+# get data
+  data("LCDAVG")
+LCDAVG_ND <- LCDAVG[-c(13)]
+# transpose
+  L_LCD <- transpose(LCDAVG_ND)
+
+# get row and colnames in order
+  colnames(L_LCD) <- rownames(LCDAVG_ND)
+
+```
+
+
+
+### Data 
+
+```{r data}
+LCDAVGs <- LCDAVG[sample(nrow(LCDAVG), 30), ]
+```
+
+```{r}
+pander(LCDAVGs)
+```

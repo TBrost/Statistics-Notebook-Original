@@ -1,0 +1,287 @@
+---
+title: "High School Seniors t Test"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(DT)
+library(dplyr)
+library(tidyr)
+library(readr)
+library(ggplot2)
+library(plotly)
+library(pander)
+library(car)
+
+HSS <- read_csv("../../Data/HighSchoolSeniors.csv")
+#Remember: select "Session, Set Working Directory, To Source File Location", and then play this R-chunk into your console to read the HSS data into R. 
+```
+
+<!-- Instructions
+
+1. Use the HSS dataset in R to come up with a question that can be answered with a t Test. 
+
+Here is a link to the survey given to the students that participated in the study:
+https://ww2.amstat.org/censusatschool/pdfs/C@SQuestionnaire.pdf
+(Use the link to learn about what each column of data in the data set represents.)
+
+2. Establish why your question is interesting and rephrase the question using a statistical "null" and "alternative" hypothesis. (Hint, see the "Math 325 Notebook -> R Help -> R-Markdown Hints" page of your textbook for instructions on how to write mathematical hypotheses.)
+
+3. Clearly answer your question using statistics. Be sure to compute a p-value and provide supporting numerical and graphical summaries.
+
+Note: you can create "groups" from the data in many ways. For example, suppose you wanted to create a variable that grouped people according to whether they thought recycling was more important than conserving water. You could do this by:
+
+```{r}
+HSS <- HSS %>%
+  mutate(recycling_than_water = ifelse(Importance_recycling_rubbish >	Importance_conserving_water, "Recycling More Important", "Water Conservation More Important"))
+```
+
+-->
+
+```{r}
+#Clean data
+library(tidyr)
+HSS <-HSS %>% drop_na()
+
+library(dplyr)
+HSS$FamGroup <- case_when(HSS$Home_Occupants <= 3 ~ "Only Child", HSS$Home_Occupants == 4 ~ "Sibling Pair", HSS$Home_Occupants > 4 ~ "Large Family")
+
+
+#find Q1, Q3, and interquartile range for values in column family
+Q1 <- quantile(HSS$Doing_Things_With_Family_Hours, .25, na.rm = TRUE)
+Q3 <- quantile(HSS$Doing_Things_With_Family_Hours, .75, na.rm = TRUE)
+IQR <- IQR(HSS$Doing_Things_With_Family_Hours, na.rm = TRUE)
+
+#find Q1, Q3, and interquartile range for values in column Friends
+Q1.2 <- quantile(HSS$Hanging_Out_With_Friends_Hours, .25, na.rm = TRUE)
+Q3.2 <- quantile(HSS$Hanging_Out_With_Friends_Hours, .75, na.rm = TRUE)
+IQR.2 <- IQR(HSS$Hanging_Out_With_Friends_Hours, na.rm = TRUE)
+
+#only keep rows in dataframe that have values within 1.5*IQR of Q1 and Q3
+HSS_C <- subset(HSS, HSS$Doing_Things_With_Family_Hours> (Q1 - 1.5*IQR) & HSS$Doing_Things_With_Family_Hours< (Q3 + 1.5*IQR))
+HSS_C_ <- subset(HSS_C, HSS_C$Hanging_Out_With_Friends_Hours> (Q1 - 1.5*IQR.2) & HSS_C$Hanging_Out_With_Friends_Hours< (Q3 + 1.5*IQR.2))
+
+#view row and column count of new data frame
+#dim(no_outliers)
+```
+
+```{r}
+#Filter and get precleaned values
+HSS_C_ONly <- filter(HSS_C_, Home_Occupants <= 3)
+
+HSS_C_Sib <- filter(HSS_C_, Home_Occupants > 3 & Home_Occupants <= 4)
+
+HSS_C_Sibs <- filter(HSS_C_, Home_Occupants > 4)
+
+
+#mean(HSS_C_Sib$Sleep_Hours_Schoolnight, na.rm = TRUE)
+#mean(HSS_C_Sibs$Sleep_Hours_Schoolnight, na.rm = TRUE)
+#mean(HSS_C_ONly$Sleep_Hours_Schoolnight, na.rm = TRUE)
+
+#mean(HSS_C_ONly$Sleep_Hours_Non_Schoolnight, na.rm = TRUE)
+#mean(HSS_C_Sib$Sleep_Hours_Non_Schoolnight, na.rm = TRUE)
+#mean(HSS_C_Sibs$Sleep_Hours_Non_Schoolnight, na.rm = TRUE)
+ 
+
+#Pre cleaning values
+#Null More siblings <- More time with family
+#mean(HSS_C_$Doing_Things_With_Family_Hours, na.rm = TRUE)
+#17.25506
+#mean(HSS_C_Sib$Doing_Things_With_Family_Hours, na.rm = TRUE)
+#20.25258
+#mean(HSS_C_ONly$Doing_Things_With_Family_Hours, na.rm = TRUE)
+#13.28037
+#mean(HSS_C_Sibs$Doing_Things_With_Family_Hours, na.rm = TRUE)
+#27.96452
+
+
+#Null Less siblings <- More time with friends
+#mean(HSS_C_$Hanging_Out_With_Friends_Hours, na.rm = TRUE)
+#19.22778
+#mean(HSS_C_Sib$Hanging_Out_With_Friends_Hours, na.rm = TRUE)
+#23.17568
+#mean(HSS_C_ONly$Hanging_Out_With_Friends_Hours, na.rm = TRUE)
+#11.90094
+#mean(HSS_C_Sibs$Hanging_Out_With_Friends_Hours, na.rm = TRUE)
+#32.10127
+```
+## Backround 
+ Before conducting any visualization or analysis the data was cleaned be removing all significant outliers in both columns being tested. As well as the removal of all N/A responses within this columns. These actions reduced the orginal sample size from 500 observations down to 259 observations. The data was then split into three groups explained below.
+
+
+
+## Question: Does having more/less siblings affect the amount of time spent with Family vs. Friends?
+
+## Hypothesis: 
+ I think that having more siblings would result in more time per week spent with family and less time with friends since you have more people in your house to hangout with already. Although it might be interesting to see if for that same reason those with larger families try to leave the house more often so they can escape siblings and hangout with friends. Similarly I feel like those with fewer siblings will spend more time with friends because they have less people around in their house to begin with. 
+ 
+For testing purposes the results will be broken into three groups, Only children (82 observations), sibling pairs (94 observations), and large families (5+ members in the household, 83 observations). Three t-tests will be conducted for each group, comparing each variable between groups, between all groups, meaning six total.
+
+In each test the Null and alternative are as shown below:
+$$
+  H_0^1: \mu_1 - \mu_2= 0
+$$
+$$
+  H_a^1: \mu_1 - \mu_2 \neq 0
+$$
+$$
+  H_0^2: \mu_1 - \mu_3= 0
+$$
+
+$$
+  H_a^2: \mu_1 - \mu_3 \neq 0
+$$
+$$
+  H_0^3: \mu_2 - \mu_3= 0
+$$
+
+$$
+  H_a^3: \mu_2 - \mu_3 \neq 0
+$$
+
+μ1 representing the Sibling pair mean time spent with family/friends 
+ 
+μ2 representing the Only children mean time spent with family/friends
+
+μ3 representing the Large Families mean time spent with family/friends
+
+Significance level will be α=0.10.
+
+
+
+----
+
+## Time with Family vs Family Size:
+
+
+```{r}
+#Plots
+
+
+ p2 <- ggplot(HSS_C_, aes(x=FamGroup, y=Doing_Things_With_Family_Hours,fill = FamGroup))+
+  geom_boxplot(outlier.shape = NA)+
+  labs(title="How many hours a week do students spend \n with family based on Family size?", x="Size of Family", y="Hours/Week with Family")+
+  stat_summary(fun=mean, geom="point", shape=4, size=4, color="red", fill="red") +
+  coord_cartesian(ylim = c(0, 25))+
+  theme(plot.title = element_text(hjust = 0.5))
+ggplotly(p2)
+```
+ We can see here (interactive plot) that the sibling pair group actually reported the most time spent with family ~6.6 hours/week, and the large family group reported the least time spent with family ~5.5 hours/week. 
+
+----
+
+### T-Test Results for time spent with family vs Family size
+
+#### Sibling Pair vs Only child
+```{r}
+pander(t.test(HSS_C_Sib$Doing_Things_With_Family_Hours, HSS_C_ONly$Doing_Things_With_Family_Hours, paired = FALSE, mu = 0, alternative = "two.sided", conf.level = 0.9))
+
+```
+
+#### Sibling Pair vs Large Family
+```{r}
+pander(t.test(HSS_C_Sib$Doing_Things_With_Family_Hours, HSS_C_Sibs$Doing_Things_With_Family_Hours, paired = FALSE, mu = 0, alternative = "two.sided", conf.level = 0.9))
+
+```
+
+#### Large Family vs Only child
+```{r}
+pander(t.test(HSS_C_Sibs$Doing_Things_With_Family_Hours, 
+HSS_C_ONly$Doing_Things_With_Family_Hours, paired = FALSE, mu = 0, alternative = "two.sided", conf.level = 0.9))
+```
+
+#### QQ-Plots
+```{r}
+par(mfrow=c(1,3))
+qqPlot(HSS_C_ONly$Doing_Things_With_Family_Hours)
+qqPlot(HSS_C_Sib$Doing_Things_With_Family_Hours)
+qqPlot(HSS_C_Sibs$Doing_Things_With_Family_Hours)
+```
+
+----
+
+## Time spent with friends vs Family size:
+
+```{R}
+p1 <- ggplot(HSS_C_, aes(x=FamGroup, y=Hanging_Out_With_Friends_Hours, tooltip = Hanging_Out_With_Friends_Hours, fill = FamGroup))+
+  geom_boxplot(outlier.shape = NA)+
+  labs(title="How many hours a week do students hangout \n with friends based on Family size?", x="Size of Family", y="Hours/Week with Friends")+
+  stat_summary(fun=mean, geom="point", shape=4, size=4, color="red", fill="red") +
+  coord_cartesian(ylim = c(0, 30))+
+  theme(plot.title = element_text(hjust = 0.5))
+  
+ggplotly(p1)
+```
+
+Here we can see that the Large family group reported the most time spent with friends ~9 hours/week, and the only child group reported the least time spent with friends ~8.5 hours/week.
+### T-Test Results for time spent with Friends vs Family size
+
+#### Sibling Pair vs Only child
+```{r}
+
+#T-Tests for Friends
+pander(t.test(HSS_C_Sib$Hanging_Out_With_Friends_Hours, HSS_C_ONly$Hanging_Out_With_Friends_Hours, paired = FALSE, mu = 0, alternative = "two.sided", conf.level = 0.9))
+
+```
+
+#### Sibling Pair vs Large Family
+```{r}
+pander(t.test(HSS_C_Sib$Hanging_Out_With_Friends_Hours, HSS_C_Sibs$Hanging_Out_With_Friends_Hours, paired = FALSE, mu = 0, alternative = "two.sided", conf.level = 0.9))
+
+```
+
+#### Large Family vs Only child
+```{r}
+pander(t.test(HSS_C_Sibs$Hanging_Out_With_Friends_Hours, HSS_C_ONly$Hanging_Out_With_Friends_Hours, paired = FALSE, mu = 0, alternative = "two.sided", conf.level = 0.9))
+
+```
+
+
+#### QQ-Plots
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+par(mfrow=c(1,3))
+qqPlot(HSS_C_ONly$Hanging_Out_With_Friends_Hours)
+qqPlot(HSS_C_Sib$Hanging_Out_With_Friends_Hours)
+qqPlot(HSS_C_Sibs$Hanging_Out_With_Friends_Hours)
+
+```
+
+----
+## Analysis
+In both test sections, all qqplots contain data points outside the accepted range but all given that each tests "n" values were greater than 80 it is assumed conditions for t-tests are met and that the values represent the true population values.
+  
+### Time with Family
+ No test showed significant values, the most extreme being that of large families vs siblings pairs with  a p value of 0.159. 
+
+### Time with Friends
+ No test showed significant values, the most extreme again being that of large families vs siblings pairs with  a p value of 0.5844. 
+
+## Interpreation of results:
+
+  Given no results show significant differences we fail to reject the Null Hypothesis on all six accounts. Small variations in patterns where observed within the sample set but none of these where significant beyond a level of α=0.16. The conclusion of these results is that regardless of family size, highschool students spend similar amounts of time with friends and with family per week.
+  
+The Values for these tests are shown here:
+  
++---------------+---------------+--------------------+--------------------+
+| Test / Group  | Large Family  | Only Child         | Sibling Pair       |
++===============+===============+====================+====================+
+| Hours Spent   | 9.05          | 8.52               | 8.52               |
+| With Friends  |               |                    |                    |
++---------------+---------------+--------------------+--------------------+
+| Hours Spent   | 5.45          | 6.35               | 6.58               |
+| With Family   |               |                    |                    |
++---------------+---------------+--------------------+--------------------+
+
+
+
+
+
+
+
+
+
+

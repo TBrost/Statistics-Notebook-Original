@@ -1,0 +1,79 @@
+name: "statistics-notebook"
+navbar:
+  title: "Statistics Notebook"
+  left:
+    - text: "R Help"
+      menu:
+        - text: "R Commands"
+          href: RCommands.html
+        - text: "R Markdown Hints"
+          href: RMarkdownHints.html
+        - text: "R Cheatsheets & Notes"
+          href: RCheatSheetsAndNotes.html
+        - text: "Data Sources"
+          href: DataSources.html
+    - text: "Describing Data"
+      menu:
+        - text: "Graphical Summaries"
+          href: GraphicalSummaries.html
+        - text: "Numerical Summaries"
+          href: NumericalSummaries.html
+    - text: "Making Inference"
+      menu:
+        - text: "Making Inference"
+          href: MakingInference.html
+        - text: "t Tests"
+          href: tTests.html
+        - text: "Wilcoxon Tests"
+          href: WilcoxonTests.html
+        - text: "ANOVA"
+          href: ANOVA.html
+        - text: "Kruskal-Wallis"
+          href: Kruskal.html
+        - text: "Linear Regression"
+          href: LinearRegression.html
+        - text: "Logistic Regression"
+          href: LogisticRegression.html
+        - text: "Chi Squared Tests"
+          href: ChiSquaredTests.html
+        - text: "Randomization Testing"
+          href: PermutationTests.html
+    - text: "Analyses"
+      menu:
+        - text: "Analysis Rubric"
+          href: ./Analyses/AnalysisRubric.html
+        - text: "Good Example Analysis"
+          href: ./Analyses/StudentHousing.html
+        - text: "Poor Example Analysis"
+          href: ./Analyses/StudentHousingPOOR.html
+        - text: "Rent"
+          href: ./Analyses/Rent.html
+        - text: "Stephanie"
+          href: ./Analyses/Stephanie.html
+        - text: "High School Seniors"
+          href: ./Analyses/t Tests/HighSchoolSeniors.html
+        - text: "Recalling Words"
+          href: ./Analyses/Wilcoxon Tests/RecallingWords.html
+        - text: "Day Care"
+          href: ./Analyses/ANOVA/DayCare.html
+        - text: "Food"
+          href: ./Analyses/Kruskal-Wallis/Food.html
+        - text: "My Simple Linear Regression"
+          href: ./Analyses/Linear Regression/MySimpleLinearRegression.html
+        - text: "Car Prices"
+          href: ./Analyses/Linear Regression/CarPrices.html
+        - text: "My Logistic Regression"
+          href: ./Analyses/Logistic Regression/MyLogisticRegression.html
+        - text: "My Chi-sqaured Test"
+          href: ./Analyses/Chi Squared Tests/MyChiSquaredTest.html
+
+
+          
+output_dir: '.'
+
+output: 
+  html_document:
+    theme: cerulean
+    css: styles.css
+    highlight: tango
+  

@@ -1,0 +1,201 @@
+---
+title: "My Simple Logistic Regression"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+<!-- Find some data of interest to you that can be analyzed with a logistic regression. Complete your Logistic Regression Analysis using this file. 
+
+Hint, run the command 
+
+> data() 
+
+in your Console to see available datasets in R that you could use for this Analysis. You are also welcome to collect data yourself, or find other available datasets online for this Analysis. Just be careful to not use anyone else's "analysis" for this Analysis. Also, no conducting surveys unless you have IRB approval to do so. -->
+
+```{r, include=FALSE}
+library(mosaic)
+library(ResourceSelection) 
+library(car)
+library(tidyverse)
+library(DT)
+library(pander)
+library(ggplot2)
+library(readr)
+```
+## Background
+
+In the university Math Study center around 130 students are seen per day, These students come in to the study center for various reasons but they are all related in some way to math. I obtained data from the faculty supervisors on student attendance of the lab as well as 1-on-1 tutoring appointments. I wanted to determine if using time spent in the Math lab (Study center) is a valid way to predict what type of math a student was working on in the lab. I will attempt to do this by using the time spent in in the lab (minutes), and the course a student attended the lab for. I work in the lab as a statistics tutor and I've always felt like students who come in for a stats based course spend a bit more time in the lab than those who come in to study algebra or calculus. 
+
+*Note:* 
+Students who forget to sign out of the lab have their time set to equal 60 minutes. I will use this when I split the data into stats vs non stats groups the conditionally change the time spend value for students with a time equal to 60 minutes to the average time spent by students in that group who did remember to sign out. This is the reason that a significant count of obvservations show as either 57 or 59 minutes in the final dataframe.
+
+
+## Hypothese and Logistic Regression Model
+As I wish to know if stats based courses, a categorical grouping, spend more time in the lab, a quantitative measurement of time, I will let the binary variable Y = 1 when a student is in a non-stats based math course and 0 when they are in a stats based course. Students attend the lab for various other courses ranging from accounting to chemistry to art, but these are extreme in variety and represent only about 250 out of 8000 students in my sample, thus I will be leaving them out of my analysis.
+
+The following logistic regression model will be used:
+
+$$
+  P(Y_i = 1|\, x_i) = \frac{e^{\beta_0 + \beta_1 x_i}}{1+e^{\beta_0 + \beta_1 x_i}} = \pi_i
+$$
+
+Where for i observation:
+
+* Yi = 1 indicates a student attending the lab for a MATH course that is not stats based (MATH 100, MATH 215, etc),
+* Yi = 0 indicates a student attending the lab for a MATH course that is stats based (MATH 221, MATH 325, etc), and
+* xi indicates the amount of time for which a student was checked in to math lab.
+
+If B1 in our model is equal to zero this would indicate that xi (time spent in the lab) gives us no information on what type of math class a student is more likely attending for. Thus my hypotheses are as follows:
+$$
+\begin{array}{ll}
+H_0: \beta_1 = 0\\
+H_a: \beta_1 \neq 0\ 
+\end{array}
+$$
+
+
+$$
+\alpha = 0.05
+$$
+
+
+
+
+## {.tabset .tabset-pills .tabset-fade}
+
+
+```{r message=FALSE, warning=FALSE, paged.print=TRUE}
+lab <- read_csv("C:/Users/user/OneDrive/Desktop/Stats stuff/325 book/Statistics-Notebook-master/CenterVisitReportSPLIT.csv")
+
+labmin <- filter(lab, `Visit_duration` >= 1)
+labmin <- labmin[ -c(9) ]
+
+Slist <- c("MATH 221A", "MATH 221B", "MATH 221C", "MATH 325", "MATH 425", "MATH 326")
+Mlist <- c("MATH 100A", "MATH 100B", "MATH 101", "MATH 108X", "MATH 109", "MATH 110X", "MATH 111", "MATH 112X", "MATH 113", "MATH 119", "MATH 191", "MATH 205", "MATH 214","MATH 215", "MATH 275", "MATH 280", "MATH 316", "MATH 330", "MATH 340", "MATH 341", "MATH 350")
+
+
+```
+
+
+
+```{r message=FALSE, warning=FALSE, paged.print=TRUE}
+library(tidyr)
+library(dplyr)
+labmindi <- filter(labmin, labmin$`Slot _Type` == "DropIn")
+labmindp <-labmindi
+labmindp$nonmath <- case_when(labmindp$`Course` %in% Slist == FALSE & labmindp$`Course` %in% Mlist == FALSE ~ 1, labmindp$`Course` %in% Slist == TRUE | labmindp$`Course` %in% Mlist == TRUE ~ 0)
+
+labmindp <-labmindp[!(labmindp$nonmath == 1),]
+#find Q1, Q3, and interquartile range for values in column family
+Q1 <- quantile(labmindp$`Visit_duration`, .25, na.rm = TRUE)
+Q3 <- quantile(labmindp$`Visit_duration`, .75, na.rm = TRUE)
+IQR <- IQR(labmindp$`Visit_duration`, na.rm = TRUE)
+
+
+#only keep rows in dataframe that have values within 1.5*IQR of Q1 and Q3
+LCD <- subset(labmindp, labmindp$`Visit_duration`> (Q1 - 1.5*IQR) & labmindp$`Visit_duration`< (Q3 + 1.5*IQR))
+
+
+
+LCD$stats <- case_when(LCD$`Course` %in% Slist == TRUE ~ 1, LCD$`Course` %in% Mlist == TRUE  ~ 0 )
+
+```
+
+
+```{r message=FALSE, warning=FALSE, paged.print=TRUE}
+LCDIS <- filter(LCD, LCD$`Course` %in% Slist == TRUE & LCD$`Visit_duration` !=60)
+LCDNS <- filter(LCD, LCD$`Course` %in% Mlist == TRUE & LCD$`Visit_duration` !=60)
+LCDISD <- filter(LCD, LCD$`Course` %in% Slist == TRUE)
+LCDNSD <- filter(LCD, LCD$`Course` %in% Mlist == TRUE) 
+```
+
+
+```{r message=FALSE, warning=FALSE, paged.print=TRUE}
+#favstats(LCDIS$`Visit_duration`)
+#mean in stats 59.23
+#favstats(LCDNS$`Visit_duration`)
+#mean not in stats 57.89
+
+#hist(LCDNSD$`Visit_duration`)
+#hist(LCDISD$`Visit_duration`)
+
+
+LCDAVG <- LCD
+LCDAVG$`Visit_duration` <- case_when(LCD$`Course` %in% Slist == TRUE & LCD$`Visit_duration` ==60 ~ 59.23, 
+                                                  LCD$`Course` %in% Mlist == TRUE & LCD$`Visit_duration` ==60 ~ 57.89, 
+                                                  LCD$`Course` %in% Mlist == FALSE & LCD$`Course` %in% Slist == FALSE ~ LCD$`Visit_duration`,
+                                                  LCD$`Visit_duration` !=60 ~ LCD$`Visit_duration` )
+
+#labmindiAVG$`Visit_duration` <- case_when(labmindi$`Course` %in% clist == TRUE & labmindi$`Visit_duration` ==60 ~ 65.27,labmindi$`Course` %in% clist == FALSE & labmindi$`Visit_duration` ==60 ~ 64.27, labmindi$`Visit_duration` !=60 ~ labmindi$`Visit_duration`)
+```
+
+### Data 
+
+```{r}
+datatable(LCDAVG)
+```
+
+
+### Data Summary
+```{r}
+favstats(`Visit_duration` ~ `stats`, data = LCDAVG)%>%
+pander(caption="Time spent in lab for students working ona stats related course or not.")
+hist(LCDISD$`Visit_duration`, main= "Time spent in lab for students working on a stats related course.", col="blue3", xlab="Time in Minutes",)
+
+hist(LCDNSD$`Visit_duration`, main= "Time spent in lab for students working on a non-stats related course.", col="orange3", xlab="Time in Minutes",)
+
+```
+
+### Regression Test
+Here are the results from a regression test on the data based on course topics and time spent in the math study center.
+
+```{r message=FALSE, warning=FALSE, paged.print=TRUE}
+LCDavg.glm <- glm(LCDAVG$`stats` ~ LCDAVG$`Visit_duration`, data = LCDAVG,
+                    family=binomial)
+summary(LCDavg.glm)%>%
+pander(caption= "Time in Math lab vs Course topic")
+#P = 0.00673
+```
+
+### Assumptions and Regression Model
+
+As the data contains a high volume of repeated values I will use the pchisq test to check the usability of the results above.
+Below are the results from this test using a residual deviance of 3348, and 3831 degrees of residual freedom.
+```{r message=FALSE, warning=FALSE, paged.print=TRUE}
+pchisq(3348, df=3831, lower.tail=FALSE)%>%
+pander(caption= "Pchisq Test for validity")
+#1
+```
+Based on the resulting value of 1, we have sufficient evidence to conclude that are results are valid based on the use of the pchisq test. We can continue to use them in our analysis and predictions should we desire.
+
+
+#### Model
+Given our test result values and the positive conclusion from our assumptions test we will now build the model below, where xi is the number of minutes spent in the lab by a student and P is the probability that that student is attending for a stats based course.
+$$
+  P(Y_i = 1|\, x_i) = \frac{e^{-1.849 + 0.00296 x_i}}{1+e^{-1.849 + 0.00296 x_i}} = \pi_i
+$$
+
+
+### Regression Plot and Conclusions
+
+Here is a plot of the regression analysis, as a result of the high sample volume I have added a transparency factor to the points allowing a better visualization of observation volume at different levels of time. As shown above in our tests, there does appear to be a relationship between time spend and type of math worked on within the math lab, pointing towards longer time spend correlating with stats focused courses (Y=1 -> stats based course).
+```{r,message=FALSE, warning=FALSE, paged.print=TRUE}
+ggplot(data=LCDAVG, aes(x=`Visit_duration`,y=`stats`)) +
+  geom_point(color=rgb(.8,.4,.1,.025)) +
+  geom_smooth(method="glm",method.args = list(family="binomial"), se=FALSE) +
+  theme_bw()
+```
+
+
+#### Conclusions
+With a P-value of 0.0286 obtained from our test, I can reject the null hypothesis, and say I have sufficient evidence that there is a positive correlation between the odds of a student studying/working on statistics and the amount of time they spend in the math study center.
+
+
+
+
+
+
+
+##
