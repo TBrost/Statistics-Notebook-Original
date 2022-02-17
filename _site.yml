@@ -68,27 +68,27 @@ navbar:
           href: ./Analyses/Chi Squared Tests/MyChiSquaredTest.html
     - text: "Rscripts"
       menu:
-        - text: "Analysis Rubric"
+        - text: "Demand Script (HCF)"
           href: ./Scripts/Adjust demand script.R
-        - text: "Good Example Analysis"
+        - text: "Chi Square Review"
           href: ./Scripts/ChiSquareScript.R
-        - text: "Poor Example Analysis"
+        - text: "Format Inventory"
           href: ./Scripts/FormatINV.R
-        - text: "Rent"
+        - text: "Hot cup graphs"
           href: ./Scripts/Graphs.R
-        - text: "Stephanie"
+        - text: "Group filter (HCF)"
           href: ./Scripts/Group_Update.R
-        - text: "High School Seniors"
+        - text: "Logistic Review"
           href: ./Scripts/LogisticScript.R
-        - text: "Recalling Words"
+        - text: "Log review 2"
           href: ./Scripts/LogisticScriptlab.R
-        - text: "Day Care"
+        - text: "Permutations"
           href: ./Scripts/Permutations.R
-        - text: "Food"
+        - text: "Practice Exam 1"
           href: ./Scripts/Practice exam.R
-        - text: "My Simple Linear Regression"
+        - text: "Practice exam 2"
           href: ./Scripts/Practice2.R
-        - text: "Car Prices"
+        - text: "Regression 2"
           href: ./Scripts/regressionscript.R
           
 output_dir: '.'
