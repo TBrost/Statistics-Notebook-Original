@@ -1,0 +1,92 @@
+---
+title: "W5T1"
+author: "Tyson Brost"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r load_libraries, include=FALSE}
+# Use this R-Chunk to load all your libraries!
+#install.packages("tidyverse") # run this line once in console to get package
+library(tidyverse)
+library(readr)
+library(stringr)
+library(reshape2)
+library(ggplot2)
+devtools::install_github('Ather-Energy/ggTimeSeries')
+library(ggTimeSeries)
+library(mosaic)
+#install.packages("mosaic")
+```
+
+```{r load_data}
+# Use this R-Chunk to import all your datasets!
+devtools::install_github("drsimonj/ourworldindata")
+#install.packages("devtools")
+library(devtools)
+childMortality <- ourworldindata::child_mortality
+```
+
+## Background
+
+Take notes on your reading of the specified ‘R for Data Science’ chapter in the README.md or in a ‘.R’ script in the class task folder.
+Explore the world data on child_mortality and create an interesting graphic that highlights this dataset.
+Use devtools::install_github("drsimonj/ourworldindata") to get a larger dataset on child_mortality. This will require install.packages("devtools").
+Create a graphic that you could use in a presentation to summarize world child mortality.
+Include your plots in an .Rmd file with short paragraph describing your plots.
+Knit your .Rmd and push the files it generates to your GitHub repo.
+
+## Data Wrangling
+
+```{r tidy_data}
+# Use this R-Chunk to clean & wrangle your data!
+childMortality$continent <- as.factor(childMortality$continent)
+childMortality$country <- as.factor(childMortality$country)
+
+childMortality <- filter(childMortality, year >= 1900)
+childMortality <- childMortality %>% drop_na(child_mort)
+childMortality <- childMortality %>% drop_na(continent)
+#means <- favstats(child_mort ~ continent, data=childMortality)
+means <- childMortality %>% 
+        group_by(continent, year) %>% 
+        summarise(childmortM = mean(child_mort))
+
+
+#I need to learn how to do a dynamic case when so I can run this by year
+#childMortalityContM <- case_when(childMortality$continent == "Africa" ~ 270.1261,(childMortality$continent == "Asia" ~ 270.1261)
+```
+
+## Data Visualization
+
+```{r plot_data}
+# Use this R-Chunk to plot & visualize your data!
+ggplot(data=means, ) +
+    geom_area(aes(x=year, y=childmortM, fill= continent)) +
+    theme_bw() +
+    facet_wrap(~continent) +
+    theme(
+      panel.spacing = unit(0.5, "lines"),
+      axis.ticks.x=element_blank()
+    )+ 
+  labs(fill = "Continent", title= "Average Child mortality by Continent since 1900")+ 
+  xlab("Year") + ylab("Child Mortality (Avg)")
+
+#ggplot(childMortality, aes(x = year, y = mean(child_mort), group = continent, fill = continent))+
+  #geom_area()+
+# facet_wrap(~continent)+
+ #stat_steamgraph()
+```
+
+## Conclusions
