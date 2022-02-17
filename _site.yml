@@ -55,9 +55,9 @@ navbar:
         - text: "Recalling Words"
           href: ./Analyses/Wilcoxon Tests/RecallingWords.html
         - text: "Day Care"
-          href: ./Analyses/ANOVA/DayCare.html
+          href: ./Analyses/ANOVA/Examples/DayCare.html
         - text: "Food"
-          href: ./Analyses/Kruskal-Wallis/Food.html
+          href: ./Analyses/Kruskal-Wallis Test/Food.html
         - text: "My Simple Linear Regression"
           href: ./Analyses/Linear Regression/MySimpleLinearRegression.html
         - text: "Car Prices"
@@ -66,8 +66,30 @@ navbar:
           href: ./Analyses/Logistic Regression/MyLogisticRegression.html
         - text: "My Chi-sqaured Test"
           href: ./Analyses/Chi Squared Tests/MyChiSquaredTest.html
-
-
+    - text: "Rscripts"
+      menu:
+        - text: "Analysis Rubric"
+          href: ./Scripts/Adjust demand script.R
+        - text: "Good Example Analysis"
+          href: ./Scripts/ChiSquareScript.R
+        - text: "Poor Example Analysis"
+          href: ./Scripts/FormatINV.R
+        - text: "Rent"
+          href: ./Scripts/Graphs.R
+        - text: "Stephanie"
+          href: ./Scripts/Group_Update.R
+        - text: "High School Seniors"
+          href: ./Scripts/LogisticScript.R
+        - text: "Recalling Words"
+          href: ./Scripts/LogisticScriptlab.R
+        - text: "Day Care"
+          href: ./Scripts/Permutations.R
+        - text: "Food"
+          href: ./Scripts/Practice exam.R
+        - text: "My Simple Linear Regression"
+          href: ./Scripts/Practice2.R
+        - text: "Car Prices"
+          href: ./Scripts/regressionscript.R
           
 output_dir: '.'
 

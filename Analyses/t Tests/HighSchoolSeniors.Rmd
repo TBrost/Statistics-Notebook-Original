@@ -43,6 +43,15 @@ HSS <- HSS %>%
 -->
 
 ```{r}
+Kids2 <- HSS %>% 
+   filter(Home_Occupants == 3) %>% 
+   select(c(Country, Gender))    
+
+```
+
+
+
+```{r}
 #Clean data
 library(tidyr)
 HSS <-HSS %>% drop_na()

@@ -10,7 +10,7 @@ This page, and all pages of this notebook, are meant to be customized to become 
 
 <div style="font-size:.8em;"><!-- Code to shrink font-size of following paragraph -->
 
-To begin customizing, [download](https://github.com/saundersg/Statistics-Notebook) your own copy of the book <span style="font-size:.8em;">(if you haven't already)</span>. Please note the [GNU General Public License](https://choosealicense.com/licenses/gpl-3.0/) when downloading. You are free to delete this commentary in your own copy of the notebook.
+
 
 </div><!-- Ends smaller font-size section -->
 
@@ -78,9 +78,7 @@ My stuff from work and other random commands; [link](https://docs.google.com/spr
 
 
 
- - T-Test
- - Paired T-Test
- - Signed Rank
+
 
 
 
@@ -107,7 +105,8 @@ My stuff from work and other random commands; [link](https://docs.google.com/spr
 
 One sample T-tests, [one sample ttest](tTests.html#one-sample-t-test) are usually good to use here when data is normal and sample sizes are large. When dealing with non-parametric distributions or with very small (2-6) sample sizes a wilcoxon test is likely a better fit.
 
-
+ - Paired T-Test
+ - Signed Rank
 
 
 
@@ -142,8 +141,7 @@ One sample T-tests, [one sample ttest](tTests.html#one-sample-t-test) are usuall
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
- - Ind-T
- - Rank Sum (Wilcoxon/Kruskal)
+
 
 
 
@@ -174,7 +172,8 @@ One sample T-tests, [one sample ttest](tTests.html#one-sample-t-test) are usuall
 <!-- Add your customizations in the area below: -->
 
 
-
+ - Ind-T
+ - Rank Sum (Wilcoxon/Kruskal)
 
 
 
@@ -206,8 +205,6 @@ One sample T-tests, [one sample ttest](tTests.html#one-sample-t-test) are usuall
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
- - Anova
- - Block
 
 
 
@@ -234,7 +231,9 @@ One sample T-tests, [one sample ttest](tTests.html#one-sample-t-test) are usuall
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
-Add your own notes about appropriate inferential procedures for this type of data here.
+
+ - Anova
+ - Block
 
 
 
@@ -263,7 +262,6 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
- - Anova (Two way)
 
 
 
@@ -290,8 +288,8 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
-Add your own notes about appropriate inferential procedures for this type of data here.
 
+ - Anova (Two way)
 
 
 
@@ -317,7 +315,6 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
- - Simple Linear Regression
 
 
 
@@ -338,7 +335,8 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
-Add your own notes about appropriate inferential procedures for this type of data here.
+ - Simple Linear Regression
+
 
 
 
@@ -364,7 +362,7 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
- - Multiple Linear Regression
+
 
 
 
@@ -385,7 +383,7 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
-Add your own notes about appropriate inferential procedures for this type of data here.
+ - Multiple Linear Regression
 
 
 
@@ -411,7 +409,6 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
- - Simple Logistic
 
 
 
@@ -430,7 +427,8 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
-Add your own notes about appropriate inferential procedures for this type of data here.
+
+ - Simple Logistic
 
 
 
@@ -456,7 +454,7 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
- - Multiple Logistic
+
 
 
 
@@ -475,7 +473,7 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
-Add your own notes about appropriate inferential procedures for this type of data here.
+ - Multiple Logistic
 
 
 
@@ -501,7 +499,6 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
- - Chi Square
 
 
 
@@ -519,7 +516,8 @@ Add your own notes about appropriate inferential procedures for this type of dat
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 
-Add your own notes about appropriate inferential procedures for this type of data here.
+
+ - Chi Square
 
 
 

@@ -425,7 +425,7 @@ $(document).ready(function () {
       <a href="./Analyses/Wilcoxon Tests/RecallingWords.html">Recalling Words</a>
     </li>
     <li>
-      <a href="./Analyses/ANOVA/HighSchoolSeniors2.html">Anova Highschool</a>
+      <a href="./Analyses/ANOVA/Examples/DayCare.html">Day Care</a>
     </li>
     <li>
       <a href="./Analyses/Kruskal-Wallis Test/Food.html">Food</a>
@@ -442,50 +442,47 @@ $(document).ready(function () {
     <li>
       <a href="./Analyses/Chi Squared Tests/MyChiSquaredTest.html">My Chi-sqaured Test</a>
     </li>
-    <li>
-      <a href="./Analyses/Consulting/Consulting.html">My Consulting</a>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Making Inference
+    Rscripts
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="./Scripts/Adjust demand script.R">Demand script</a>
+      <a href="./Scripts/Adjust demand script.R">Analysis Rubric</a>
     </li>
     <li>
-      <a href="./Scripts/ChiSquareScript.R">Chisquare</a>
+      <a href="./Scripts/ChiSquareScript.R">Good Example Analysis</a>
     </li>
     <li>
-      <a href="./Scripts/FormatINV.R">Format</a>
+      <a href="./Scripts/FormatINV.R">Poor Example Analysis</a>
     </li>
     <li>
-      <a href="./Scripts/Graphs.R">graphs</a>
+      <a href="./Scripts/Graphs.R">Rent</a>
     </li>
     <li>
-      <a href="./Scripts/Group_Update.R">Grouping</a>
+      <a href="./Scripts/Group_Update.R">Stephanie</a>
     </li>
     <li>
-      <a href="./Scripts/Logisticcript.R">Logistic</a>
+      <a href="./Scripts/LogisticScript.R">High School Seniors</a>
     </li>
     <li>
-      <a href="./Scripts/LogisticScriptlab.R">Logisticlab</a>
+      <a href="./Scripts/LogisticScriptlab.R">Recalling Words</a>
     </li>
     <li>
-      <a href="./Scripts/Permutations.R">Permutation</a>
+      <a href="./Scripts/Permutations.R">Day Care</a>
     </li>
     <li>
-      <a href="./Scripts/regressionscript.R">Regression</a>
+      <a href="./Scripts/Practice exam.R">Food</a>
     </li>
     <li>
-      <a href="./Scripts/Practice exam.R">Practice 1</a>
+      <a href="./Scripts/Practice2.R">My Simple Linear Regression</a>
     </li>
     <li>
-      <a href="./Scripts/Practice2.R">Practice 2</a>
+      <a href="./Scripts/regressionscript.R">Car Prices</a>
     </li>
   </ul>
 </li>
@@ -512,7 +509,6 @@ $(document).ready(function () {
 <p>This page, and all pages of this notebook, are meant to be customized to become a useful <em>Guide to Statistical Analysis</em> in R for your <em>current</em> and <em>future</em> self.</p>
 <div style="font-size:.8em;">
 <!-- Code to shrink font-size of following paragraph -->
-<p>To begin customizing, <a href="https://github.com/saundersg/Statistics-Notebook">download</a> your own copy of the book <span style="font-size:.8em;">(if you haven’t already)</span>. Please note the <a href="https://choosealicense.com/licenses/gpl-3.0/">GNU General Public License</a> when downloading. You are free to delete this commentary in your own copy of the notebook.</p>
 </div>
 <!-- Ends smaller font-size section -->
 </div>
@@ -553,11 +549,6 @@ $(document).ready(function () {
 <h3>Graphics</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<ul>
-<li>T-Test</li>
-<li>Paired T-Test</li>
-<li>Signed Rank</li>
-</ul>
 <p><a href="GraphicalSummaries.html#histogram"> <img class="myhover" src="Images/histogram.png" alt="Histogram" title="Histogram"> </a> <a href="GraphicalSummaries.html#dot-plots"> <img class="myhover" src="Images/dotplotsingle.png" alt="Dot Plot" title="Dot Plot"> </a> <a href="GraphicalSummaries.html#boxplots"> <img class="myhover" src="Images/boxplotsingle.png" alt="Boxplot" title="Boxplot"> </a></p>
 <!--- End your notes before here.  ------------------>
 </div>
@@ -567,6 +558,10 @@ $(document).ready(function () {
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
 <p>One sample T-tests, <a href="tTests.html#one-sample-t-test">one sample ttest</a> are usually good to use here when data is normal and sample sizes are large. When dealing with non-parametric distributions or with very small (2-6) sample sizes a wilcoxon test is likely a better fit.</p>
+<ul>
+<li>Paired T-Test</li>
+<li>Signed Rank</li>
+</ul>
 <!--- End of Add content area.  ------------------>
 </div>
 </div>
@@ -586,10 +581,6 @@ $(document).ready(function () {
 <h3>Graphics</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<ul>
-<li>Ind-T</li>
-<li>Rank Sum (Wilcoxon/Kruskal)</li>
-</ul>
 <p><a href="GraphicalSummaries.html#boxplots"> <img class="myhover" src="Images/boxplot.png" alt="Side-by-side Boxplots" title="Side-by-side Boxplots"> </a> <a href="GraphicalSummaries.html#dot-plots"> <img class="myhover" src="Images/dotplotdouble.png" alt="Dot Plot" title="Side-by-side Dot Plots"> </a></p>
 <!--- End of Add content area.  ------------------>
 </div>
@@ -598,6 +589,10 @@ $(document).ready(function () {
 <h3>Tests</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
+<ul>
+<li>Ind-T</li>
+<li>Rank Sum (Wilcoxon/Kruskal)</li>
+</ul>
 <!--- End of Add content area.  ------------------>
 </div>
 </div>
@@ -618,10 +613,6 @@ $(document).ready(function () {
 <h3>Graphics</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<ul>
-<li>Anova</li>
-<li>Block</li>
-</ul>
 <p><a href="GraphicalSummaries.html#boxplots"> <img class="myhover" src="Images/boxplotthree.png" alt="Side-by-side Boxplots" title="Side-by-side Boxplots 3+ Groups"> </a> <a href="GraphicalSummaries.html#dot-plots"> <img class="myhover" src="Images/dotplottriple.png" alt="Side-by-side Dot Plots" title="Side-by-side Dot Plots 3+ Groups"> </a></p>
 <!--- End of Add content area.  ------------------>
 </div>
@@ -630,7 +621,10 @@ $(document).ready(function () {
 <h3>Tests</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<ul>
+<li>Anova</li>
+<li>Block</li>
+</ul>
 <!--- End of Add content area.  ------------------>
 </div>
 </div>
@@ -651,9 +645,6 @@ $(document).ready(function () {
 <h3>Graphics</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<ul>
-<li>Anova (Two way)</li>
-</ul>
 <p><a href="GraphicalSummaries.html#boxplots"> <img class="myhover" src="Images/boxplotthree.png" alt="Side-by-side Boxplots" title="Side-by-side Boxplots 3+ Groups"> </a> <a href="GraphicalSummaries.html#dot-plots"> <img class="myhover" src="Images/dotplottriple.png" alt="Side-by-side Dot Plots" title="Side-by-side Dot Plots 3+ Groups"> </a></p>
 <!--- End of Add content area.  ------------------>
 </div>
@@ -662,7 +653,9 @@ $(document).ready(function () {
 <h3>Tests</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<ul>
+<li>Anova (Two way)</li>
+</ul>
 <!--- End of Add content area.  ------------------>
 </div>
 </div>
@@ -683,9 +676,6 @@ $(document).ready(function () {
 <h3>Graphics</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<ul>
-<li>Simple Linear Regression</li>
-</ul>
 <p><a href="GraphicalSummaries.html#scatterplots"> <img class="myhover" src="Images/scatterplot.png" alt="Scatterplot" title="Scatterplot"> </a></p>
 <!--- End of Add content area.  ------------------>
 </div>
@@ -694,7 +684,9 @@ $(document).ready(function () {
 <h3>Tests</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<ul>
+<li>Simple Linear Regression</li>
+</ul>
 <!--- End of Add content area.  ------------------>
 </div>
 </div>
@@ -715,9 +707,6 @@ $(document).ready(function () {
 <h3>Graphics</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<ul>
-<li>Multiple Linear Regression</li>
-</ul>
 <p><a href="GraphicalSummaries.html#scatterplots"> <img class="myhover" src="Images/scatterplotmany.png" alt="Scatterplot" title="Scatterplot with Color and Sizing"> </a></p>
 <!--- End of Add content area.  ------------------>
 </div>
@@ -726,7 +715,9 @@ $(document).ready(function () {
 <h3>Tests</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<ul>
+<li>Multiple Linear Regression</li>
+</ul>
 <!--- End of Add content area.  ------------------>
 </div>
 </div>
@@ -747,9 +738,6 @@ $(document).ready(function () {
 <h3>Graphics</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<ul>
-<li>Simple Logistic</li>
-</ul>
 <p><a href="GraphicalSummaries.html#scatterplots"> <img class="myhover" src="Images/scatterplotbinomY.png" alt="Scatterplot with Binomial Y" title="Scatterplot with Binomial Y"> </a></p>
 <!--- End of Add content area.  ------------------>
 </div>
@@ -758,7 +746,9 @@ $(document).ready(function () {
 <h3>Tests</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<ul>
+<li>Simple Logistic</li>
+</ul>
 <!--- End of Add content area.  ------------------>
 </div>
 </div>
@@ -779,9 +769,6 @@ $(document).ready(function () {
 <h3>Graphics</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<ul>
-<li>Multiple Logistic</li>
-</ul>
 <p><a href="GraphicalSummaries.html#scatterplots"> <img class="myhover" src="Images/scatterplotbinomYmult.png" alt="Scatterplot with Binomial Y" title="Scatterplot with Binomial Y, including coloring and shading"> </a></p>
 <!--- End of Add content area.  ------------------>
 </div>
@@ -790,7 +777,9 @@ $(document).ready(function () {
 <h3>Tests</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<ul>
+<li>Multiple Logistic</li>
+</ul>
 <!--- End of Add content area.  ------------------>
 </div>
 </div>
@@ -811,9 +800,6 @@ $(document).ready(function () {
 <h3>Graphics</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<ul>
-<li>Chi Square</li>
-</ul>
 <p><a href="GraphicalSummaries.html#bar-charts"> <img class="myhover" src="Images/barplot.png" alt="Bar Chart" title="Bar Chart"> </a></p>
 <!--- End of Add content area.  ------------------>
 </div>
@@ -822,7 +808,9 @@ $(document).ready(function () {
 <h3>Tests</h3>
 <div style="padding-left:125px;color:lightgray;">
 <!-- Add your customizations in the area below: -->
-<p>Add your own notes about appropriate inferential procedures for this type of data here.</p>
+<ul>
+<li>Chi Square</li>
+</ul>
 <!--- End of Add content area.  ------------------>
 </div>
 </div>
