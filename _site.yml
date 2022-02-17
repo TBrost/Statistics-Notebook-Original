@@ -68,24 +68,24 @@ navbar:
           href: ./Analyses/Chi Squared Tests/MyChiSquaredTest.html
     - text: "Wrangling and Viz (WIP)"
       menu:
-        - text: "Demand Script (HCF)"
+        - text: "Small Multiple, Month Sort, Proportion Conver"
           href: ./Wrangling and Vis/Health-Mortality/W5CS.html
-        - text: "Chi Square Review"
-          href: ./Wrangling and Vis/Health-Mortality/W5CS.md
-        - text: "Format Inventory"
-          href: ./Wrangling and Vis/Health-Mortality/W5CS.rmd
+        - text: "Visualizing Shape/Spread - Highlighting Points"
+          href: ./Wrangling and Vis/Heights/W4Casestudy.html
+        - text: "Shape/Spread Comparisons"
+          href: ./Wrangling and Vis/Health-Mortality/W5T2.html
         - text: "Hot cup graphs"
-          href: ./Scripts/Graphs.R
+          href: ./Wrangling and Vis/Heights/
         - text: "Group filter (HCF)"
-          href: ./Scripts/Group_Update.R
+          href: ./Wrangling and Vis/
         - text: "Logistic Review"
-          href: ./Scripts/LogisticScript.R
+          href: ./Wrangling and Vis/
         - text: "Log review 2"
-          href: ./Scripts/LogisticScriptlab.R
+          href: ./Wrangling and Vis/
         - text: "Permutations"
-          href: ./Scripts/Permutations.R
+          href: ./Wrangling and Vis/
         - text: "Practice Exam 1"
-          href: ./Scripts/Practice exam.R
+          href: ./Wrangling and Vis/
     - text: "Rscripts"
       menu:
         - text: "Demand Script (HCF)"
