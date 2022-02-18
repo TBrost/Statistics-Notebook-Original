@@ -13,44 +13,37 @@
 
 <title>Data Sources</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-
-
-
 
 <style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -61,10 +54,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -81,40 +70,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -142,7 +104,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -154,7 +116,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -165,10 +127,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -180,7 +155,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -357,10 +331,10 @@ $(document).ready(function () {
       <a href="./Analyses/Wilcoxon Tests/RecallingWords.html">Recalling Words</a>
     </li>
     <li>
-      <a href="./Analyses/ANOVA/DayCare.html">Day Care</a>
+      <a href="./Analyses/ANOVA/Examples/DayCare.html">Day Care</a>
     </li>
     <li>
-      <a href="./Analyses/Kruskal-Wallis/Food.html">Food</a>
+      <a href="./Analyses/Kruskal-Wallis Test/Food.html">Food</a>
     </li>
     <li>
       <a href="./Analyses/Linear Regression/MySimpleLinearRegression.html">My Simple Linear Regression</a>
@@ -376,6 +350,84 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Wrangling and Viz (WIP)
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Wrangling and Vis/Health-Mortality/W5CS.html">Small Multiple, Month Sort, Proportion Conver</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/Heights/W4Casestudy.html">Visualizing Shape/Spread - Highlighting Points</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/Health-Mortality/W5T2.html">Shape/Spread Comparisons</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/Heights/">Hot cup graphs</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/">Group filter (HCF)</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/">Logistic Review</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/">Log review 2</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/">Permutations</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/">Practice Exam 1</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Rscripts
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Scripts/Adjust demand script.R">Demand Script (HCF)</a>
+    </li>
+    <li>
+      <a href="./Scripts/ChiSquareScript.R">Chi Square Review</a>
+    </li>
+    <li>
+      <a href="./Scripts/FormatINV.R">Format Inventory</a>
+    </li>
+    <li>
+      <a href="./Scripts/Graphs.R">Hot cup graphs</a>
+    </li>
+    <li>
+      <a href="./Scripts/Group_Update.R">Group filter (HCF)</a>
+    </li>
+    <li>
+      <a href="./Scripts/LogisticScript.R">Logistic Review</a>
+    </li>
+    <li>
+      <a href="./Scripts/LogisticScriptlab.R">Log review 2</a>
+    </li>
+    <li>
+      <a href="./Scripts/Permutations.R">Permutations</a>
+    </li>
+    <li>
+      <a href="./Scripts/Practice exam.R">Practice Exam 1</a>
+    </li>
+    <li>
+      <a href="./Scripts/Practice2.R">Practice exam 2</a>
+    </li>
+    <li>
+      <a href="./Scripts/regressionscript.R">Regression 2</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -384,7 +436,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -400,6 +452,7 @@ $(document).ready(function () {
 <li><p><a href="http://data.europa.eu/euodp/en/data/">EU Open Data Portal</a></p></li>
 <li><p><a href="https://www.google.com/publicdata/directory">Google Public Data Explorer</a></p></li>
 <li><p><a href="https://healthdata.gov/search/type/dataset">U.S. Health Data</a></p></li>
+<li><p><a href="https://data.worldbank.org/">World Economic Data</a></p></li>
 </ul>
 
 
@@ -411,7 +464,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -429,7 +482,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

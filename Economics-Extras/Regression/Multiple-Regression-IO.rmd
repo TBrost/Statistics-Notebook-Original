@@ -1,0 +1,207 @@
+---
+title: "HW 4 - Tyson Brost, Chase Hatch, Isaac Palmer, Rachel Robertson"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+<br>
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(pander)
+library(tidyverse)
+library(readxl)
+library(plotly)
+library(reshape2)
+library(stargazer)
+library(mosaic)
+IO_airfare <- read_excel("IO airfare.xls")
+colnames(IO_airfare) <- c("year", "origin", "destin", "id", "dist", "passen", "fare", "bkmtshr", "ldist", "y98", "y99", "y00", "lfare","ldistsq", "concen", "lpassen")
+IO_airfare$LargeShare <- case_when(IO_airfare$bkmtshr >= 0.75 ~ 1, IO_airfare$bkmtshr < 0.75 ~ 0 )
+IO_airfare$y97 <- case_when(IO_airfare$year == 1997 ~ 1, IO_airfare$year != 1997 ~ 0 )
+```
+
+## {.tabset .tabset-pills .tabset-fade}
+
+### Problem #1 {.tabset .tabset-pills .tabset-fade}
+
+#### Regression {.tabset .tabset-pills .tabset-fade}
+
+##### Hypothesize a linear regression relationship:
+We wanted to build on the previous hypothesis that distance could be used to predict the fare of a route by adding the number of passengers who fly the route per day on average. We feel like more popular flights would be cheaper than those with low flight traffic. Additionally we felt that the best 3rd explanatory variable to include in this analysis was the relationship between distance and passengers. The other options based on the provided dataset just didn't seem to mesh as well with the two that we have included already. Given the differences in value ranges between all the variables and outputs we choose to use the log of each value.
+
+$$
+\underbrace{Y_i}_\text{fare} \underbrace{=}_{\sim} \overbrace{\beta_0}^{\stackrel{\text{y-int}}{\text{base fare}}} + \overbrace{\beta_1}^{\stackrel{\text{slope}}{\text{baseline}}} \underbrace{X_{1i}}_\text{ldistance} + \overbrace{\beta_2}^{\stackrel{\text{change in}}{\text{y-int}}}  \underbrace{X_{2i}}_\text{lpassen} +  \overbrace{\beta_3}^{\stackrel{\text{change in}}{\text{slope}}} \underbrace{X_{1i}X_{2i}}_\text{ldist:lpassen}  + \overbrace{\beta_4}^{\stackrel{\text{change in}}{\text{y-int}}}  \underbrace{X_{4i}}_\text{LargeShare} + \overbrace{\beta_5}^{\stackrel{\text{change in}}{\text{y-int}}}  \underbrace{X_{5i}}_\text{y00} +  \overbrace{\beta_6}^{\stackrel{\text{change in}}{\text{y-int}}}  \underbrace{X_{6i}}_\text{y97} +\epsilon_i
+$$
+
+
+##### Best Multiple Regression results
+
+Below is the Multiple regression result using distance, passengers, and with a few additional variables.
+
+```{r}
+lm.mult <-lm(lfare ~ ldist + lpassen + ldist:lpassen + LargeShare + y00 + y97, data=IO_airfare)
+summary(lm.mult) %>%
+pander(caption= "HW 4 Multiple regression results w/ extra estimators")
+```
+
+Below is the Multiple regression result using distance, passengers, but without the extra variables
+
+```{r}
+lm.mult2 <-lm(lfare ~ ldist + lpassen + ldist:lpassen, data=IO_airfare)
+summary(lm.mult2) %>%
+pander(caption= "HW 4 Simple Multiple regression w/o extra estimators")
+```
+
+##### Confidence Intervals
+
+```{r}
+confint(lm.mult2, level = 0.95) %>%
+pander(caption= "HW 4 Estimators 95% Conf Int's")
+```
+Assuming that our decision to reject the null Hypothesis is correct then these 95% intervals capture the true coefficient values for each estimator 95% of the time given all possible results of out sample space. The most important result from these values is that non of the ranges include 0, so we can safely assume that each of these values are not equal to 0 at a 95% confidence level.
+
+
+##### HW 2 Simple Regression Results
+
+Here are the results from HW 2 regression, prediction of fare using just distance.
+
+```{r }
+lm.sim <-lm(fare ~ dist, data=IO_airfare)
+summary(lm.sim) %>%
+pander(caption= "HW 2 simple regression results")
+```
+
+##### Completed Regression Equation
+
+Here is the Base equation for the regression w/o Extra variables
+
+$$
+\underbrace{Y_i}_\text{fare} \underbrace{=}_{\sim} \overbrace{\beta_0}^{\stackrel{\text{y-int}}{\text{base fare}}} + \overbrace{\beta_1}^{\stackrel{\text{slope}}{\text{baseline}}} \underbrace{X_{1i}}_\text{ldistance} + \overbrace{\beta_2}^{\stackrel{\text{change in}}{\text{y-int}}}  \underbrace{X_{2i}}_\text{lpassen} + \overbrace{\beta_3}^{\stackrel{\text{change in}}{\text{slope}}} \underbrace{X_{1i}X_{2i}}_\text{ldist:lpassen} + \epsilon_i
+$$
+
+Here is the original equation for the regression with the appropriate coefficients now included.
+
+$$
+\underbrace{Y_i}_\text{lfare} \underbrace{=}_{\sim} \overbrace{8.074}^{\stackrel{\text{y-int}}{\text{base lfare}}} + \overbrace{-0.3854}^{\stackrel{\text{slope}}{\text{baseline}}} \underbrace{X_{1i}}_\text{ldistance} + \overbrace{-0.9208}^{\stackrel{\text{change in}}{\text{y-int}}}  \underbrace{X_{2i}}_\text{lpassen} + \overbrace{0.1277}^{\stackrel{\text{change in}}{\text{slope}}} \underbrace{X_{1i}X_{2i}}_\text{ldist:lpassen} + \epsilon_i
+$$
+
+
+
+
+
+
+#### Plot
+```{r message=FALSE, warning=FALSE}
+#b <- coef(lm.mult)
+## Hint: library(car) has a scatterplot 3d function which is simple to use
+#  but the code should only be run in your console, not knit.
+
+library(car)
+#scatter3d(fare ~ dist + passen, data=IO_airfare)
+
+
+
+## To embed the 3d-scatterplot inside of your html document is harder.
+
+
+#Perform the multiple regression
+
+#Graph Resolution (more important for more complex shapes)
+graph_reso <- 0.5
+
+#Setup Axis
+axis_x <- seq(min(IO_airfare$ldist), max(IO_airfare$ldist), by = graph_reso)
+axis_y <- seq(min(IO_airfare$lpassen), max(IO_airfare$lpassen), by = graph_reso)
+
+#Sample points
+lmnew <- expand.grid(ldist = axis_x, lpassen = axis_y, KEEP.OUT.ATTRS=F)
+lmnew$Z <- predict.lm(lm.mult2, newdata = lmnew)
+lmnew <- acast(lmnew, lpassen ~ ldist, value.var = "Z") #y ~ x
+
+#Create scatterplot
+plot_ly(IO_airfare, 
+        x = ~ldist, 
+        y = ~lpassen, 
+        z = ~lfare,
+        text = rownames(IO_airfare), 
+        type = "scatter3d", 
+        mode = "markers", color=~lfare) %>%
+  add_trace(z = lmnew,
+            x = axis_x,
+            y = axis_y,
+            type = "surface")
+
+  #add_trace(z = lmnew,
+   #         x = axis_x,
+    #        y = axis_y,
+     #       type = "surface")
+```
+#### Interpretation/Assumptions {.tabset .tabset-pills .tabset-fade}
+
+##### Interpretation 
+
+Based on the multiple regression, the base cost of a ticket would be \$118.70, for each additional percentage increase in distance the fare would decrease by a percentage of 0.3852 and for each additional percent increase in average passengers the fare would decrease by a percentage of 0.9208. The strength or the relationship between Distance and passengers is ~0. The P-values for each of these terms are all incredibly close to 0.
+
+These relationships are visible best when viewing the 3d plot. It is quickly apparent that all estimators have similarly weighted affects on the predicted values, as the points are spread evenly through the central area of the chart.. 
+
+##### Assumptions
+
+Assuming that our sample is random the following Q-Q plots aid in examining the residuals of our points. The first primarily helps to show if variance remains constant across our variables. The second shows some minor signs of right skewness, we agree this is likely due to the fact that the regression fails to predict base costs of a flight leaving these values up to B0. The third and final plot helps determine if the order of the data is important, usually this is needed for time sorted data but we noticed this set is sorted alphabetically by origin point so we included this to see if any patterns presented themselves. 
+
+From these plots the primary change from the non-log version is that the extremes now show significantly less variance so the confidence in predictions for extremes may be greater.
+
+```{r}
+par(mfrow=c(1,3))
+plot(lm.mult2,which=1:2)
+plot(lm.mult2$residuals)
+```
+
+### Problem 2 
+
+
+
+```{R message=FALSE, warning=FALSE}
+X401ksubs <- read_excel("401ksubs.xls")
+X401ksubsF <- X401ksubs %>% filter(fsize== 1)
+
+X401ksubsF$fsize <- as.factor(X401ksubsF$fsize)
+
+```
+
+#### How many single-person households are there in the data set?
+
+There are 2017 single person households in the data set. 
+
+#### Using OLS estimate the following regression equation and interpret the results of the estimated equation
+
+![ ](Chapter 4.png)
+
+This tells us that for every one dollar increase in income net financial wealth increases by 0.95 dollars. Also that for every year that age increases, net financial wealth increases by 1.03 dollars.
+
+#### Does the intercept term you estimated have any interesting meaning? Explain
+
+The intercept implies that people are 60,000 dollars in debt from the moment they are born (nettfa is measured in 1,000s). This is because at the moment of birth, income is going to be 0, and so is age.
+
+#### Conduct a t-test for each of the estimated parameters and interpret their meaning.
+
+```{r}
+lm.mult3 <-lm(nettfa ~ inc + age, data=X401ksubs)
+summary(lm.mult3)
+
+```
+
+When we conducted a t-test for each of the variables we got high t-values and p-values of less than 0.01 each time so we should be able to reject the null hypotheses that our betas are equal to zero.  
+
+#### Run a simple regression of nettfa using just inc, does it significantly change the estimated coefficient for inc? Explain why this may be.
+
+```{r}
+lm.mult3 <-lm(nettfa ~ inc, data=X401ksubs)
+summary(lm.mult3)
+
+```
+
+Yes, it increases the coefficient for income to 0.999. This may be because there are fewer explanatory variables and there is no longer a value changing the intercept of the regression line. We can no longer group the predictions by age and must find a slope that fits the data best as whole from the same initial base debt.
+
+##

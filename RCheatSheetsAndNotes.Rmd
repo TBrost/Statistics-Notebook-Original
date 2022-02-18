@@ -15,11 +15,12 @@ title: "R Cheat Sheets & Notes"
 * [Keyboard Shortcuts](https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts)
 
 * [GGplot Cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf "Vis with GGplot")
+
 ## Notes
 
 Add your own notes here...
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 # Add R commands you want to remember here...
 library(mosaic)
 library(tidyverse)
@@ -30,12 +31,6 @@ library(car)
 
 ```
 
-#```{r, message=FALSE, warning=FALSE}
-library(mosaic)
-library(tidyverse)
-library(pander)
-library(DT)
-#```
 
 ```{r}
 # Or create other R chunks to put them in like this...
