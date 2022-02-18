@@ -86,7 +86,7 @@ navbar:
           href: ./Wrangling and Vis/
         - text: "Practice Exam 1"
           href: ./Wrangling and Vis/
-    - text: "Economics Extras"
+    - text: "Economics Extras (WIP)"
       menu:
         - text: "Airline Multiple 3D Regression"
           href: ./Economics-Extras/Regression/Multiple-Regression-IO.html
