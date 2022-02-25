@@ -90,8 +90,8 @@ navbar:
       menu:
         - text: "Airline Multiple 3D Regression"
           href: ./Economics-Extras/Regression/Multiple-Regression-IO.html
-        - text: "Chi Square Review"
-          href: ./Scripts/ChiSquareScript.R
+        - text: "Data Summary"
+          href: ./Economics-Extras/DataSummary.html
         - text: "Format Inventory"
           href: ./Scripts/FormatINV.R
         - text: "Hot cup graphs"
