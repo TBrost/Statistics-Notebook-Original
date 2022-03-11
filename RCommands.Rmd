@@ -1681,7 +1681,29 @@ pander(Kids3, split.table=Inf)
 
 ```
 
+
 </div>
+
+### "Not in" operator
+To reverse the \%in\% operator you need to create a variation based off the existing function, unfortunately is not as easy as "!%in%". Simply paste the code below into your file and run it, now you can use %!in% to check for items "not" in a list.
+
+```{r}
+`%!in%` <- Negate(`%in%`) #Not in operator
+```
+
+```{r, eval=FALSE}
+
+Kids3 <- KidsFeet %>% 
+  mutate(
+    season = case_when(
+      birthmonth %!in% c(12,1,2) ~ "Spring/Summer/Fall",
+      birthmonth %in% c(12,1,2) ~ "Winter"
+    )
+  )
+
+pander(Kids3, split.table=Inf)
+
+```
 
 <a href="javascript:showhide('mutate3')">
 <div class="hoverchunk">
@@ -1732,11 +1754,6 @@ KidsFeet
 </span>
 </div>
 </a> 
-
-```{r}
-4*3
-
-```
   
 
 <div id="mutate3" style="display:none;padding-left:20px;">
@@ -2143,11 +2160,70 @@ KidsFeet %>%
 
 </div>
 
+## Dictionaries in r
+
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readxl)
+
+temp <- tempfile()
+download.file("https://byuistats.github.io/M335/data/chipotle_reduced.csv",temp)
+restDat <- read.csv(temp)
+unlink(temp)
+
+restDat$popularity_by_day_X <- case_when(restDat$popularity_by_day == "" ~ 0, restDat$popularity_by_day != "" ~1)
+restDat <- filter(restDat, restDat$popularity_by_day_X == 1)
+
+
+MostPop <- function(placekey1){
+Filt <- select(filter(restDat, restDat$placekey == placekey1 ), `popularity_by_day`)
+x <- splitlist(Filt)
+
+result <- cbind(Filt[rep(1:nrow(Filt), lengths(x)), 1], content = unlist(x))
+
+results <- data.frame(
+  "day" = result[seq(1,length(result[,1]),2), "content"], 
+  "Num_visitors" = result[seq(2,length(result[,1]),2), "content"])
+results$day <- str_remove_all(results$day, "\"")
+results$day <- str_replace_all(results$day, "[^[:alnum:]]", "")
+results$Num_visitors <-str_replace_all(results$Num_visitors, "[^[:alnum:]]", "") 
+M <- max(as.numeric(results$Num_visitors), data=results)
+results <- select(filter(results, results$Num_visitors == M ), `day`)
+results
+}
+```
+
+```{r eval = FALSE}
+#get list of all placekeys
+placekey_list <- select(restDat, placekey)
+placekey_list <- slice_head(placekey_list, n=5)
+placekey_list
+
+
+#map function for mostPop days
+placekey_list$result <- map(placekey_list[,1], MostPop)
+placekey_list <- unnest(placekey_list, result)
+
+placekey_list
+
+#build region list for dictionary
+region_list <- restDat$region
+names(region_list) <- restDat$placekey
+
+#run dict on results from above to return matching regions
+placekey_list$region <- region_list[placekey_list$placekey]
+
+placekey_list
+```
+
 </div>
 
-----
 
+
+----
+ 
 <br/>
  
 
+ 
 <footer></footer>

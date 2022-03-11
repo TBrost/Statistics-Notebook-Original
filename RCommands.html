@@ -2337,14 +2337,25 @@ div.tocify {
 </tbody>
 </table>
 </div>
+<div id="not-in-operator" class="section level3">
+<h3>“Not in” operator</h3>
+<p>To reverse the %in% operator you need to create a variation based off the existing function, unfortunately is not as easy as “!%in%”. Simply paste the code below into your file and run it, now you can use %!in% to check for items “not” in a list.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">%!in%</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">Negate</span>(<span class="st">`</span><span class="at">%in%</span><span class="st">`</span>) <span class="co">#Not in operator</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Kids3 <span class="ot">&lt;-</span> KidsFeet <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">season =</span> <span class="fu">case_when</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      birthmonth <span class="sc">%!in%</span> <span class="fu">c</span>(<span class="dv">12</span>,<span class="dv">1</span>,<span class="dv">2</span>) <span class="sc">~</span> <span class="st">&quot;Spring/Summer/Fall&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      birthmonth <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">12</span>,<span class="dv">1</span>,<span class="dv">2</span>) <span class="sc">~</span> <span class="st">&quot;Winter&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">pander</span>(Kids3, <span class="at">split.table=</span><span class="cn">Inf</span>)</span></code></pre></div>
 <a href="javascript:showhide('mutate3')">
 <div class="hoverchunk">
 <p><span class="tooltipr"> Kids4 &lt;-  <span class="tooltipRtext"><code>Kids4</code> is a new dataset we are creating that will contain all of <code>KidsFeet</code> data set along with a couple new columns we are creating.</span> </span><span class="tooltipr"> KidsFeet <span class="tooltipRtext"><code>KidsFeet</code> is a dataset found in <code>library(mosaic)</code>.</span> </span><span class="tooltipr">  %&gt;%  <span class="tooltipRtext">The pipe operator that will send the <code>KidsFeet</code> dataset down inside of the code on the following line.</span> </span><br/><span class="tooltipr">    mutate( <span class="tooltipRtext">“mutate” is a function from library(tidyverse) that allows us to transform columns of data.</span> </span><br><span class="tooltipr">          lengthIN = length / 2.54, <span class="tooltipRtext">“lengthIN” is a name we came up with that will store the results of the transformation of the “length” column. This is just converting the length data from cm to inches.</span> </span><br/><span class="tooltipr">          widthIN = width / 2.54, <span class="tooltipRtext">“widthIN” is a name we came up with that will store the results of the transformation of the “width” column. This is just converting the width data from cm to inches.</span> </span><br><span class="tooltipr">          lengthSplit = ifelse(length &lt; median(length),<br>          “Under 50th Percentile”,<br>          “50th Percentile or Greater”), <span class="tooltipRtext">“lengthSplit” is a name we came up with that will store the results of the ifelse(…) function. The ifelse(…) function in this case is being used to split the length column by the median of that column. The ifelse(…) function is of the form ifelse( Logical Condition , valueIfConditionTrue, valueIfConditionFalse).</span> </span><br><span class="tooltipr">          gender = case_when( <span class="tooltipRtext">“gender” is a name we came up with that will store the results of the transformation of the “sex” column. The case_when(…) function from library(tidyverse) allows us to perform more complicated transformations with columns.</span> </span><br><span class="tooltipr">            sex == “B” ~ “Boy”, <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ "newValueName"</code>. This part of the case_when(…) function is being used to change the value of “B” to “Boy”.</span> </span><br><span class="tooltipr">            sex == “G” ~ “Girl” <span class="tooltipRtext">The body of case_when(…) is of the form <code>logical expression ~ "newValueName"</code>. This part of the case_when(…) function is being used to change the value of “G” to “Girl”.</span> </span><br/><span class="tooltipr">           ) <span class="tooltipRtext">Closing parenthesis for the case_when(…) function.</span> </span><br><span class="tooltipr">         ) <span class="tooltipRtext">Closing parenthesis for the mutate(…) function.</span> </span><span class="tooltipr">     <br />
 <span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 <p></a></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span><span class="sc">*</span><span class="dv">3</span></span></code></pre></div>
-<pre><code>## [1] 12</code></pre>
 <div id="mutate3" style="display:none;padding-left:20px;">
 <p>Notice the addition (on the right) of three new columns: <code>lengthIN</code>, <code>widthIN</code>, and <code>gender</code>.</p>
 <table style="width:100%;">
@@ -2960,6 +2971,7 @@ div.tocify {
   
 # So stuff like c(&quot;500+&quot;, &quot;20&quot;, &quot;80 &quot;, &quot;15a&quot;) would become
 # just c(500, 20, 80, 15). That&#39;s nice!</code></pre>
+</div>
 </div>
 <br />
 <hr />
@@ -3972,6 +3984,57 @@ div.tocify {
 2 G       24.3211  1.33024         19</code></pre>
 </div>
 </div>
+</div>
+<div id="dictionaries-in-r" class="section level2">
+<h2>Dictionaries in r</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">&quot;https://byuistats.github.io/M335/data/chipotle_reduced.csv&quot;</span>,temp)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>restDat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(temp)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(temp)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>restDat<span class="sc">$</span>popularity_by_day_X <span class="ot">&lt;-</span> <span class="fu">case_when</span>(restDat<span class="sc">$</span>popularity_by_day <span class="sc">==</span> <span class="st">&quot;&quot;</span> <span class="sc">~</span> <span class="dv">0</span>, restDat<span class="sc">$</span>popularity_by_day <span class="sc">!=</span> <span class="st">&quot;&quot;</span> <span class="sc">~</span><span class="dv">1</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>restDat <span class="ot">&lt;-</span> <span class="fu">filter</span>(restDat, restDat<span class="sc">$</span>popularity_by_day_X <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>MostPop <span class="ot">&lt;-</span> <span class="cf">function</span>(placekey1){</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>Filt <span class="ot">&lt;-</span> <span class="fu">select</span>(<span class="fu">filter</span>(restDat, restDat<span class="sc">$</span>placekey <span class="sc">==</span> placekey1 ), <span class="st">`</span><span class="at">popularity_by_day</span><span class="st">`</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">splitlist</span>(Filt)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">cbind</span>(Filt[<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(Filt), <span class="fu">lengths</span>(x)), <span class="dv">1</span>], <span class="at">content =</span> <span class="fu">unlist</span>(x))</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;day&quot;</span> <span class="ot">=</span> result[<span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(result[,<span class="dv">1</span>]),<span class="dv">2</span>), <span class="st">&quot;content&quot;</span>], </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Num_visitors&quot;</span> <span class="ot">=</span> result[<span class="fu">seq</span>(<span class="dv">2</span>,<span class="fu">length</span>(result[,<span class="dv">1</span>]),<span class="dv">2</span>), <span class="st">&quot;content&quot;</span>])</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>day <span class="ot">&lt;-</span> <span class="fu">str_remove_all</span>(results<span class="sc">$</span>day, <span class="st">&quot;</span><span class="sc">\&quot;</span><span class="st">&quot;</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>day <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(results<span class="sc">$</span>day, <span class="st">&quot;[^[:alnum:]]&quot;</span>, <span class="st">&quot;&quot;</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>Num_visitors <span class="ot">&lt;-</span><span class="fu">str_replace_all</span>(results<span class="sc">$</span>Num_visitors, <span class="st">&quot;[^[:alnum:]]&quot;</span>, <span class="st">&quot;&quot;</span>) </span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">as.numeric</span>(results<span class="sc">$</span>Num_visitors), <span class="at">data=</span>results)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">select</span>(<span class="fu">filter</span>(results, results<span class="sc">$</span>Num_visitors <span class="sc">==</span> M ), <span class="st">`</span><span class="at">day</span><span class="st">`</span>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>results</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#get list of all placekeys</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>placekey_list <span class="ot">&lt;-</span> <span class="fu">select</span>(restDat, placekey)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>placekey_list <span class="ot">&lt;-</span> <span class="fu">slice_head</span>(placekey_list, <span class="at">n=</span><span class="dv">5</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>placekey_list</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#map function for mostPop days</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>placekey_list<span class="sc">$</span>result <span class="ot">&lt;-</span> <span class="fu">map</span>(placekey_list[,<span class="dv">1</span>], MostPop)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>placekey_list <span class="ot">&lt;-</span> <span class="fu">unnest</span>(placekey_list, result)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>placekey_list</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#build region list for dictionary</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>region_list <span class="ot">&lt;-</span> restDat<span class="sc">$</span>region</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(region_list) <span class="ot">&lt;-</span> restDat<span class="sc">$</span>placekey</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#run dict on results from above to return matching regions</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>placekey_list<span class="sc">$</span>region <span class="ot">&lt;-</span> region_list[placekey_list<span class="sc">$</span>placekey]</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>placekey_list</span></code></pre></div>
 </div>
 <hr />
 <p><br/></p>
