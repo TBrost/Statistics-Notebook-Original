@@ -13,47 +13,134 @@
 
 <title>R Commands</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
-
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 <style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
 </style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -64,10 +151,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -84,40 +167,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -145,7 +201,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -157,7 +213,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -168,10 +224,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -183,7 +252,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -309,7 +377,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -433,10 +501,10 @@ div.tocify {
       <a href="./Analyses/Wilcoxon Tests/RecallingWords.html">Recalling Words</a>
     </li>
     <li>
-      <a href="./Analyses/ANOVA/DayCare.html">Day Care</a>
+      <a href="./Analyses/ANOVA/Examples/DayCare.html">Day Care</a>
     </li>
     <li>
-      <a href="./Analyses/Kruskal-Wallis/Food.html">Food</a>
+      <a href="./Analyses/Kruskal-Wallis Test/Food.html">Food</a>
     </li>
     <li>
       <a href="./Analyses/Linear Regression/MySimpleLinearRegression.html">My Simple Linear Regression</a>
@@ -452,6 +520,111 @@ div.tocify {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Wrangling and Viz (WIP)
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Wrangling and Vis/Health-Mortality/W5CS.html">Small Multiple, Month Sort, Proportion Conver</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/Heights/W4Casestudy.html">Visualizing Shape/Spread - Highlighting Points</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/Health-Mortality/W5T2.html">Shape/Spread Comparisons</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/Heights/">Hot cup graphs</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/">Group filter (HCF)</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/">Logistic Review</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/">Log review 2</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/">Permutations</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/">Practice Exam 1</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Economics Extras (WIP)
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Economics-Extras/Regression/Multiple-Regression-IO.html">Airline Multiple 3D Regression</a>
+    </li>
+    <li>
+      <a href="./Economics-Extras/DataSummary.html">Data Summary</a>
+    </li>
+    <li>
+      <a href="./Scripts/FormatINV.R">Format Inventory</a>
+    </li>
+    <li>
+      <a href="./Scripts/Graphs.R">Hot cup graphs</a>
+    </li>
+    <li>
+      <a href="./Scripts/Group_Update.R">Group filter (HCF)</a>
+    </li>
+    <li>
+      <a href="./Scripts/LogisticScript.R">Logistic Review</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Rscripts
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Scripts/Adjust demand script.R">Demand Script (HCF)</a>
+    </li>
+    <li>
+      <a href="./Scripts/ChiSquareScript.R">Chi Square Review</a>
+    </li>
+    <li>
+      <a href="./Scripts/FormatINV.R">Format Inventory</a>
+    </li>
+    <li>
+      <a href="./Scripts/Graphs.R">Hot cup graphs</a>
+    </li>
+    <li>
+      <a href="./Scripts/Group_Update.R">Group filter (HCF)</a>
+    </li>
+    <li>
+      <a href="./Scripts/LogisticScript.R">Logistic Review</a>
+    </li>
+    <li>
+      <a href="./Scripts/LogisticScriptlab.R">Log review 2</a>
+    </li>
+    <li>
+      <a href="./Scripts/Permutations.R">Permutations</a>
+    </li>
+    <li>
+      <a href="./Scripts/Practice exam.R">Practice Exam 1</a>
+    </li>
+    <li>
+      <a href="./Scripts/Practice2.R">Practice exam 2</a>
+    </li>
+    <li>
+      <a href="./Scripts/regressionscript.R">Regression 2</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -460,7 +633,7 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -1147,24 +1320,26 @@ div.tocify {
 <p></a></p>
 <div id="mutate1" style="display:none;padding-left:20px;">
 <p>Notice the last two columns of <code>cyl_factor</code> and <code>weight</code> are what we added to the data set <code>mtcars2</code>. As seen by <code>View(mtcars)</code>, the original <code>mtcars</code> data set did not have these two columns. We used the <code>mutate</code> function to create them and saved our work in a new data set called <code>mtcars2</code>.</p>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="7%" />
+<col width="21%" />
+<col width="5%" />
+<col width="4%" />
 <col width="6%" />
-<col width="8%" />
+<col width="4%" />
+<col width="5%" />
 <col width="6%" />
-<col width="7%" />
-<col width="8%" />
-<col width="8%" />
+<col width="6%" />
+<col width="4%" />
+<col width="4%" />
 <col width="5%" />
 <col width="5%" />
+<col width="10%" />
 <col width="7%" />
-<col width="7%" />
-<col width="13%" />
-<col width="9%" />
 </colgroup>
 <thead>
 <tr class="header">
+<th align="center"> </th>
 <th align="center">mpg</th>
 <th align="center">cyl</th>
 <th align="center">disp</th>
@@ -1182,6 +1357,7 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
+<td align="center"><strong>Mazda RX4</strong></td>
 <td align="center">21</td>
 <td align="center">6</td>
 <td align="center">160</td>
@@ -1197,6 +1373,7 @@ div.tocify {
 <td align="center">2620</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Mazda RX4 Wag</strong></td>
 <td align="center">21</td>
 <td align="center">6</td>
 <td align="center">160</td>
@@ -1212,6 +1389,7 @@ div.tocify {
 <td align="center">2875</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Datsun 710</strong></td>
 <td align="center">22.8</td>
 <td align="center">4</td>
 <td align="center">108</td>
@@ -1227,6 +1405,7 @@ div.tocify {
 <td align="center">2320</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Hornet 4 Drive</strong></td>
 <td align="center">21.4</td>
 <td align="center">6</td>
 <td align="center">258</td>
@@ -1242,6 +1421,7 @@ div.tocify {
 <td align="center">3215</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Hornet Sportabout</strong></td>
 <td align="center">18.7</td>
 <td align="center">8</td>
 <td align="center">360</td>
@@ -1257,6 +1437,7 @@ div.tocify {
 <td align="center">3440</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Valiant</strong></td>
 <td align="center">18.1</td>
 <td align="center">6</td>
 <td align="center">225</td>
@@ -1272,6 +1453,7 @@ div.tocify {
 <td align="center">3460</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Duster 360</strong></td>
 <td align="center">14.3</td>
 <td align="center">8</td>
 <td align="center">360</td>
@@ -1287,6 +1469,7 @@ div.tocify {
 <td align="center">3570</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Merc 240D</strong></td>
 <td align="center">24.4</td>
 <td align="center">4</td>
 <td align="center">146.7</td>
@@ -1302,6 +1485,7 @@ div.tocify {
 <td align="center">3190</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Merc 230</strong></td>
 <td align="center">22.8</td>
 <td align="center">4</td>
 <td align="center">140.8</td>
@@ -1317,6 +1501,7 @@ div.tocify {
 <td align="center">3150</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Merc 280</strong></td>
 <td align="center">19.2</td>
 <td align="center">6</td>
 <td align="center">167.6</td>
@@ -1332,6 +1517,7 @@ div.tocify {
 <td align="center">3440</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Merc 280C</strong></td>
 <td align="center">17.8</td>
 <td align="center">6</td>
 <td align="center">167.6</td>
@@ -1347,6 +1533,7 @@ div.tocify {
 <td align="center">3440</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Merc 450SE</strong></td>
 <td align="center">16.4</td>
 <td align="center">8</td>
 <td align="center">275.8</td>
@@ -1362,6 +1549,7 @@ div.tocify {
 <td align="center">4070</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Merc 450SL</strong></td>
 <td align="center">17.3</td>
 <td align="center">8</td>
 <td align="center">275.8</td>
@@ -1377,6 +1565,7 @@ div.tocify {
 <td align="center">3730</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Merc 450SLC</strong></td>
 <td align="center">15.2</td>
 <td align="center">8</td>
 <td align="center">275.8</td>
@@ -1392,6 +1581,7 @@ div.tocify {
 <td align="center">3780</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Cadillac Fleetwood</strong></td>
 <td align="center">10.4</td>
 <td align="center">8</td>
 <td align="center">472</td>
@@ -1407,6 +1597,7 @@ div.tocify {
 <td align="center">5250</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Lincoln Continental</strong></td>
 <td align="center">10.4</td>
 <td align="center">8</td>
 <td align="center">460</td>
@@ -1422,6 +1613,7 @@ div.tocify {
 <td align="center">5424</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Chrysler Imperial</strong></td>
 <td align="center">14.7</td>
 <td align="center">8</td>
 <td align="center">440</td>
@@ -1437,6 +1629,7 @@ div.tocify {
 <td align="center">5345</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Fiat 128</strong></td>
 <td align="center">32.4</td>
 <td align="center">4</td>
 <td align="center">78.7</td>
@@ -1452,6 +1645,7 @@ div.tocify {
 <td align="center">2200</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Honda Civic</strong></td>
 <td align="center">30.4</td>
 <td align="center">4</td>
 <td align="center">75.7</td>
@@ -1467,6 +1661,7 @@ div.tocify {
 <td align="center">1615</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Toyota Corolla</strong></td>
 <td align="center">33.9</td>
 <td align="center">4</td>
 <td align="center">71.1</td>
@@ -1482,6 +1677,7 @@ div.tocify {
 <td align="center">1835</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Toyota Corona</strong></td>
 <td align="center">21.5</td>
 <td align="center">4</td>
 <td align="center">120.1</td>
@@ -1497,6 +1693,7 @@ div.tocify {
 <td align="center">2465</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Dodge Challenger</strong></td>
 <td align="center">15.5</td>
 <td align="center">8</td>
 <td align="center">318</td>
@@ -1512,6 +1709,7 @@ div.tocify {
 <td align="center">3520</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>AMC Javelin</strong></td>
 <td align="center">15.2</td>
 <td align="center">8</td>
 <td align="center">304</td>
@@ -1527,6 +1725,7 @@ div.tocify {
 <td align="center">3435</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Camaro Z28</strong></td>
 <td align="center">13.3</td>
 <td align="center">8</td>
 <td align="center">350</td>
@@ -1542,6 +1741,7 @@ div.tocify {
 <td align="center">3840</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Pontiac Firebird</strong></td>
 <td align="center">19.2</td>
 <td align="center">8</td>
 <td align="center">400</td>
@@ -1557,6 +1757,7 @@ div.tocify {
 <td align="center">3845</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Fiat X1-9</strong></td>
 <td align="center">27.3</td>
 <td align="center">4</td>
 <td align="center">79</td>
@@ -1572,6 +1773,7 @@ div.tocify {
 <td align="center">1935</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Porsche 914-2</strong></td>
 <td align="center">26</td>
 <td align="center">4</td>
 <td align="center">120.3</td>
@@ -1587,6 +1789,7 @@ div.tocify {
 <td align="center">2140</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Lotus Europa</strong></td>
 <td align="center">30.4</td>
 <td align="center">4</td>
 <td align="center">95.1</td>
@@ -1602,6 +1805,7 @@ div.tocify {
 <td align="center">1513</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Ford Pantera L</strong></td>
 <td align="center">15.8</td>
 <td align="center">8</td>
 <td align="center">351</td>
@@ -1617,6 +1821,7 @@ div.tocify {
 <td align="center">3170</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Ferrari Dino</strong></td>
 <td align="center">19.7</td>
 <td align="center">6</td>
 <td align="center">145</td>
@@ -1632,6 +1837,7 @@ div.tocify {
 <td align="center">2770</td>
 </tr>
 <tr class="odd">
+<td align="center"><strong>Maserati Bora</strong></td>
 <td align="center">15</td>
 <td align="center">8</td>
 <td align="center">301</td>
@@ -1647,6 +1853,7 @@ div.tocify {
 <td align="center">3570</td>
 </tr>
 <tr class="even">
+<td align="center"><strong>Volvo 142E</strong></td>
 <td align="center">21.4</td>
 <td align="center">4</td>
 <td align="center">121</td>
@@ -2136,6 +2343,8 @@ div.tocify {
 <span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 <p></a></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span><span class="sc">*</span><span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1] 12</code></pre>
 <div id="mutate3" style="display:none;padding-left:20px;">
 <p>Notice the addition (on the right) of three new columns: <code>lengthIN</code>, <code>widthIN</code>, and <code>gender</code>.</p>
 <table style="width:100%;">
@@ -3644,7 +3853,7 @@ div.tocify {
 <p><strong>Example Code</strong></p>
 <a href="javascript:showhide('pander1')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> pander( <span class="tooltipRtext"><code>pander</code> is an R function that makes output look nice.</span> </span><span class="tooltipr"> table(KidsFeet$sex, KidsFeet$birthmonth), <span class="tooltipRtext">Code that makes a table of how many boys and girls were born in each month of the year.</span> </span><span class="tooltipr">   caption=“Counts of Birthdays by Month” <span class="tooltipRtext">The caption=" " command is very useful for giving your output a small title.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
+<p><span class="tooltipr"> pander( <span class="tooltipRtext"><code>pander</code> is an R function that makes output look nice.</span> </span><span class="tooltipr"> table(KidsFeet$sex, KidsFeet$birthmonth), <span class="tooltipRtext">Code that makes a table of how many boys and girls were born in each month of the year.</span> </span><span class="tooltipr">   caption=“Counts of Birthdays by Month” <span class="tooltipRtext">The caption=” ” command is very useful for giving your output a small title.</span> </span><span class="tooltipr"> ) <span class="tooltipRtext">Always close off your functions in R with a closing parathesis.</span> </span><span class="tooltipr">     <br />
 <span class="tooltipRtext">Press Enter to run the code.</span> </span><span class="tooltipr" style="float:right;font-size:.8em;">  Click to Show Output  <span class="tooltiprtext">Click to View Output.</span> </span></p>
 </div>
 <p></a></p>
@@ -3781,7 +3990,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -3799,7 +4008,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -3808,6 +4017,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')

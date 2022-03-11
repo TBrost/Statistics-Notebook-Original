@@ -1732,7 +1732,13 @@ KidsFeet
 </span>
 </div>
 </a> 
+
+```{r}
+4*3
+
+```
   
+
 <div id="mutate3" style="display:none;padding-left:20px;">
 
 Notice the addition (on the right) of three new columns: `lengthIN`, `widthIN`, and `gender`.
