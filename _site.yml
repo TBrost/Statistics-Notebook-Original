@@ -97,7 +97,7 @@ navbar:
         - text: "Final paper (PDF)"
           href: ./Economics-Extras/Final/Final_Paper.html
         - text: "Solow-Romer Model (Python)"
-          href: ./Economics-Extras/Solow-Romer/Ap_LR_Romer-Solow.html
+          href: ./Economics-Extras/Macro/Solow-Romer/Ap_LR_Romer-Solow.html
     - text: "Interactivity (WIP)"
       menu:
         - text: "All about Barplots"

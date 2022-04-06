@@ -19,7 +19,8 @@ p2 <- ggplot(starwars1, aes(x=species, y=height, fill = species))+
 ggplotly(p2)
   p2
 
-
+  starwars.aov <- aov(height ~ species, data = starwars1)
+  summary(starwars.aov)    
 
 ?Highway1
 
