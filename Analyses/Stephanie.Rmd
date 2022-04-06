@@ -126,7 +126,7 @@ icons <- awesomeIcons(
   markerColor = getColor(samps)
 )
 
-
+getColor(samps)
 
 m <- leaflet(data = samps) %>% setView(lng = -111.785, lat = 43.82, zoom = 14.2) %>% 
   addTiles() %>%

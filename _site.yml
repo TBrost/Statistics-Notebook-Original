@@ -74,17 +74,17 @@ navbar:
           href: ./Wrangling and Vis/Heights/W4Casestudy.html
         - text: "Shape/Spread Comparisons"
           href: ./Wrangling and Vis/Health-Mortality/W5T2.html
-        - text: "Hot cup graphs"
+        - text: ""
           href: ./Wrangling and Vis/Heights/
-        - text: "Group filter (HCF)"
+        - text: ""
           href: ./Wrangling and Vis/
-        - text: "Logistic Review"
+        - text: ""
           href: ./Wrangling and Vis/
-        - text: "Log review 2"
+        - text: ""
           href: ./Wrangling and Vis/
-        - text: "Permutations"
+        - text: ""
           href: ./Wrangling and Vis/
-        - text: "Practice Exam 1"
+        - text: ""
           href: ./Wrangling and Vis/
     - text: "Economics Extras (WIP)"
       menu:
@@ -92,13 +92,13 @@ navbar:
           href: ./Economics-Extras/Regression/Multiple-Regression-IO.html
         - text: "Data Summary"
           href: ./Economics-Extras/DataSummary.html
-        - text: "Format Inventory"
+        - text: ""
           href: ./Scripts/FormatINV.R
-        - text: "Hot cup graphs"
+        - text: ""
           href: ./Scripts/Graphs.R
-        - text: "Group filter (HCF)"
+        - text: ""
           href: ./Scripts/Group_Update.R
-        - text: "Logistic Review"
+        - text: ""
           href: ./Scripts/LogisticScript.R
     - text: "Rscripts"
       menu:

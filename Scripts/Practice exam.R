@@ -17,7 +17,7 @@ p2 <- ggplot(starwars1, aes(x=species, y=height, fill = species))+
   labs(title="How many hours a week do students spend \n with family based on Family size?", x="Size of Family", y="Hours/Week with Family")+
   stat_summary(fun=mean, geom="point", shape=4, size=4, color="red", fill="red") 
 ggplotly(p2)
-  
+  p2
 
 
 

@@ -425,10 +425,10 @@ $(document).ready(function () {
       <a href="./Analyses/Wilcoxon Tests/RecallingWords.html">Recalling Words</a>
     </li>
     <li>
-      <a href="./Analyses/ANOVA/DayCare.html">Day Care</a>
+      <a href="./Analyses/ANOVA/Examples/DayCare.html">Day Care</a>
     </li>
     <li>
-      <a href="./Analyses/Kruskal-Wallis/Food.html">Food</a>
+      <a href="./Analyses/Kruskal-Wallis Test/Food.html">Food</a>
     </li>
     <li>
       <a href="./Analyses/Linear Regression/MySimpleLinearRegression.html">My Simple Linear Regression</a>
@@ -441,6 +441,111 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="./Analyses/Chi Squared Tests/MyChiSquaredTest.html">My Chi-sqaured Test</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Wrangling and Viz (WIP)
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Wrangling and Vis/Health-Mortality/W5CS.html">Small Multiple, Month Sort, Proportion Conver</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/Heights/W4Casestudy.html">Visualizing Shape/Spread - Highlighting Points</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/Health-Mortality/W5T2.html">Shape/Spread Comparisons</a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/Heights/"></a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/"></a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/"></a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/"></a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/"></a>
+    </li>
+    <li>
+      <a href="./Wrangling and Vis/"></a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Economics Extras (WIP)
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Economics-Extras/Regression/Multiple-Regression-IO.html">Airline Multiple 3D Regression</a>
+    </li>
+    <li>
+      <a href="./Economics-Extras/DataSummary.html">Data Summary</a>
+    </li>
+    <li>
+      <a href="./Scripts/FormatINV.R"></a>
+    </li>
+    <li>
+      <a href="./Scripts/Graphs.R"></a>
+    </li>
+    <li>
+      <a href="./Scripts/Group_Update.R"></a>
+    </li>
+    <li>
+      <a href="./Scripts/LogisticScript.R"></a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Rscripts
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Scripts/Adjust demand script.R">Demand Script (HCF)</a>
+    </li>
+    <li>
+      <a href="./Scripts/ChiSquareScript.R">Chi Square Review</a>
+    </li>
+    <li>
+      <a href="./Scripts/FormatINV.R">Format Inventory</a>
+    </li>
+    <li>
+      <a href="./Scripts/Graphs.R">Hot cup graphs</a>
+    </li>
+    <li>
+      <a href="./Scripts/Group_Update.R">Group filter (HCF)</a>
+    </li>
+    <li>
+      <a href="./Scripts/LogisticScript.R">Logistic Review</a>
+    </li>
+    <li>
+      <a href="./Scripts/LogisticScriptlab.R">Log review 2</a>
+    </li>
+    <li>
+      <a href="./Scripts/Permutations.R">Permutations</a>
+    </li>
+    <li>
+      <a href="./Scripts/Practice exam.R">Practice Exam 1</a>
+    </li>
+    <li>
+      <a href="./Scripts/Practice2.R">Practice exam 2</a>
+    </li>
+    <li>
+      <a href="./Scripts/regressionscript.R">Regression 2</a>
     </li>
   </ul>
 </li>
@@ -577,7 +682,7 @@ $(document).ready(function () {
 <p>If you have tally counts of your observations, enter them into RStudio using a matrix.</p>
 <a href="javascript:showhide('matrix1')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> x <span class="tooltiprtext">The name of your created matrix to go in the <code>chisq.test()</code> code.</span> </span><span class="tooltipr">  &lt;-  <span class="tooltiprtext">This is the “left arrow” assignment operator that stores the results of your <code>cbind()</code> code into <code>x</code>.</span> </span><span class="tooltipr"> cbind( <span class="tooltiprtext">cbind stands for“column bind” and is a function that joins together different c() vectors to make them become columns of a table.</span> </span><span class="tooltipr"> `Farm 1` = <span class="tooltiprtext">The name of the first column you want in the matrix. To include spaces in the name, use the back-ticks ` and `.</span> </span><span class="tooltipr">  c(Pigs = 10, Cats = 5, Dogs = 28, Roosters = 3), <span class="tooltiprtext">Specify each of the values by name in a c(…) function to be stored in your first column, in this case, <code>Farm 1</code>.</span> </span><span class="tooltipr">  `Farm 2` = <span class="tooltiprtext">The name of the second column you want in the matrix.</span> </span><span class="tooltipr">  c(Pigs = 15, Cats = 3, Dogs = 8, Roosters = 1) <span class="tooltiprtext">Each new column must contain entries for each named element. Technically, you can leave off the names in all but the first column as only the names from the first column will be used.</span> </span><br/><span class="tooltipr"> pander(x) <span class="tooltiprtext">Print the matrix to the screen using pander(…).</span> </span></p>
+<p><span class="tooltipr"> x <span class="tooltiprtext">The name of your created matrix to go in the <code>chisq.test()</code> code.</span> </span><span class="tooltipr">  &lt;-  <span class="tooltiprtext">This is the “left arrow” assignment operator that stores the results of your <code>cbind()</code> code into <code>x</code>.</span> </span><span class="tooltipr"> cbind( <span class="tooltiprtext">cbind stands for”column bind” and is a function that joins together different c() vectors to make them become columns of a table.</span> </span><span class="tooltipr"> `Farm 1` = <span class="tooltiprtext">The name of the first column you want in the matrix. To include spaces in the name, use the back-ticks ` and `.</span> </span><span class="tooltipr">  c(Pigs = 10, Cats = 5, Dogs = 28, Roosters = 3), <span class="tooltiprtext">Specify each of the values by name in a c(…) function to be stored in your first column, in this case, <code>Farm 1</code>.</span> </span><span class="tooltipr">  `Farm 2` = <span class="tooltiprtext">The name of the second column you want in the matrix.</span> </span><span class="tooltipr">  c(Pigs = 15, Cats = 3, Dogs = 8, Roosters = 1) <span class="tooltiprtext">Each new column must contain entries for each named element. Technically, you can leave off the names in all but the first column as only the names from the first column will be used.</span> </span><br/><span class="tooltipr"> pander(x) <span class="tooltiprtext">Print the matrix to the screen using pander(…).</span> </span></p>
 </div>
 <p></a></p>
 <div id="matrix1" style="display:none;">
@@ -621,7 +726,7 @@ $(document).ready(function () {
 <p>Or, notice how you could rbind instead with slightly different results…</p>
 <a href="javascript:showhide('matrix2')">
 <div class="hoverchunk">
-<p><span class="tooltipr"> x <span class="tooltiprtext">The name of your created matrix to go in the <code>chisq.test()</code> code.</span> </span><span class="tooltipr">  &lt;-  <span class="tooltiprtext">This is the “left arrow” assignment operator that stores the results of your <code>cbind()</code> code into <code>x</code>.</span> </span><span class="tooltipr"> rbind( <span class="tooltiprtext">rbind stands for“row bind” and is a function that joins together different c() vectors to make them become rows of a table.</span> </span><span class="tooltipr"> `Farm 1` = <span class="tooltiprtext">The name of the first column you want in the matrix. To include spaces in the name, use the back-ticks ` and `.</span> </span><span class="tooltipr">  c(Pigs = 10, Cats = 5, Dogs = 28, Roosters = 3), <span class="tooltiprtext">Specify each of the values by name in a c(…) function to be stored in your first column, in this case, <code>Farm 1</code>.</span> </span><span class="tooltipr">  `Farm 2` = <span class="tooltiprtext">The name of the second column you want in the matrix.</span> </span><span class="tooltipr">  c(Pigs = 15, Cats = 3, Dogs = 8, Roosters = 1) <span class="tooltiprtext">Each new column must contain entries for each named element. Technically, you can leave off the names in all but the first column as only the names from the first column will be used.</span> </span><br/><span class="tooltipr"> pander(x) <span class="tooltiprtext">Print the matrix to the screen using pander(…).</span> </span></p>
+<p><span class="tooltipr"> x <span class="tooltiprtext">The name of your created matrix to go in the <code>chisq.test()</code> code.</span> </span><span class="tooltipr">  &lt;-  <span class="tooltiprtext">This is the “left arrow” assignment operator that stores the results of your <code>cbind()</code> code into <code>x</code>.</span> </span><span class="tooltipr"> rbind( <span class="tooltiprtext">rbind stands for”row bind” and is a function that joins together different c() vectors to make them become rows of a table.</span> </span><span class="tooltipr"> `Farm 1` = <span class="tooltiprtext">The name of the first column you want in the matrix. To include spaces in the name, use the back-ticks ` and `.</span> </span><span class="tooltipr">  c(Pigs = 10, Cats = 5, Dogs = 28, Roosters = 3), <span class="tooltiprtext">Specify each of the values by name in a c(…) function to be stored in your first column, in this case, <code>Farm 1</code>.</span> </span><span class="tooltipr">  `Farm 2` = <span class="tooltiprtext">The name of the second column you want in the matrix.</span> </span><span class="tooltipr">  c(Pigs = 15, Cats = 3, Dogs = 8, Roosters = 1) <span class="tooltiprtext">Each new column must contain entries for each named element. Technically, you can leave off the names in all but the first column as only the names from the first column will be used.</span> </span><br/><span class="tooltipr"> pander(x) <span class="tooltiprtext">Print the matrix to the screen using pander(…).</span> </span></p>
 </div>
 <p></a></p>
 <div id="matrix2" style="display:none;">
@@ -1117,18 +1222,18 @@ $(document).ready(function () {
 <tbody>
 <tr class="odd">
 <td align="left">1st</td>
-<td align="right">105</td>
-<td align="right">220</td>
+<td align="right">113</td>
+<td align="right">212</td>
 </tr>
 <tr class="even">
 <td align="left">2nd</td>
-<td align="right">95</td>
-<td align="right">190</td>
+<td align="right">86</td>
+<td align="right">199</td>
 </tr>
 <tr class="odd">
 <td align="left">3rd</td>
-<td align="right">215</td>
-<td align="right">491</td>
+<td align="right">243</td>
+<td align="right">463</td>
 </tr>
 <tr class="even">
 <td align="left">Crew</td>
@@ -1143,7 +1248,7 @@ $(document).ready(function () {
 <div style="padding-left:15px;">
 <p>For the made up data above, the Chi-squared Test of Independence gives the test statistic of</p>
 <div style="color:#EE7942;">
-<p><span class="math display">\[\chi^2 = 0.9144929\]</span></p>
+<p><span class="math display">\[\chi^2 = 3.1953669\]</span></p>
 </div>
 </div>
 <p><strong>Step 3</strong>: Repeat the process thousands of times, always keeping track of the <span class="math inline">\(\chi^2\)</span> value from each test.</p>

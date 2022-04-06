@@ -1,7 +1,7 @@
 ---
 title: "W04 Case Study: (Heights) I Can Clean Your Data"
 author: "Tyson Brost"
-date: "February 17, 2022"
+date: "April 05, 2022"
 output:
   html_document:  
     keep_md: true
@@ -182,7 +182,7 @@ ggplot(data=alld, )+
   geom_sina(aes(x=as.factor(birth_cen), y=height.in, color=study),alpha=0.15)+
   #facet_grid(rows =  ~study)+
   scale_y_continuous(limits = quantile(alld$height.in, c(0.1, 0.9)))+
-  labs(color= "Study", title= "Height by Century - COlor by Study")+ 
+  labs(color= "Study", title= "Height by Century - Color by Study")+ 
   ylab("Height (inches)")+
   xlab("Century")+
   theme_bw()
