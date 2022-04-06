@@ -74,32 +74,38 @@ navbar:
           href: ./Wrangling and Vis/Heights/W4Casestudy.html
         - text: "Shape/Spread Comparisons"
           href: ./Wrangling and Vis/Health-Mortality/W5T2.html
-        - text: ""
-          href: ./Wrangling and Vis/Heights/
-        - text: ""
-          href: ./Wrangling and Vis/
-        - text: ""
-          href: ./Wrangling and Vis/
-        - text: ""
-          href: ./Wrangling and Vis/
-        - text: ""
-          href: ./Wrangling and Vis/
-        - text: ""
-          href: ./Wrangling and Vis/
+        - text: "String and ReGex Wrangling"
+          href: ./Wrangling and Vis/StringReGex/
+        - text: "All about Barplots"
+          href: ./Wrangling and Vis/BarplotsVis/
+        - text: "TimeDate Data"
+          href: ./Wrangling and Vis/TimeDate/Stocks/W10CS.html
+        - text: "Geometric Data"
+          href: ./Wrangling and Vis/Geometrics/Leaflet/W12CS.html
+        - text: "Faceting"
+          href: ./Wrangling and Vis/Faceting/
+        - text: "Functions"
+          href: ./Wrangling and Vis/Functions/W8CS.html
     - text: "Economics Extras (WIP)"
       menu:
         - text: "Airline Multiple 3D Regression"
           href: ./Economics-Extras/Regression/Multiple-Regression-IO.html
         - text: "Data Summary"
           href: ./Economics-Extras/DataSummary.html
-        - text: ""
-          href: ./Scripts/FormatINV.R
-        - text: ""
-          href: ./Scripts/Graphs.R
-        - text: ""
-          href: ./Scripts/Group_Update.R
-        - text: ""
-          href: ./Scripts/LogisticScript.R
+        - text: "Final Presentation"
+          href: ./Economics-Extras/Final/Final_Paper_Tabset.html
+        - text: "Final paper (PDF)"
+          href: ./Economics-Extras/Final/Final_Paper.html
+        - text: "Solow-Romer Model (Python)"
+          href: ./Economics-Extras/Solow-Romer/Ap_LR_Romer-Solow.html
+    - text: "Interactivity (WIP)"
+      menu:
+        - text: "All about Barplots"
+          href: ./Wrangling and Vis/Interactivity/SemesterProj/SemesterProj.html
+        - text: "All about Barplots"
+          href: ./Wrangling and Vis/
+        - text: "All about Barplots"
+          href: ./Wrangling and Vis/
     - text: "Rscripts"
       menu:
         - text: "Demand Script (HCF)"
