@@ -1,0 +1,383 @@
+---
+title: "Mortality Rates around the World | Economic Indicators Interactive animation"
+author: "Tyson Brost"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 6
+    fig_width: 16
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r load_libraries, include=FALSE}
+# Use this R-Chunk to load all your libraries!
+#install.packages("tidyverse") # run this line once in console to get package
+library(tidyverse)
+library(readr)
+library(stringr)
+#install.packages('gganimate')
+library(gganimate)
+library(ggplot2)
+library(plotly)
+library(mosaic)
+library(pander)
+library(DT)
+```
+
+```{r lists}
+# makeing lists for sorting data and countries
+
+mycountries <- c("Bolivia", "Brazil","Bulgaria","Canada", "Chile","United States","India" ,"Pakistan" ,"Nepal","Belgium" ,"Albania", "Denmark","Czech Republic", "Finland","France","Germany","Ireland","Italy","Iceland","Netherlands","Poland","Norway", "Spain","Switzerland","Turkey", "Ukraine","Sweden", "Russian Federation", "Portugal", "United Kingdom", "Israel" ,"Saudi Arabia","United Arab Emirates" ,"Libya" ,"Egypt, Arab Rep.", "American Samoa","Cambodia","China" ,"Japan" ,"Mongolia" ,"Malaysia" ,"New Caledonia", "Marshall Islands" ,"Indonesia","Fiji","Guam", "Australia" ,"Congo, Dem. Rep." ,"Central African Republic" ,"Congo, Rep.","Nigeria" ,"Liberia","Kenya","Madagascar","Mali", "Rwanda", "Somalia","South Sudan" ,"Uganda" ,"Zimbabwe","Sudan","South Africa","Sierra Leone","Ethiopia","Ghana","Botswana" ,"Angola","Cabo Verde", "Cameroon","Comoros","Seychelles","Niger","Zambia","Uruguay", "Venezuela, RB","Panama", "Mexico", "Peru", "Paraguay","Nicaragua","Jamaica","Guatemala" ,"El Salvador" ,"Haiti","Dominican Republic","Ecuador" ,"Honduras","Colombia","Cuba","Costa Rica" ,"Argentina" ,"Belize")
+
+
+#unique(WED_Agg$`Country Name`)
+
+Aggs <- c("North America","Middle East & North Africa","European Union","Africa Eastern and Southern", "Africa Western and Central","East Asia & Pacific", "Latin America & Caribbean")
+
+North_America <-c("Canada", "United States", "Mexico","Jamaica","Haiti","Cuba","Costa Rica", "Dominican Republic" )
+
+Europe <-c("Bulgaria","Belgium" ,"Albania", "Denmark","Czech Republic", "Finland","France","Germany","Ireland","Italy","Iceland","Netherlands","Poland","Norway", "Spain","Switzerland","Turkey", "Ukraine","Sweden", "Portugal", "United Kingdom")
+
+Africa <- c("Libya" ,"Egypt, Arab Rep.","Congo, Dem. Rep." ,"Central African Republic" ,"Congo, Rep.","Nigeria" ,"Liberia","Kenya","Madagascar","Mali", "Rwanda", "Somalia","South Sudan" ,"Uganda" ,"Zimbabwe","Sudan","South Africa","Sierra Leone","Ethiopia","Ghana","Botswana" ,"Angola","Cabo Verde", "Cameroon","Comoros","Seychelles","Niger","Zambia")
+
+Asia  <-  c("India" ,"Pakistan" ,"Nepal", "Russian Federation", "Israel" ,"Saudi Arabia","United Arab Emirates","Cambodia","China" ,"Japan" ,"Mongolia")
+
+South_America <- c("Bolivia", "Brazil", "Chile","Uruguay", "Venezuela, RB","Panama", "Peru", "Paraguay","Nicaragua","Guatemala" ,"El Salvador" ,"Ecuador" ,"Honduras","Colombia","Argentina" ,"Belize")
+
+Oceania <-c("American Samoa" ,"Malaysia" ,"New Caledonia", "Marshall Islands" ,"Indonesia","Fiji","Guam", "Australia" )
+```
+
+
+
+```{r load_data}
+# Use this R-Chunk to import all your datasets!
+
+WED <- read_csv("world_econ_dat.csv") # Economic indicators
+POP <- read_csv("population.csv") # Mortality and Population
+POP <- POP %>% filter(`Country Name` %in% mycountries | `Country Name` %in% Aggs)
+```
+
+## Background
+### [World Bank](https://data.worldbank.org/)
+- Data determinant to my question.
+- Web tools to quickly analyze, search and filter my data sets.
+
+### Task
+
+This project I wanted to try and recreate some of the animated charts I've seen from gapminder and other economics sources. I tried using both gganimate and plotly to do this in different ways. I've included two plots for both options aswell as a sample of the final data.
+
+
+## Data Wrangling
+#### Write a short summary of the read-in process and some coding secrets you learned.
+When reading in this data the initial import was not too complicated, getting the data I wanted was fairly easy through world bank. The incoming column names are a bit long and the orientation of that data was a mix between Long and Wide. It took me a few trys (spent about 6 hours on this part) trying to reshape it to fit my needs better. I feel significantly more comfortable with pivots now. I learned how to pivot multiple values at a time as well as use regex within strings to rename and remove some section of my names.
+
+```{r tidydata_Final_dat}
+# Append population and mortality data to Economic indicators (without forecast years)
+Full_dat <- rbind(POP[,1:54],WED)
+
+# Aggregate data
+
+Full_Agg <- Full_dat %>% filter(`Country Name` %in% Aggs)
+
+Full_Agg_Long <- Full_Agg %>% pivot_longer(!c(`Country Name`, `Country Code`, `Series Name`, `Series Code`), names_to = "year", values_to = "value")
+
+Full_Agg_Long <- Full_Agg_Long[,-4]
+
+Full_Agg_Wide <- Full_Agg_Long %>% pivot_wider(names_from = c(`Series Name`), values_from = !c(`Series Name`, `Country Name`,`year`, `Country Code`))
+
+Full_Agg_Wide$year <- as.integer(substr(Full_Agg_Wide$year, 1,4))
+Full_Agg_Wide<-replace(Full_Agg_Wide, Full_Agg_Wide == "..",NA)
+
+# Full data
+
+Full_dat <- Full_dat %>% filter(`Country Name` %in% mycountries)
+
+Full_dat_Long <- Full_dat %>% pivot_longer(!c(`Country Name`, `Country Code`, `Series Name`, `Series Code`), names_to = "year", values_to = "value")
+
+Full_dat_Long <- Full_dat_Long[,-4]
+
+Full_dat_Wide <- Full_dat_Long %>% pivot_wider(names_from = c(`Series Name`), values_from = !c(`Series Name`, `Country Name`,`year`, `Country Code`))
+
+Full_dat_Wide$year <- as.integer(substr(Full_dat_Wide$year, 1,4))
+Full_dat_Wide<-replace(Full_dat_Wide, Full_dat_Wide == "..",NA)
+
+Full_dat_Wide$Continent <- case_when(Full_dat_Wide$`Country Name` %in% North_America ~ "North America", 
+                                     Full_dat_Wide$`Country Name` %in% South_America ~ "South America",
+                                     Full_dat_Wide$`Country Name` %in% Africa ~ "Africa",
+                                     Full_dat_Wide$`Country Name` %in% Asia ~ "Asia",
+                                     Full_dat_Wide$`Country Name` %in% Europe ~ "Europe",
+                                     Full_dat_Wide$`Country Name` %in% Oceania ~ "Oceania")
+
+
+# Change column data Types
+
+Full_dat_Wide$`Inflation, GDP deflator (annual %)` <- as.numeric(Full_dat_Wide$`Inflation, GDP deflator (annual %)`)  
+
+Full_dat_Wide$`Gross savings (% of GDP)` <- as.numeric(Full_dat_Wide$`Gross savings (% of GDP)`)                            
+Full_dat_Wide$`Gross domestic savings (% of GDP)` <- as.numeric(Full_dat_Wide$`Gross domestic savings (% of GDP)`)   
+
+Full_dat_Wide$`GDP per capita (constant 2015 US$)` <- as.numeric(Full_dat_Wide$`GDP per capita (constant 2015 US$)`)    
+
+Full_dat_Wide$`GDP growth (annual %)` <- as.numeric(Full_dat_Wide$`GDP growth (annual %)`)                                     
+Full_dat_Wide$`GDP (constant 2015 US$ Millions)` <- as.numeric(Full_dat_Wide$`GDP (constant 2015 US$)`)/ 1000000 
+
+Full_dat_Wide$`Current health expenditure (% of GDP)` <- as.numeric(Full_dat_Wide$`Current health expenditure (% of GDP)`)                         
+Full_dat_Wide$`Central government debt, total (% of GDP)` <- as.numeric(Full_dat_Wide$`Central government debt, total (% of GDP)`)                      
+Full_dat_Wide$`Unemployment, total (% of total labor force) (national estimate)` <- as.numeric(Full_dat_Wide$`Unemployment, total (% of total labor force) (national estimate)`)
+
+Full_dat_Wide$`GDP per capita growth (annual %)` <- as.numeric(Full_dat_Wide$`GDP per capita growth (annual %)`)
+
+Full_dat_Wide$`Country Name` <- as.factor(Full_dat_Wide$`Country Name`)
+Full_dat_Wide$`Continent` <- as.factor(Full_dat_Wide$`Continent`)
+
+Full_dat_Wide$`Population, total` <- as.numeric(Full_dat_Wide$`Population, total`)
+Full_dat_Wide$`Mortality rate, under-5 (per 1,000)` <- as.numeric(Full_dat_Wide$`Mortality rate, under-5 (per 1,000)`)
+```
+
+
+###  Data {.tabset .tabset-pills .tabset-fade}
+
+#### Hide
+
+#### Data
+```{r}
+  Full_dat_Wide %>% glimpse(60)
+datatable(Full_dat_Wide[1:500,], options=list(lengthMenu = c(3,5,10)), extensions="Responsive")
+```
+
+```{r tidy_data_Week_6_explorations}
+# Use this R-Chunk to clean & wrangle your data!
+WED <- WED[, c(-4)]
+WED_Agg <- WED[1:80, ]
+WED_C <- WED[-1:-80, ]
+WED_C_If <- WED_C
+
+#Remove unwanted data, reshape.
+WED_Agg <- WED_Agg[-21:-30, ]
+
+WED_Agg_Long <- WED_Agg %>% pivot_longer(!c(`Country Name`, `Series Name`), names_to = "year", values_to = "percent")
+
+WED_Agg_Wide <- WED_Agg_Long %>% pivot_wider(names_from = c(`Series Name`), values_from = !c(`Series Name`, `Country Name`,`year`))
+
+#Fix Names
+names_str <- names(WED_Agg_Wide)
+names_string <- str_replace(names_str, pattern = "\\s+", replacement = "_") %>% 
+  str_replace(pattern = ("[_].*_"), replacement = "_") %>%
+  str_replace_all(pattern = "\\s", replacement = "_")
+WED_Agg_Wide <- setNames(WED_Agg_Wide,names_string)
+
+
+#names(WED_Agg_Wide)
+
+#Fix Data types
+WED_Agg_Wide<-replace(WED_Agg_Wide, WED_Agg_Wide == "..",NA) 
+WED_Agg_Wide$year <- as.numeric(substr(WED_Agg_Wide$year, 1,4))
+
+# change column types
+WED_Agg_Wide$`Inflation,_GDP_deflator_(annual_%)` <- as.numeric(WED_Agg_Wide$`Inflation,_GDP_deflator_(annual_%)`)                          
+WED_Agg_Wide$`Gross_savings_(%_of_GDP)` <- as.numeric(WED_Agg_Wide$`Gross_savings_(%_of_GDP)`)                            
+WED_Agg_Wide$`Gross_domestic_savings_(%_of_GDP)` <- as.numeric(WED_Agg_Wide$`Gross_domestic_savings_(%_of_GDP)`)                              
+WED_Agg_Wide$`GDP_per_capita_(constant_2015_US$)` <- as.numeric(WED_Agg_Wide$`GDP_per_capita_(constant_2015_US$)`)                            
+WED_Agg_Wide$`GDP_growth_(annual_%)` <- as.numeric(WED_Agg_Wide$`GDP_growth_(annual_%)`)                                     
+WED_Agg_Wide$`GDP_(constant_2015_US$)` <- as.numeric(WED_Agg_Wide$`GDP_(constant_2015_US$)`)/ 1000000                                       
+WED_Agg_Wide$`Current_health_expenditure_(%_of_GDP)` <- as.numeric(WED_Agg_Wide$`Current_health_expenditure_(%_of_GDP)`)                         
+WED_Agg_Wide$`Central_government_debt,_total_(%_of_GDP)` <- as.numeric(WED_Agg_Wide$`Central_government_debt,_total_(%_of_GDP)`)                      
+WED_Agg_Wide$`Unemployment,_total_(%_of_total_labor_force)_(national_estimate)` <- as.numeric(WED_Agg_Wide$`Unemployment,_total_(%_of_total_labor_force)_(national_estimate)`)
+WED_Agg_Wide$`GDP_per_capita_growth_(annual_%)` <- as.numeric(WED_Agg_Wide$`GDP_per_capita_growth_(annual_%)`)
+WED_Agg_Wide$Country_Name <- as.factor(WED_Agg_Wide$Country_Name)
+
+
+# 
+
+WED_Agg_Long_p <- WED_Agg_Long
+WED_Agg_Long_p<-replace(WED_Agg_Long_p, WED_Agg_Long_p == "..",NA) 
+WED_Agg_Long_p$year <- as.numeric(substr(WED_Agg_Long_p$year, 1,4))
+WED_Agg_Long_p$percent <- as.numeric(WED_Agg_Long_p$percent)
+WED_Agg_Long_p$`Country Name` <- as.factor(WED_Agg_Long_p$`Country Name`)
+WED_Agg_Long_p$`Series Name` <- as.factor(WED_Agg_Long_p$`Series Name`)
+WED_Agg_Long_p <- filter(WED_Agg_Long_p, `Series Name` != "GDP (constant 2015 US$)")
+WED_Agg_Long_p <- filter(WED_Agg_Long_p, `Series Name` != "GDP per capita (constant 2015 US$ Millions)" )
+
+```
+
+
+###  gganimate plots {.tabset .tabset-pills .tabset-fade}
+
+#### Hide
+
+#### Mortality Rate by Gross Savings
+
+```{r}
+Full_Agg_Wide1 = Full_Agg_Wide %>% filter(year >1987)
+p <- ggplot(
+  Full_Agg_Wide1, 
+  aes(x = as.numeric(`Gross savings (% of GDP)`), y=as.numeric(`Mortality rate, under-5 (per 1,000)`), size = as.numeric(`Population, total`), colour = `Country Name`)
+  ) +
+  geom_point(show.legend = FALSE, alpha = 0.7) +
+  scale_color_viridis_d() +
+  scale_size(range = c(2, 12)) +
+  scale_x_log10() +
+  labs(x = "Gross savings (% of GDP)", y = "Mortality rate, under-5 (per 1,000)",  size= "Population in Millions")
+
+
+p <-p + transition_time(Full_Agg_Wide1$year) +
+  labs(title = "Year: {frame_time}")+
+  shadow_wake(wake_length = 0.2, alpha = FALSE)
+animate(p, fps=4)
+```
+
+#### Mortality Rate by GDP per capita
+
+```{r}
+Full_Agg_Wide1 = Full_Agg_Wide %>% filter(year >1987)
+p <- ggplot(
+  Full_Agg_Wide1 , 
+  aes(x = as.numeric(`GDP per capita (constant 2015 US$)`), y=as.numeric(`Mortality rate, under-5 (per 1,000)`), size =(as.numeric(`Population, total`)/1000000), colour = `Country Name`)
+  ) +
+  geom_point(show.legend = TRUE, alpha = 0.7) +
+  scale_color_viridis_d() +
+  scale_size(range = c(2, 12)) +
+  scale_x_log10() +
+  labs(x = "Gross savings (% of GDP)", y = "Mortality rate, under-5 (per 1,000)", size= "Population in Millions")
+
+
+p <-p + transition_time(Full_Agg_Wide1$year) +
+  labs(title = "Year: {frame_time}")+
+  shadow_wake(wake_length = 0.2, alpha = FALSE)
+animate(p, fps=4)
+```
+
+
+
+
+
+
+###  Animated Plotly  {.tabset .tabset-pills .tabset-fade}
+
+#### Hide
+
+#### Mortality rate by GDP per capita
+```{r}
+p <- ggplot(Full_dat_Wide %>% drop_na(`Mortality rate, under-5 (per 1,000)`) %>% drop_na(`Current health expenditure (% of GDP)`), aes(x=`GDP per capita (constant 2015 US$)`, y=`Mortality rate, under-5 (per 1,000)`, color = Continent)) +
+  geom_point(aes(size = `Population, total`, frame = year, ids = `Country Name`)) +
+  #scale_x_log10()+
+  facet_wrap(~`Continent`)+ labs(title =  "Mortality rate by GDP per capita")
+
+ggplotly(p)
+
+```
+
+
+#### Mortality rate by Health Expenditure
+```{r}
+
+p <- ggplot(Full_dat_Wide %>% drop_na(`Mortality rate, under-5 (per 1,000)`) %>% drop_na(`Current health expenditure (% of GDP)`), aes(x=`Current health expenditure (% of GDP)`, y= `Mortality rate, under-5 (per 1,000)`, color = Continent)) +
+  geom_point(aes(size = `Population, total`, frame=year, ids = `Country Name`))+
+  facet_wrap(~`Continent`)+ labs(title =  "Mortality rate by current health expenditure (% of GDP)")
+ggplotly(p)
+
+```
+
+
+### Attempt to Functionalize {.tabset .tabset-pills .tabset-fade}
+
+#### Hide
+
+#### Functionalize
+Below is an attempt to functionalize the animated plots, I got close but couldn't quite figure out how to get it work correctly.
+
+```{r functions}
+name_change <- function(var,col){
+  suffix <- "Length"
+  if (substr(var,nchar(var)-nchar(suffix)+1,nchar(var)) == suffix)
+    {col <- as.integer(col)}
+  col
+}
+
+animated_plotly <- function(Dataset, XCol, YCol, facet){
+  #Dataset1 <- Dataset  %>% drop_na(XCol) %>% drop_na(YCol) %>% as.numeric(XCol) %>% as.numeric(Dataset1$YCol)
+  Dataset1 <- Dataset %<>% 
+    mutate_at(vars(ends_with(")")), as.numeric) %>% 
+    glimpse(60)
+  if (facet == "Yes") {
+p <- ggplot(Dataset1, aes(x=XCol, y=YCol, color = Dataset1$Continent)) +
+  geom_point(aes(size = Dataset1$`Population, total`, frame=Dataset1$year, ids = Dataset1$`Country Name`))
+  #facet_wrap(as.factor(Dataset1$`Continent`))
+
+ggplotly(p)
+  }else{
+p <- ggplot(Dataset1, aes(x=XCol, y=YCol, color = Dataset1$Continent)) +
+  geom_point(aes(size = Dataset1$`Population, total`, frame=Dataset1$year, ids = Dataset1$`Country Name`))
+View(Dataset1)
+
+ggplotly(p)
+    
+  }
+}
+
+```
+
+```{r}
+
+animated_plotly(Full_Agg_Wide, "Current health expenditure (% of GDP)", "Mortality rate, under-5 (per 1,000)", "Yes")
+```
+
+### Week 6 Data Visualization {.tabset .tabset-pills .tabset-fade}
+
+#### Hide
+
+#### Plots
+Include two to three quick visualizations that you used to check the quality of your data.
+Initially I wrangled and plotted the aggregated geographical groups. This allows for a visualization of patterns within world regions. This was helpful when troubleshooting my pivots, 70 observations becomes 3500 when pivoting to a full long orientation. So when I do this with the unaggregated data I should be turning 925 obs into 46250. All my code and plots should still work for those though I may need to facet and group differently.
+
+I first plotted just two of the series faceting and grouping by countries. These are two of the series I am most interseted in studying so I wanted to look at them specifically.
+
+I then plotted a larger group of the series in the same manner to get a quick Idea of what years each data series seems to cover and in which countries/regions it was generally available.
+
+Lastly I created a quick violin plot to examine each series and its possible patterns/outliers.
+```{r plot_data}
+# Use this R-Chunk to plot & visualize your data!
+ggplot(WED_Agg_Wide)+
+  geom_path(aes(x=(year), y=`Gross_domestic_savings_(%_of_GDP)`,group=Country_Name), color="red")+
+  geom_point(aes(x=(year), y=`Gross_domestic_savings_(%_of_GDP)`,group=Country_Name), color="red")+
+  geom_path(aes(x=(year), y=`GDP_per_capita_growth_(annual_%)`,group=Country_Name),  color="blue")+
+  geom_point(aes(x=(year), y=`GDP_per_capita_growth_(annual_%)`,group=Country_Name),  color="blue")+
+  facet_wrap(~`Country_Name`)+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  theme_bw()+
+  labs(color=c("red","bleu"))
+
+
+
+
+ggplot(WED_Agg_Long_p)+
+  geom_path(aes(x=(year), y=percent, group= WED_Agg_Long_p$`Series Name`, color=WED_Agg_Long_p$`Series Name`))+
+  geom_point(aes(x=(year), y=`percent`, group=WED_Agg_Long_p$`Series Name`, color=WED_Agg_Long_p$`Series Name`))+
+  facet_wrap(~`Country Name`)+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+
+ggplot(WED_Agg_Long_p)+
+  geom_violin(aes(x=(year), y=percent, color=WED_Agg_Long_p$`Series Name`))+
+  geom_jitter(aes(x=(year), y=`percent`, color=WED_Agg_Long_p$`Series Name`))+
+  facet_wrap(~`Series Name`)+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+## Conclusions
+### Summarize the limitations of the compiled data in addressing your original question.
+  My data does not include all countries nor does it include or account for many significant variables that would be present in an economic model for a question such as mine. Savings rates,health investment and previous patterns in gdp are not the only determinants of GDP growth or stability, though the may be important ones, which is the primary question I am seeking to anwser.
+
+### After formatting your data, identify any follow-on or alternate questions that you could use for your project.
+After examining some of the patterns and trends I may return to World bank and try to gather some additional variables that may also be influential in this model.

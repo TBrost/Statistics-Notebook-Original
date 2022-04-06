@@ -1,0 +1,77 @@
+---
+title: "Map of Campus in r"
+author: "Tyson Brost"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 8
+    fig_width: 6
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r load_libraries, include=FALSE}
+# Use this R-Chunk to load all your libraries!
+#install.packages("tidyverse") # run this line once in console to get package
+library(tidyverse)
+library(leaflet)
+
+```
+
+```{r load_data}
+# Use this R-Chunk to import all your datasets!
+BYUI <- data.frame(Building = c("STC","Austin","BYU-I Center","Hart","snow","Romney","Spori","Kirkham", "Clarke", "Mckay", "Smith", "Manwaring", "Kimball", "Taylor", "Hinckley", "Ricks", "Benson"), Lat = c(43.8144,43.81582909024388,43.81855179894589,43.81957363416934,43.82109432348679,43.820281522138444, 43.820916282233114, 43.82110980530984, 43.82008025533344, 43.819499674209986, 43.81936033390029, 43.81821463458064, 43.81703020609232, 43.81693730874667, 43.81573737168207, 43.814916755695485, 43.815381256695574 ), Long = c(-111.78459,-111.78448729257276,-111.78459523261063,-111.784820538147,-111.78355920298482,-111.78302276123155, -111.78255069248866, -111.78159582616784, -111.78179967403408, -111.78240048879773,-111.78144562247691, -111.78221809860163, -111.78145635131197,-111.78248631947825, -111.77987921247086, -111.78131687636964, -111.78314077833078), MainSubjects = c("Computer Science","Engineering","Devo","Recreation","Performance","Physical Sciences","Art","Sculpting?", "Nursing/Family Science", "Library", "Economics/Business", "Dance/University services", "University services", "Religion", "Languages", "Math/Psychology", "Plant/Animal Science"))
+   
+
+```
+
+## Background
+
+_Place Task Background Here_
+
+## Data Wrangling
+
+```{r tidy_data}
+# Use this R-Chunk to clean & wrangle your data!
+getColor <- function(BYUI) {
+  sapply(BYUI$Building, function(Building) {
+  if(Building %in% c("STC","Austin","Romney", "Smith", "Ricks", "Benson")) {
+    "lightblue"
+  } else if(Building %in% c("BYU-I Center","Hart", "Mckay","Manwaring", "Kimball")) {
+    "green"
+  } else {
+    "firebrick"
+  } })
+}
+colors <- getColor(BYUI)
+colors <- unname(colors)
+icons <- awesomeIcons(
+  icon = 'ios-close',
+  iconColor = 'black',
+  library = 'ion',
+  markerColor = colors
+)
+
+```
+
+## Data Visualization
+
+```{r plot_data}
+# Use this R-Chunk to plot & visualize your data!
+m <- leaflet(data = BYUI) %>% setView(lng = -111.784, lat = 43.818, zoom = 15.5) %>% 
+  addTiles() %>%
+  addAwesomeMarkers(~Long, ~Lat, icon=icons, popup = ~as.character(MainSubjects), label=~as.character(Building))
+m
+
+```
+
+## Conclusions
+I pulled the Long and Lat data from google maps and built a quick DF to store the data. Then I used a couple functions from a leaflet I did back in 325 to add colors based on sublists of the building names, the rough categories are; blue -> STEM, green -> University services/ETC, red -> Arts
+the Building names appears on hover, click shows the primary subject taught there.

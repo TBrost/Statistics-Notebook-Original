@@ -1,0 +1,163 @@
+---
+title: "Stocks CS"
+author: "Tyson Brost"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r load_libraries, include=FALSE}
+# Use this R-Chunk to load all your libraries!
+#install.packages("tidyverse") # run this line once in console to get package
+library(tidyverse)
+library(readxl)
+library(mosaic)
+library(pander)
+library(lubridate)
+library(tidyquant)
+library(dygraphs)
+library(timetk)
+```
+
+```{r load_data}
+# Use this R-Chunk to import all your datasets!
+tickers_today <- c("CXW", "F", "GM", "JCP", "KR", "WDC", "NKE","T", "WDAY", "WFC", "WMT")
+```
+
+## Background
+
+_Place Task Background Here_
+
+## Data Wrangling
+
+```{r tidy_data}
+# Use this R-Chunk to clean & wrangle your data!
+
+tickers1 <- c("F", "KR", "NKE", "WDAY", "WMT")
+
+stock_dat <- tq_get(tickers_today, get = "stock.prices", from = "2017-03-28", to = "2022-03-28")
+
+stock_dat <- stock_dat[,c(1:3,6:8)]
+
+stock_dat_ret <- stock_dat %>%
+    group_by(symbol) %>% 
+    tq_transmute(select     = adjusted,
+                 mutate_fun = dailyReturn,
+                 type       = "log",
+                 col_rename = "returns")
+stock_dat_ret <- stock_dat_ret %>%
+  group_by(symbol) %>%
+  mutate(returns = cumsum(returns))
+
+stock_dat$returns <- stock_dat_ret$returns * 25000/3
+rm(stock_dat_ret)
+
+stock_dat$avg <- (stock_dat$close + stock_dat$open) / 2
+
+`%!in%` <- Negate(`%in%`) #Not in operator
+
+stock_dat_w <- stock_dat %>% filter(symbol %!in% tickers1) %>% pivot_wider( c(symbol, date, returns), names_from = symbol, values_from= returns)
+
+stock_dat_int1.1 <- xts(stock_dat_w, order.by = stock_dat_w$date)
+
+stock_dat_w <- stock_dat %>% filter(symbol %in% tickers1) %>% pivot_wider( c(symbol, date, returns), names_from = symbol, values_from= returns)
+stock_dat_int1.2 <- xts(stock_dat_w, order.by = stock_dat_w$date)
+
+
+stock_dat_w <- stock_dat %>% pivot_wider( c(symbol, date), names_from = symbol, values_from= c(open,close,avg))
+
+stock_dat_int2 <- xts(stock_dat_w, order.by = stock_dat_w$date)
+
+# Volume stuff
+
+
+stock_dat_ret <- stock_dat %>%
+    group_by(symbol) %>% 
+    tq_transmute(select     = volume,
+                 mutate_fun = dailyReturn,
+                 type       = "log",
+                 col_rename = "volumes_change")
+
+stock_dat$volumes_change <- stock_dat_ret$volumes_change
+rm(stock_dat_ret)
+
+stock_dat$volume_1 <- lag(stock_dat$volume, k=1)
+```
+
+
+
+## Data Visualization
+
+```{r returns_plot1.1}
+# Use this R-Chunk to plot & visualize your data!
+dygraph(stock_dat_int1.1, main="Worst Five Returns") %>%
+  dyHighlight(highlightCircleSize = 5, 
+              highlightSeriesBackgroundAlpha = 0.2,
+              hideOnMouseOut = FALSE) %>%
+  dyAxis("y", label="returns", valueRange = c(-12000, 10000)) %>%
+  dyRangeSelector()
+
+
+```
+
+
+```{r returns_plot}
+# Use this R-Chunk to plot & visualize your data!
+dygraph(stock_dat_int1.2, main="Best Five Returns") %>%
+  dyHighlight(highlightCircleSize = 5, 
+              highlightSeriesBackgroundAlpha = 0.2,
+              hideOnMouseOut = FALSE) %>%
+  dyAxis("y", label="returns", valueRange = c(-4000, 13000)) %>%
+  dyRangeSelector()
+```
+
+```{r rangeplot}
+# Use this R-Chunk to plot & visualize your data!
+dygraph(stock_dat_int2, main="Open-Avg-Close ranges (zoom in)") %>%
+  dySeries(c("open_F", "avg_F", "close_F"), label= "F") %>%
+  dySeries(c("open_T", "avg_T", "close_T"), label= "T") %>%
+  dySeries(c("open_WDC", "avg_WDC", "close_WDC"), label= "WDC") %>%
+  dySeries(c("open_WFC", "avg_WFC", "close_WFC"), label= "WFC") %>%
+  dySeries(c("open_NKE", "avg_NKE", "close_NKE"), label= "NKE") %>%
+  dySeries(c("open_WDAY", "avg_WDAY", "close_WDAY"), label= "WDAY") %>%
+  dySeries(c("open_WMT", "avg_WMT", "close_WMT"), label= "WMT") %>%
+  dySeries(c("open_KR", "avg_KR", "close_KR"), label= "KR") %>%
+  dySeries(c("open_GM", "avg_GM", "close_GM"), label= "GM") %>%
+  dySeries(c("open_CXW", "avg_CXW", "close_CXW"), label= "CXW") %>%
+  dyHighlight(highlightCircleSize = 5, 
+              highlightSeriesBackgroundAlpha = 0.2,
+              hideOnMouseOut = FALSE) %>%
+  dyRangeSelector()
+```
+
+```{r volume_plots}
+ggplot()+
+  geom_smooth(aes(x=volume_1, y= returns), data=stock_dat)+
+  geom_point(aes(x=volume_1, y= returns, col= returns), alpha=0.1, data=stock_dat)+
+  geom_hline(yintercept =0)
+
+ggplot()+
+  geom_smooth(aes(x=volume, y= returns), data=stock_dat)+
+  geom_point(aes(x=volume, y= returns, col= returns), alpha=0.1, data=stock_dat)+
+  geom_hline(yintercept =0)
+
+ggplot()+
+  geom_smooth(aes(x=volumes_change, y= returns), data=stock_dat)+
+  geom_point(aes(x=volumes_change, y= returns, col= returns), alpha=0.1, data=stock_dat)+
+  geom_hline(yintercept =0)
+
+```
+## Conclusions
+
+I split the stocks in half to better see them all in the first two interactive plots. These show returns if 1/3 of $25,000 was invested in a given stock. The third interactive plot is meant to help visualize fluctuations over a day through upper/lower limits. Lastly the ggplots help to show how volume affects returns, higher volumes being traded, both on the day before and the current day correlate with increased returned. Additionally the lower the percent change in volume traded the more likely a positive return will occur.
