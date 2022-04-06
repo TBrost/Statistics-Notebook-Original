@@ -1,7 +1,7 @@
 ---
 title: "Reducing Gun Deaths"
 author: "Tyson Brost"
-date: "February 17, 2022"
+date: "April 05, 2022"
 output:
   html_document:  
     keep_md: true
@@ -12,6 +12,13 @@ output:
     fig_width: 12
     fig_align: 'center'
 ---
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
 
 
 
