@@ -54,7 +54,14 @@ My stuff from work and other random commands; [link](https://docs.google.com/spr
 
 
 
-text
+
+```{r eval=FALSE, include=FALSE}
+ggplot ( airquality ,  aes( x=Temp ))+ 
+   geom_histogram( binwidth=5,  fill="skyblue", color="black" )
+    
+ggplot(airquality, aes(x=factor(Month), y=Temp))+ 
+   geom_boxplot(fill="skyblue", color="black")
+```
 
 
 

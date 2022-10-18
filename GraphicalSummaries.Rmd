@@ -4,6 +4,7 @@ output:
   html_document: 
     toc: true
     toc_float: true
+    md_extensions: -smart
 ---
 
 ```{r, include=FALSE}

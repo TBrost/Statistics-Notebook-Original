@@ -56,6 +56,8 @@ navbar:
           href: ./Analyses/Wilcoxon Tests/RecallingWords.html
         - text: "Day Care"
           href: ./Analyses/ANOVA/Examples/DayCare.html
+        - text: "Anova HS"
+          href: ./Analyses/ANOVA/HighSchoolSeniors2.html
         - text: "Food"
           href: ./Analyses/Kruskal-Wallis Test/Food.html
         - text: "My Simple Linear Regression"
@@ -138,4 +140,5 @@ output:
     theme: cerulean
     css: styles.css
     highlight: tango
+    md_extensions: -smart
   

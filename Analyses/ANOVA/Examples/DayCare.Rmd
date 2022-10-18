@@ -129,7 +129,7 @@ ggplot(Late, aes(x=Week, y=NumberofLateChildren, group=Treatment, color=Period))
 $$
 H0:\text{μBefore the Fine=μFine Applied=μFine Removed}
 $$
- $$
+$$
 Ha:\text{The average number of late children differs for at least one Period}
 $$
 $$

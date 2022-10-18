@@ -122,6 +122,15 @@ F4 <- F3 %>% drop_na()
 
 
 
+## This is a better way to do the above filtering
+#Friendly$condition <- as.character(Friendly$condition)
+
+#Friendly <- Friendly %>% 
+ # filter(Friendly$condition== "Meshed" | Friendly$condition=="SFR")
+
+#Friendly$condition <- as.factor(Friendly$condition)
+
+
 ```
 ----
 

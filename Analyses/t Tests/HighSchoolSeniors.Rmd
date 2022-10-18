@@ -43,9 +43,9 @@ HSS <- HSS %>%
 -->
 
 ```{r}
-Kids2 <- HSS %>% 
-   filter(Home_Occupants == 3) %>% 
-   select(c(Country, Gender))    
+HSS2_0 <- HSS %>% 
+   #filter(Home_Occupants == 3) %>% 
+   select(c(Languages_spoken, Gender))    
 
 ```
 

@@ -16,6 +16,7 @@ title: "R Cheat Sheets & Notes"
 
 * [GGplot Cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf "Vis with GGplot")
 
+* [GGPlot GUI Explorer](https://cran.r-project.org/web/packages/esquisse/vignettes/get-started.html)
 ## Notes
 
 Add your own notes here...
