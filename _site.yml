@@ -50,23 +50,23 @@ navbar:
           href: ./Analyses/Rent.html
         - text: "Stephanie"
           href: ./Analyses/Stephanie.html
-        - text: "High School Seniors"
+        - text: "High School Seniors (T-Test)"
           href: ./Analyses/t Tests/HighSchoolSeniors.html
-        - text: "Recalling Words"
+        - text: "Recalling Words (Wilcoxon)"
           href: ./Analyses/Wilcoxon Tests/RecallingWords.html
-        - text: "Day Care"
+        - text: "Day Care (Anova)"
           href: ./Analyses/ANOVA/Examples/DayCare.html
-        - text: "Anova HS"
+        - text: "Anova High School Seniors 2"
           href: ./Analyses/ANOVA/HighSchoolSeniors2.html
-        - text: "Food"
+        - text: "Food (KW)"
           href: ./Analyses/Kruskal-Wallis Test/Food.html
         - text: "My Simple Linear Regression"
           href: ./Analyses/Linear Regression/MySimpleLinearRegression.html
         - text: "Car Prices"
           href: ./Analyses/Linear Regression/CarPrices.html
-        - text: "My Logistic Regression"
+        - text: "Logistic Regression"
           href: ./Analyses/Logistic Regression/MyLogisticRegression.html
-        - text: "My Chi-sqaured Test"
+        - text: "Chi-sqaured Test"
           href: ./Analyses/Chi Squared Tests/MyChiSquaredTest.html
     - text: "Wrangling and Viz (WIP)"
       menu:
@@ -76,15 +76,15 @@ navbar:
           href: ./Wrangling and Vis/Heights/W4Casestudy.html
         - text: "Shape/Spread Comparisons"
           href: ./Wrangling and Vis/Health-Mortality/W5T2.html
-        - text: "String and ReGex Wrangling"
+        - text: "String and ReGex Wrangling (empty)"
           href: ./Wrangling and Vis/StringReGex/
-        - text: "All about Barplots"
+        - text: "All about Barplots (empty)"
           href: ./Wrangling and Vis/BarplotsVis/
         - text: "TimeDate Data"
           href: ./Wrangling and Vis/TimeDate/Stocks/W10CS.html
         - text: "Geometric Data"
           href: ./Wrangling and Vis/Geometrics/Leaflet/W12CS.html
-        - text: "Faceting"
+        - text: "Faceting (empty)"
           href: ./Wrangling and Vis/Faceting/
         - text: "Functions"
           href: ./Wrangling and Vis/Functions/W8CS.html
@@ -102,11 +102,11 @@ navbar:
           href: ./Economics-Extras/Macro/Solow-Romer/Ap_LR_Romer-Solow.html
     - text: "Interactivity (WIP)"
       menu:
-        - text: "All about Barplots"
-          href: ./Wrangling and Vis/Interactivity/SemesterProj/SemesterProj.html
-        - text: "All about Barplots"
+        - text: "Mortality Rates around the World"
+          href: ./Wrangling and Vis/Interactivity/SemesterProj/Semester-Project.html
+        - text: "(empty)"
           href: ./Wrangling and Vis/
-        - text: "All about Barplots"
+        - text: "(empty)"
           href: ./Wrangling and Vis/
     - text: "Rscripts"
       menu:
