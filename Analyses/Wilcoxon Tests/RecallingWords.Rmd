@@ -28,8 +28,9 @@ library(tidyr)
 
 ```{r, eval=FALSE}
 # Play the chunk above and this one to get the data into your Console
-View(Friendly)
-?Friendly
+#View(Friendly)
+#?Friendly
+Friendly <- Friendly
 ```
 
 
@@ -88,6 +89,13 @@ datatable(Friendly, options=list(lengthMenu = c(3,10,30)))
 ```
 
 
+
+```{r}
+#ggplot(Friendly, aes(x=condition, y=correct)) +
+ # geom_dotplot()
+ggplot(Friendly, aes(x=condition, y=correct))+ 
+   geom_dotplot(binaxis = "y", stackdir = "up", position = "dodge", dotsize = 0.75, binwidth = 0.5)
+```
 </div>
 </div>
 

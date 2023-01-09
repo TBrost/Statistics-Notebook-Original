@@ -1,0 +1,132 @@
+---
+title: "Residuals"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+date: '2023-01-09'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(pander)
+library(car)
+```
+## {.tabset .tabset-pills .tabset-fade}
+
+### Intro
+
+### Instructions
+
+Create a document that teaches, at the level a Math 325 Student could understand, the following concepts:
+
+Residual,
+SSE,
+SSR,
+SSTO, 
+R-squared,
+MSE & "Residual Standard Error"
+...and their uses in regression analysis using your weather data (from your last week's analysis).
+Specifically, for each of the six concepts stated above, present:
+
+ A graphic or multiple graphics demonstrating that concept,
+The mathematical formula defining that concept,
+Written explanations explaining what values are possible for that concept, and what different values tell us about the regression.
+Your document should answer each of the following questions: 
+
+1. What is a residual? What use does a single residual provide within a regression analysis? Specifically, what does a residual tell us about your predicted temperature for Monday?
+
+Be sure to present a graphic, mathematical equation, and written explanations as you answer these questions. Remember to present your work as a document that teaches at the level a Math 325 student would understand.
+
+Hint: See the "R Instructions" for Simple Linear Regression under "Plotting the Regression" for guidance on how to add a point or line segment to a scatterplot. 
+
+ 
+
+2, 3, 4. What are each of SSE, SSR, and SSTO? How are they related? How do they differ? Find a way to both show and explain these values. How are they used to gain insight about data within a regression analysis? What is the smallest each of the values can be? The largest? Do we want each particular value to be large or small? Why?
+
+Be sure to present a graphic demonstrating each of these concepts as well as their respective mathematical formulas. Written explanations are also powerful in revealing these concepts. Remember, each of these measurements are not terribly useful on their own. It is their magnitude relative to each other that becomes meaningful, so while you may present each SS separately, they should eventually be discussed together.
+
+ 
+
+5. What is R-squared? It's definition is a simple statement "The proportion of variability in Y than can be explained by the regression." (Make sure you include this definition.) But understanding this definition can be tricky. Focus on the words "proportion," "variability," and "explained." Discuss these words. Visualize them. Refer back to your original explanations of the SS's.
+How is R-squared properly interpreted? How is it calculated? What information does it provide about a regression analysis? How does it differ from the information provided in the p-value for the slope term? 
+
+Be sure to demonstrate the R-squared mathematically, graphically, and with written explanations. There are many ways to graphically show R-squared. Be creative as you come up with a way to visualize it.
+
+ 
+
+6. What do the letters "MSE" stand for? How large can MSE get? How small? Does it measure the same thing that R-squared measures, or something different? Is it related to R-squared? How does it compare to the "residual standard error"? Where can you find the residual standard error in the regression summary output in R? Do we want the MSE and residual standard error to be large or small? Why? What units of measurement do both MSE and residual standard error have relative to the original data? In contrast, what units of measurement does R-squared have with respect to the original data? (For example, with the weather data, the units for high temperature are likely in "degrees Fahrenheit." So are any of the MSE, residual standard error, or R-squared in the same units of "degrees Fahrenheit"?)
+
+##
+
+## {.tabset .tabset-pills .tabset-fade}
+
+### Residual
+
+$$
+r_i = \underbrace{Y_i}_{\substack{\text{Observed} \\ \text{Y-value}}} - \underbrace{\hat{Y}_i}_{\substack{\text{Predicted} \\ \text{Y-value}}} \quad \text{(residual)} 
+$$
+
+```{r eval=FALSE, include=FALSE}
+carslm <- lm(dist ~ speed, cars)
+ggplot(cars, aes(x = speed, y = dist)) +
+  geom_point(size = 1.5, color = "skyblue", alpha = 0.5) +
+  geom_smooth(method = "lm", formula = y~x, se = FALSE, color = "navy", size = 1.5) +
+  geom_hline(yintercept = 75, color = "firebrick", size = 1,
+             linetype = "longdash", alpha = 0.5) +
+  geom_segment(x = 14, y =
+ 75, xend = 14, yend = 38,
+               size = 1, color = "lightgray", linetype = "longdash") +
+  geom_point(x = 14, y = 75, size = 3, color = "firebrick") +
+  geom_text(x = 14, y = 84, label = "My Point (14, 75)",
+            color = "navy", size = 3) +
+  theme_minimal()+
+  geom_rect(xmin=10 , xmax=14 , ymin= 38, ymax=75, alpha= 0.01)+
+  geom_rect(xmin=cars$speed , xmax=cars$speed+carslm$residuals*.15 , ymin= dist, ymax=cars$dist, alpha= 0.01)
+```
+
+### SSE
+
+$$
+\text{SSE} = \sum_{i=1}^n \left(Y_i - \hat{Y}_i\right)^2
+$$
+
+### SSR
+
+$$
+\text{SSR} = \sum_{i=1}^n \left(\hat{Y}_i - \bar{Y}\right)^2
+$$
+
+### SSTO 
+
+$$
+\text{SSTO} = \sum_{i=1}^n \left(Y_i - \bar{Y}\right)^2
+$$
+
+Or
+
+$$
+\text{SSTO} = \text{SSE} + \text{SSR}
+$$
+
+
+### R-squared
+
+$$
+\underbrace{R^2 = \frac{SSR}{SSTO} = 1 - \frac{SSE}{SSTO}}_\text{Interpretation: Proportion of variation in Y explained by the regression.}
+$$
+
+
+### MSE & "Residual Standard Error"
+
+$$
+\begin{equation}
+  s^2 = MSE = \frac{SSE}{n-2} = \frac{\sum(Y_i-\widehat{Y}_i)^2}{n-2} = \frac{\sum r_i^2}{n-2}
+\end{equation}
+$$
+
+### Applications
+
+##
+

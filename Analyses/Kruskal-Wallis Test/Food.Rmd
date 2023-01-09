@@ -19,6 +19,9 @@ library(readr)
 food <- read_csv("../../Data/food.csv") #food.csv is in the Data folder...
 ```
 
+$$
+H_0: \text{All samples are from the same distribution.}
+$$
 
 ----
 

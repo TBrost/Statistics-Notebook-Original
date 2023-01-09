@@ -33,7 +33,7 @@ library(pander)
 ```
 
 ```{r message=FALSE, warning=FALSE}
-GSS2012 <- read_delim("C:/Users/user/OneDrive/Desktop/Stats stuff/325 book/Statistics-Notebook-master/Data/GSS2012.csv", 
+GSS2012 <- read_delim("C:/RData/Statistics-Notebook/Data/GSS2012.csv", 
                       "\t", escape_double = FALSE, trim_ws = TRUE)
 
 GSS2012.1 <- GSS2012
@@ -147,7 +147,7 @@ pander(results$expected, caption= "Expected Counts")
 
 Here are observed counts for reference:
 ```{r message=FALSE, warning=FALSE}
-pander(results, caption= "Observed Counts")
+pander(results$observed, caption= "Observed Counts")
 ```
 
 

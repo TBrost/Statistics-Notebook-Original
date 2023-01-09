@@ -1,0 +1,73 @@
+---
+title: "Fish Weights"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+library(readr)
+library(tidyverse)
+library(pander)
+library(scales)
+library(ggplot2)
+library(mosaic)
+fish <- read.csv("../../Data/Fish.csv")
+
+```
+
+## R Markdown
+
+Data Source: [Source](http://jse.amstat.org/datasets/fishcatch.txt)
+
+```{r }
+
+fish$Species <- as.factor(fish$Species)
+
+pander(summary(fish.lm), caption="Fish Length by Weight")
+
+
+fishMult.lm <-lm(Weight ~ Length3 +Species+ Species:Length3, data=fish)
+
+fishMult3.lm <-lm(Weight ~ Length3 + Height +Species+ Species:Length3 + Length3:Height, data=fish)
+summary(fishMult3.lm) %>%
+pander()
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r plot}
+#hue_pal()(7) #get colors for default ggplot with 7 factors
+
+b <- coef(fishMult.lm)
+ggplot(fish, aes(y=Weight, x=Length3, color=factor(Species))) +
+  geom_point(pch=18, bg="gray98") +
+  stat_function(fun = function(x) b[1] + b[2]*x, color="#F8766D") + #Type== Bream 
+  stat_function(fun = function(x) (b[1]+b[3]) + (b[2]+b[9])*x, color="#C49A00") + #Type== Parkki  
+  stat_function(fun = function(x) (b[1]+b[4]) + (b[2]+b[10])*x,color="#53B400") + #Type== Perch
+  stat_function(fun = function(x) (b[1]+b[5]) + (b[2]+b[11])*x, color="#00C094") + #Type== Pike
+  stat_function(fun = function(x) (b[1]+b[6]) + (b[2]+b[12])*x,color="#00B6EB")+ #Type== Roach
+  stat_function(fun = function(x) (b[1]+b[7]) + (b[2]+b[13])*x, color="#A58AFF") + #Type== Smelt
+  stat_function(fun = function(x) (b[1]+b[8]) + (b[2]+b[14])*x, color="#FB61D7")+ #Type== Whitefish
+  labs(title="Two-lines Model for Everything")+
+  coord_cartesian(xlim=c(0,70), ylim = c(0,2000))
+```
+
+
+```{R}
+par(mfrow=c(1,3))
+plot(fishMult.lm,which=1:2)
+plot(fishMult.lm$residuals)
+#hist(fishMult.lm$residuals, xlab="", xaxt='n', yaxt='n', main="Right-skewed",      breaks=15, col="firebrick")
+```
+
+```{r}
+par(mfrow=c(1,3))
+plot(fishMult3.lm,which=1:2)
+plot(fishMult3.lm$residuals)
+
+```
+

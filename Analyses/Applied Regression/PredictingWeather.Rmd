@@ -1,0 +1,116 @@
+---
+title: "Predicting the Weather"
+output:
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(pander)
+data2 <- read_csv("../../Data/weathershort.csv")
+
+data2 <- data2[,-1]
+#data1 <- na.omit(data1)
+data2 <- na.omit(data2)
+data2$Snow_2 <- as.factor(data2$Snow_2)
+
+#pairs(data1)
+
+#mylm <- lm(Temp_high ~ Temp + Wind + PrevailingWind + SecondaryWind + Barometer_Direction_2 + Barometer_Direction_1, data = data2)
+#mylm <- lm(Temp_high ~ Temp_high_2 + Barometer_Direction_2 + Temp_high_2:Wind_2 + Snow_2 , data = data2)
+mylm2 <- lm(Temp_high ~ Temp_high_2 + Snow_2 , data = data2)
+
+b <- coefficients(mylm2)
+```
+
+
+## Prediction
+Saturday's Max Temp was 34 degrees, with no snow. Thus our predicted high for Monday is...
+```{r echo=TRUE}
+temp_predicted<- (b[1]) + (b[2])*34
+pander(temp_predicted)
+```
+
+
+## Visuals
+```{r}
+
+# ggplot(data2, aes(x=Temp_high_2, y=Temp_high, color=as.factor(Barometer_Direction_2)))+
+#   geom_point()+
+#   labs(title= "Clear Skys 2 Days Prior", x="Max Temp 2 Days Prior", y="Predicted Max Temp", color="Barometer increasing vs. \ndecreasing 2 days Prior")+
+#   theme_bw()+
+#   stat_function(fun = function(x) (b[1]) + (b[2])*x, color="#A58AFF")+
+#   stat_function(fun = function(x) (b[1]+b[3]) + (b[2]+ b[5])*x, color="firebrick")
+
+ggplot(data2, aes(x=Temp_high_2, y=Temp_high, color=as.factor(Snow_2)))+
+  geom_point()+
+  labs(title= "Predicting Max Temp based on Previous Highs and snowfall", x="Max Temp 2 Days Prior", y="Predicted Max Temp", color="Snow 2 days Prior")+
+  theme_bw()+
+  stat_function(fun = function(x) (b[1]) + (b[2])*x, color="firebrick")+
+  stat_function(fun = function(x) (b[1]+b[3]) + (b[2])*x, color="skyblue")+
+  geom_point(aes(x=34,y=34.42),colour="green")+
+  geom_label(
+    label="Mondays Prediction", 
+    x=35,
+    y=33,
+    label.padding = unit(0.2, "lines"), # Rectangle size around label
+    label.size = 0.05,
+    color = "black",
+    fill="#69b3a2"
+  )
+```
+
+```{r}
+# b <- coefficients(mylm)
+# ggplot(data2, aes(x=Temp_high_2, y=Temp_high, color=as.factor(Barometer_Direction_2)))+
+#   geom_point()+
+#   labs(title= "Snow Two days prior", x="Max Temp 2 Days Prior", y="Predicted Max Temp", color="Barometer increasing vs. \ndecreasing 2 days Prior")+
+#   theme_bw()+
+#   stat_function(fun = function(x) (b[1]+b[4]) + (b[2])*x, color="#A58AFF")+
+#   stat_function(fun = function(x) (b[1]+b[3]+b[4]) + (b[2]+ b[5])*x, color="firebrick")
+```
+## Details
+
+The max tempurature was lagged by two days and treated as the primary independent variable, additionally whether or not it had snowed 2 days prior was included as a factor type variable two allow for seperate intercepts, interaction was attempted and removed as it did not help the regression. In total after adjusting for lost rows due to NA data after laggin values one full week of prior weather information was gathered and used from [TimeandDate.com](https://www.timeanddate.com/weather/@5605242/historic?month=1&year=2023).
+
+### Base equation
+
+$$
+  \underbrace{Y_i}_\text{Max Temp Today} = \overbrace{\beta_0}^\text{y-int} + \overbrace{\beta_1}^\text{slope} \underbrace{X_{1i}}_\text{Max Temp 2 days Prior} + \overbrace{\beta_2}^\text{Change in intercept}\underbrace{X_{2i}}_\text{Snow 2 days Prior} \epsilon_i \quad \text{where} \ \epsilon_i \sim N(0, \sigma^2)
+$$
+
+### General hypotheses
+
+$$
+\begin{array}{ll}
+H_0: \beta_j = 0 \quad j \in \{1,\ldots, 2\}\\
+H_a:\beta_j\neq 0 \ 
+\end{array}
+$$
+
+### Stated Alpha
+
+$$
+\alpha = 0.05
+$$
+
+### Regression results
+
+```{r}
+
+
+pander(summary(mylm2))
+
+
+#xsuppressPackageStartupMessages({library(dynlm)})
+#mod.L4 <- dynlm(Temp ~ L(Time, 5), data = data1)
+#round(summary(mod.L4)$coef, 4)
+```
+
+### Augmented regression Equation
+
+$$
+  \underbrace{Y_i}_\text{Max Temp Today} = \overbrace{15.81}^\text{y-int} + \overbrace{0.5472}^\text{slope} \underbrace{X_{1i}}_\text{Max Temp 2 days Prior} + \overbrace{-8.992}^\text{Change in intercept}\underbrace{X_{2i}}_\text{Snow 2 days Prior} +  \epsilon_i \quad \text{where} \ \epsilon_i \sim N(0, \sigma^2)
+$$

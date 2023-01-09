@@ -90,10 +90,10 @@ pander(late, split.tables = Inf)
 The `Late` Day Care Center data is shown here in the "long data format", a more useable format for analysis.
 
 ```{r}
-pander(Late)
+#pander(Late)
 
-Late$Period <- case_when(Late$Week >= 1 & Late$Week <=4 ~ "Before", 
-                Late$Week >= 5 & Late$Week < 17 ~ "Fine Applied" , Late$Week > 16  ~ "Fine Removed")
+Late$Period <- as.factor(case_when(Late$Week <=4 ~ "Before", 
+                Late$Week >= 5 & Late$Week < 17 ~ "Fine Applied" , Late$Week >=17  ~ "Fine Removed"))
 ```
 
 
@@ -133,11 +133,11 @@ $$
 Ha:\text{The average number of late children differs for at least one Period}
 $$
 $$
-H_0: \text{The effect of the fine on the average number of late children picked up does not depend on the period of the study.
+H_0: \text{The effect of the fine on the average number of late children picked up does not depend on the period of the study.}
 $$
 
 $$
-H_a: \text{The effect of the fine on the average number of children picked up changes during at least one periods of the study.
+H_a: \text{The effect of the fine on the average number of children picked up changes during at least one periods of the study.}
 $$
 
 
@@ -147,6 +147,11 @@ $$
 <!-- Show the two-way ANOVA summary output in this section. -->
 
 
+```{r}
+Late.aov <- aov(NumberofLateChildren ~ Treatment + Period + Treatment:Period, data=Late)
+summary(Late.aov) %>% pander()
+```
+
 
 
 ### Graphics & Numerical Summaries
@@ -154,6 +159,27 @@ $$
 <!-- Show the three graphics of the two-way ANOVA in this section and provide a supporting table of numerical summaries for each graphic. -->
 
 ```{r}
+ggplot(Late, aes(x=Treatment, y=NumberofLateChildren, group=1)) +
+  geom_point(color="gray") +
+  stat_summary(fun="mean", geom="line") +
+  labs(title="You Can Use Either Type of Wool", x="Type of Wool", y="Number of Warps that Broke") +
+  theme_bw()
+
+
+
+
+ggplot(Late, aes(x=Period, y=NumberofLateChildren, group=Treatment, color=Treatment)) +
+  geom_point() +
+  stat_summary(fun="mean", geom="line") +
+  labs(title="Higher Tension Seems Best", x="Tension Level (Low, Medium, High)", y="Number of Warps that Broke") +
+  theme_bw()
+
+ggplot(Late, aes(x=Period, y=NumberofLateChildren, group=Treatment, color=Treatment)) +
+  geom_point() +
+  stat_summary(fun="mean", geom="line") +
+  labs(title="Higher Tension Seems Best", x="Tension Level (Low, Medium, High)", y="Number of Warps that Broke") +
+  theme_bw()
+
 Late %>%
   group_by(Treatment, Period) %>%
   summarise(ave=mean(NumberofLateChildren), .groups="drop") %>%

@@ -110,16 +110,16 @@ navbar:
           href: ./Wrangling and Vis/
     - text: "Rscripts"
       menu:
-        - text: "Demand Script (HCF)"
-          href: ./Scripts/Adjust demand script.R
-        - text: "Chi Square Review"
-          href: ./Scripts/ChiSquareScript.R
-        - text: "Format Inventory"
-          href: ./Scripts/FormatINV.R
-        - text: "Hot cup graphs"
-          href: ./Scripts/Graphs.R
-        - text: "Group filter (HCF)"
-          href: ./Scripts/Group_Update.R
+        # - text: "Demand Script (HCF)"
+        #   href: ./Scripts/Adjust demand script.R
+        # - text: "Chi Square Review"
+        #   href: ./Scripts/ChiSquareScript.R
+        # - text: "Format Inventory"
+        #   href: ./Scripts/FormatINV.R
+        # - text: "Hot cup graphs"
+        #   href: ./Scripts/Graphs.R
+        # - text: "Group filter (HCF)"
+        #   href: ./Scripts/Group_Update.R
         - text: "Logistic Review"
           href: ./Scripts/LogisticScript.R
         - text: "Log review 2"

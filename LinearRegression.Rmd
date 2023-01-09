@@ -1795,7 +1795,6 @@ set.seed(101) #Allows us to always get the same "random" sample
   summary(fab.lm) #Summarize your model. 
 
   plot(y ~ x, data=fabData) #Plot the data.
-
   abline(fab.lm) #Add the estimated regression line to your plot.
 
 # Now for something you can't do in real life... but since we created the data...
